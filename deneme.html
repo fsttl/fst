@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fst. - FISILTI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #dc2626;
+            --dark-red: #991b1b;
+            --light-red: #ef4444;
+            --white: #ffffff;
+            --black: #000000;
+            --gray: #6b7280;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-red);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-red);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--white);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f3f4f6;
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .ripple:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Page Transition - Mobile Friendly */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 8888;
+            display: none;
+            pointer-events: none;
+            background: var(--primary-red);
+        }
+
+        .transition-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--dark-red);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .transition-circle.animate {
+            width: 200vmax;
+            height: 200vmax;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(220, 38, 38, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+            transform: translateY(-100%);
+            animation: slideDown 0.8s ease 1.5s forwards;
+        }
+
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 1.5rem 0.8rem 3rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(220, 38, 38, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            margin-top: 0.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-result-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .search-result-type {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .back-button {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        /* Views */
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* Home View */
+        .home-view {
+            margin-top: 100px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Section with Rotating Content */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0 6rem;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            border-radius: 20px;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-content.active {
+            opacity: 1;
+        }
+
+        .hero-article {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 1000px;
+            padding: 0 2rem;
+        }
+
+        .hero-image {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .hero-category {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero-excerpt {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .hero-read-more {
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .hero-read-more:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Articles Section */
+        .articles-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--white);
+            border-radius: 2px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .article-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .article-card:hover .article-image {
+            transform: scale(1.05);
+        }
+
+        .article-content {
+            padding: 2rem;
+        }
+
+        .article-category {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .article-excerpt {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+
+        .author-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .author-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .read-more {
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .read-more:hover {
+            background: var(--primary-red);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Article View */
+        .article-view {
+            margin-top: 100px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        /* Author View */
+        .author-view {
+            margin-top: 100px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.5s forwards;
+        }
+
+        .author-header {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .author-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 2rem;
+            border: 4px solid var(--white);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .author-bio {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .author-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .author-stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--white);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+
+        .breadcrumb-path {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .breadcrumb-path a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .breadcrumb-path a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .breadcrumb-separator {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Article Content */
+        .article-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-category-large {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .article-title-large {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-meta-large {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .meta-icon {
+            font-size: 1.2rem;
+        }
+
+        .article-image-large {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-content-large {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .article-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--white);
+        }
+
+        .article-text p {
+            margin-bottom: 2rem;
+        }
+
+        .article-text p:first-child {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            border-left: 4px solid var(--white);
+            padding-left: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .back-to-home {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .home-button {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .home-button:hover {
+            background: var(--primary-red);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-container {
+                margin: 0;
+                max-width: 100%;
+            }
+
+            .hero-article {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-image {
+                width: 250px;
+                height: 150px;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .home-view {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .breadcrumb {
+                padding: 1rem;
+            }
+
+            .article-container {
+                padding: 0 1rem;
+            }
+
+            .article-title-large {
+                font-size: 2rem;
+            }
+
+            .article-meta-large {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .article-content-large {
+                padding: 2rem;
+            }
+
+            .article-text {
+                font-size: 1.1rem;
+            }
+
+            .author-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* Animation Classes */
+        .animate-in {
+            animation: slideInUp 0.8s ease forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page Transition Animation -->
+    <div class="page-transition" id="page-transition">
+        <div class="transition-circle"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="logo ripple" onclick="showHome()">fst.</a>
+            
+            <div class="search-container">
+                <div class="search-icon">🔍</div>
+                <input type="text" class="search-input" placeholder="Makale veya yazar ara..." id="search-input">
+                <div class="search-results" id="search-results"></div>
+            </div>
+            
+            <a class="back-button ripple" id="back-button" onclick="showHome()">
+                <span>←</span>
+                <span>Ana Sayfa</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Home View -->
+    <div class="view active home-view" id="home-view">
+        <!-- Hero Section with Rotating Articles -->
+        <section class="hero-section" id="hero-section">
+            <!-- Hero content will be dynamically loaded -->
+        </section>
+
+        <!-- Articles Section -->
+        <section class="articles-section">
+            <h2 class="section-title">Son Haberler</h2>
+            <div class="articles-grid" id="articles-container">
+                <!-- Articles will be loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Article View -->
+    <div class="view article-view" id="article-view">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-path">
+                <a class="ripple" onclick="showHome()">Ana Sayfa</a>
+                <span class="breadcrumb-separator">/</span>
+                <span id="breadcrumb-category">Kategori</span>
+                <span class="breadcrumb-separator">/</span>
+                <span id="breadcrumb-title">Makale Başlığı</span>
+            </div>
+        </div>
+
+        <!-- Article Container -->
+        <article class="article-container">
+            <header class="article-header">
+                <span class="article-category-large" id="article-category">Kategori</span>
+                <h1 class="article-title-large" id="article-title">Makale Başlığı</h1>
+                <div class="article-meta-large">
+                    <div class="meta-item">
+                        <span class="meta-icon">👤</span>
+                        <a href="#" class="author-link" id="article-author-link">Yazar</a>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">📅</span>
+                        <span id="article-date">Tarih</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">⏱️</span>
+                        <span id="article-read-time">Okuma Süresi</span>
+                    </div>
+                </div>
+            </header>
+
+            <img id="article-image" class="article-image-large" src="/placeholder.svg" alt="">
+
+            <div class="article-content-large">
+                <div class="article-text" id="article-text">
+                    <!-- Article content will be loaded here -->
+                </div>
+            </div>
+
+            <div class="back-to-home">
+                <a class="home-button ripple" onclick="showHome()">Diğer Haberleri Gör</a>
+            </div>
+        </article>
+    </div>
+
+    <!-- Author View -->
+    <div class="view author-view" id="author-view">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-path">
+                <a class="ripple" onclick="showHome()">Ana Sayfa</a>
+                <span class="breadcrumb-separator">/</span>
+                <span>Yazarlar</span>
+                <span class="breadcrumb-separator">/</span>
+                <span id="author-breadcrumb-name">Yazar</span>
+            </div>
+        </div>
+
+        <!-- Author Header -->
+        <div class="author-header">
+            <img id="author-avatar" class="author-avatar" src="/placeholder.svg" alt="">
+            <h1 class="author-name" id="author-name">Yazar Adı</h1>
+            <p class="author-bio" id="author-bio">Yazar biyografisi</p>
+            <div class="author-stats">
+                <div class="author-stat">
+                    <span class="stat-number" id="author-article-count">0</span>
+                    <span class="stat-label">Makale</span>
+                </div>
+                <div class="author-stat">
+                    <span class="stat-number" id="author-experience">0</span>
+                    <span class="stat-label">Yıl Deneyim</span>
+                </div>
+                <div class="author-stat">
+                    <span class="stat-number" id="author-followers">0</span>
+                    <span class="stat-label">Takipçi</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Author Articles -->
+        <section class="articles-section">
+            <h2 class="section-title">Yazarın Makaleleri</h2>
+            <div class="articles-grid" id="author-articles-container">
+                <!-- Author articles will be loaded here -->
+            </div>
+        </section>
+
+        <div class="back-to-home">
+            <a class="home-button ripple" onclick="showHome()">Ana Sayfaya Dön</a>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let articlesData = [];
+        let authorsData = [];
+        let currentView = 'home';
+        let heroRotationInterval;
+        let currentHeroIndex = 0;
+
+        // Load data from JSON files
+        async function loadData() {
+            try {
+                const [articlesResponse, authorsResponse] = await Promise.all([
+                    fetch('./articles.json'),
+                    fetch('./authors.json')
+                ]);
+                
+                const articlesJson = await articlesResponse.json();
+                const authorsJson = await authorsResponse.json();
+                
+                articlesData = articlesJson.articles;
+                authorsData = authorsJson.authors;
+                
+                renderArticles();
+                startHeroRotation();
+                setupSearch();
+            } catch (error) {
+                console.error('Error loading data:', error);
+            }
+        }
+
+        // Start hero section rotation
+        function startHeroRotation() {
+            const heroSection = document.getElementById('hero-section');
+            const featuredArticles = articlesData.slice(0, 3); // First 3 articles for hero
+            
+            // Create hero content elements
+            featuredArticles.forEach((article, index) => {
+                const heroContent = document.createElement('div');
+                heroContent.className = `hero-content ${index === 0 ? 'active' : ''}`;
+                heroContent.innerHTML = `
+                    <div class="hero-article">
+                        <img src="${article.image}" alt="${article.title}" class="hero-image">
+                        <div class="hero-text">
+                            <span class="hero-category">${article.category}</span>
+                            <h2 class="hero-title">${article.title}</h2>
+                            <p class="hero-excerpt">${article.excerpt}</p>
+                            <a href="#" class="hero-read-more ripple" onclick="showArticle('${article.slug}')">Devamını Oku</a>
+                        </div>
+                    </div>
+                `;
+                heroSection.appendChild(heroContent);
+            });
+
+            // Start rotation
+            heroRotationInterval = setInterval(() => {
+                const heroContents = heroSection.querySelectorAll('.hero-content');
+                heroContents[currentHeroIndex].classList.remove('active');
+                currentHeroIndex = (currentHeroIndex + 1) % featuredArticles.length;
+                heroContents[currentHeroIndex].classList.add('active');
+            }, 5000);
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+            let searchTimeout;
+
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                const query = e.target.value.trim().toLowerCase();
+                
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+
+                searchTimeout = setTimeout(() => {
+                    performSearch(query);
+                }, 300);
+            });
+
+            // Hide search results when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+
+        // Perform search
+        function performSearch(query) {
+            const searchResults = document.getElementById('search-results');
+            const results = [];
+
+            // Search articles
+            articlesData.forEach(article => {
+                if (article.title.toLowerCase().includes(query) || 
+                    article.excerpt.toLowerCase().includes(query) ||
+                    article.content.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'article',
+                        title: article.title,
+                        subtitle: article.category,
+                        action: () => showArticle(article.slug)
+                    });
+                }
+            });
+
+            // Search authors
+            authorsData.forEach(author => {
+                if (author.name.toLowerCase().includes(query) ||
+                    author.bio.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'author',
+                        title: author.name,
+                        subtitle: author.specialty,
+                        action: () => showAuthor(author.slug)
+                    });
+                }
+            });
+
+            // Display results
+            if (results.length > 0) {
+                searchResults.innerHTML = results.slice(0, 8).map(result => `
+                    <div class="search-result-item ripple" onclick="handleSearchResult('${result.type}', '${result.type === 'article' ? articlesData.find(a => a.title === result.title).slug : authorsData.find(a => a.name === result.title).slug}')">
+                        <div class="search-result-title">${result.title}</div>
+                        <div class="search-result-type">${result.type === 'article' ? 'Makale' : 'Yazar'} • ${result.subtitle}</div>
+                    </div>
+                `).join('');
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.innerHTML = '<div class="search-result-item">Sonuç bulunamadı</div>';
+                searchResults.style.display = 'block';
+            }
+        }
+
+        // Handle search result click
+        function handleSearchResult(type, slug) {
+            document.getElementById('search-results').style.display = 'none';
+            document.getElementById('search-input').value = '';
+            
+            if (type === 'article') {
+                showArticle(slug);
+            } else {
+                showAuthor(slug);
+            }
+        }
+
+        // Render articles
+        function renderArticles() {
+            const container = document.getElementById('articles-container');
+            
+            articlesData.forEach((article, index) => {
+                const articleCard = document.createElement('div');
+                articleCard.className = 'article-card ripple';
+                
+                const author = authorsData.find(a => a.slug === article.authorSlug);
+                
+                articleCard.innerHTML = `
+                    <img src="${article.image}" alt="${article.title}" class="article-image">
+                    <div class="article-content">
+                        <span class="article-category">${article.category}</span>
+                        <h3 class="article-title">${article.title}</h3>
+                        <p class="article-excerpt">${article.excerpt}</p>
+                        <div class="article-meta">
+                            <div>
+                                <a href="#" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date} • ${article.readTime}
+                            </div>
+                            <span class="read-more" onclick="showArticle('${article.slug}')">Devamını Oku</span>
+                        </div>
+                    </div>
+                `;
+
+                articleCard.addEventListener('click', (e) => {
+                    if (!e.target.closest('.author-link') && !e.target.closest('.read-more')) {
+                        showArticle(article.slug);
+                    }
+                });
+                
+                container.appendChild(articleCard);
+
+                // Animate cards on scroll
+                setTimeout(() => {
+                    articleCard.classList.add('animate-in');
+                }, index * 200);
+            });
+        }
+
+        // Show home view
+        function showHome() {
+            if (currentView === 'home') return;
+            
+            showTransition(() => {
+                document.getElementById('home-view').classList.add('active');
+                document.getElementById('article-view').classList.remove('active');
+                document.getElementById('author-view').classList.remove('active');
+                document.getElementById('search-container').style.display = 'block';
+                document.getElementById('back-button').style.display = 'none';
+                currentView = 'home';
+                window.location.hash = '';
+                window.scrollTo(0, 0);
+                
+                // Restart hero rotation
+                if (heroRotationInterval) {
+                    clearInterval(heroRotationInterval);
+                }
+                startHeroRotation();
+            });
+        }
+
+        // Show article view
+        function showArticle(slug) {
+            const article = articlesData.find(a => a.slug === slug);
+            if (!article) return;
+
+            showTransition(() => {
+                // Stop hero rotation
+                if (heroRotationInterval) {
+                    clearInterval(heroRotationInterval);
+                }
+
+                // Update page title
+                document.title = `${article.title} - fst. FISILTI`;
+                
+                // Update breadcrumb
+                document.getElementById('breadcrumb-category').textContent = article.category;
+                document.getElementById('breadcrumb-title').textContent = article.title;
+                
+                // Update article content
+                document.getElementById('article-category').textContent = article.category;
+                document.getElementById('article-title').textContent = article.title;
+                
+                const author = authorsData.find(a => a.slug === article.authorSlug);
+                const authorLink = document.getElementById('article-author-link');
+                authorLink.textContent = author ? author.name : article.author;
+                authorLink.onclick = () => showAuthor(article.authorSlug);
+                
+                document.getElementById('article-date').textContent = article.date;
+                document.getElementById('article-read-time').textContent = article.readTime;
+                document.getElementById('article-image').src = article.image;
+                document.getElementById('article-image').alt = article.title;
+                
+                // Format article content
+                const paragraphs = article.content.split('\n\n');
+                const formattedContent = paragraphs.map(p => `<p>${p}</p>`).join('');
+                document.getElementById('article-text').innerHTML = formattedContent;
+
+                // Switch views
+                document.getElementById('home-view').classList.remove('active');
+                document.getElementById('article-view').classList.add('active');
+                document.getElementById('author-view').classList.remove('active');
+                document.getElementById('search-container').style.display = 'none';
+                document.getElementById('back-button').style.display = 'flex';
+                currentView = 'article';
+                window.location.hash = slug;
+                window.scrollTo(0, 0);
+            });
+        }
+
+        // Show author view
+        function showAuthor(slug) {
+            const author = authorsData.find(a => a.slug === slug);
+            if (!author) return;
+
+            showTransition(() => {
+                // Stop hero rotation
+                if (heroRotationInterval) {
+                    clearInterval(heroRotationInterval);
+                }
+
+                // Update page title
+                document.title = `${author.name} - fst. FISILTI`;
+                
+                // Update breadcrumb
+                document.getElementById('author-breadcrumb-name').textContent = author.name;
+                
+                // Update author content
+                document.getElementById('author-avatar').src = author.avatar;
+                document.getElementById('author-name').textContent = author.name;
+                document.getElementById('author-bio').textContent = author.bio;
+                document.getElementById('author-article-count').textContent = author.articleCount;
+                document.getElementById('author-experience').textContent = author.experience;
+                document.getElementById('author-followers').textContent = author.followers;
+                
+                // Load author articles
+                const authorArticles = articlesData.filter(article => article.authorSlug === slug);
+                const authorArticlesContainer = document.getElementById('author-articles-container');
+                authorArticlesContainer.innerHTML = '';
+                
+                authorArticles.forEach((article, index) => {
+                    const articleCard = document.createElement('div');
+                    articleCard.className = 'article-card ripple';
+                    
+                    articleCard.innerHTML = `
+                        <img src="${article.image}" alt="${article.title}" class="article-image">
+                        <div class="article-content">
+                            <span class="article-category">${article.category}</span>
+                            <h3 class="article-title">${article.title}</h3>
+                            <p class="article-excerpt">${article.excerpt}</p>
+                            <div class="article-meta">
+                                <div>
+                                    ${article.date} • ${article.readTime}
+                                </div>
+                                <span class="read-more" onclick="showArticle('${article.slug}')">Devamını Oku</span>
+                            </div>
+                        </div>
+                    `;
+
+                    articleCard.addEventListener('click', (e) => {
+                        if (!e.target.closest('.read-more')) {
+                            showArticle(article.slug);
+                        }
+                    });
+                    
+                    authorArticlesContainer.appendChild(articleCard);
+
+                    // Animate cards
+                    setTimeout(() => {
+                        articleCard.classList.add('animate-in');
+                    }, index * 200);
+                });
+
+                // Switch views
+                document.getElementById('home-view').classList.remove('active');
+                document.getElementById('article-view').classList.remove('active');
+                document.getElementById('author-view').classList.add('active');
+                document.getElementById('search-container').style.display = 'none';
+                document.getElementById('back-button').style.display = 'flex';
+                currentView = 'author';
+                window.location.hash = 'author-' + slug;
+                window.scrollTo(0, 0);
+            });
+        }
+
+        // Show transition animation
+        function showTransition(callback) {
+            const transition = document.getElementById('page-transition');
+            const circle = transition.querySelector('.transition-circle');
+            
+            transition.style.display = 'flex';
+            circle.classList.remove('animate');
+            
+            setTimeout(() => {
+                circle.classList.add('animate');
+            }, 50);
+            
+            setTimeout(() => {
+                callback();
+            }, 400);
+            
+            setTimeout(() => {
+                transition.style.display = 'none';
+                circle.classList.remove('animate');
+            }, 800);
+        }
+
+        // Handle hash changes
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash.startsWith('author-')) {
+                const authorSlug = hash.substring(7);
+                if (authorsData.find(a => a.slug === authorSlug) && currentView !== 'author') {
+                    showAuthor(authorSlug);
+                }
+            } else if (hash && articlesData.length > 0) {
+                const article = articlesData.find(a => a.slug === hash);
+                if (article && currentView !== 'article') {
+                    showArticle(hash);
+                }
+            } else if (!hash && currentView !== 'home') {
+                showHome();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            
+            // Check initial hash after data loads
+            setTimeout(() => {
+                const hash = window.location.hash.substring(1);
+                if (hash.startsWith('author-')) {
+                    const authorSlug = hash.substring(7);
+                    showAuthor(authorSlug);
+                } else if (hash) {
+                    showArticle(hash);
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

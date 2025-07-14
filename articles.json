@@ -1,0 +1,76 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "slug": "yapay-zeka-teknolojisinde-yeni-donem",
+      "title": "Yapay Zeka Teknolojisinde Yeni Dönem",
+      "excerpt": "Yapay zeka alanındaki son gelişmeler ve bunların günlük hayatımıza etkileri hakkında detaylı bir analiz.",
+      "category": "Teknoloji",
+      "image": "recm.jpg",
+      "author": "Ahmet Yılmaz",
+      "date": "2024-01-15",
+      "readTime": "5 dk",
+      "content": "Yapay zeka teknolojisi son yıllarda hızla gelişiyor ve hayatımızın her alanına nüfuz ediyor. Bu makalede, yapay zekanın mevcut durumu, gelecekteki potansiyeli ve toplum üzerindeki etkilerini inceleyeceğiz.\n\nMakine öğrenmesi algoritmalarından derin öğrenme modellerine kadar, teknolojinin her yönünü ele alacağız. ChatGPT, DALL-E ve benzeri araçların günlük hayatımıza entegrasyonu, iş dünyasında köklü değişimlere neden oluyor.\n\nYapay zekanın etik boyutları ve güvenlik konuları da kritik önem taşıyor. Algoritmaların önyargıları, veri gizliliği ve iş gücü üzerindeki etkileri toplumsal tartışmaların merkezinde yer alıyor.\n\nGelecekte yapay zeka, sağlıktan eğitime, ulaşımdan finansa kadar her sektörde devrim yaratacak. Bu dönüşüme hazırlıklı olmak, hem bireysel hem de kurumsal başarı için kritik.\n\nÖzellikle Türkiye'de yapay zeka alanında yapılan yatırımlar ve geliştirilen projeler umut verici. Üniversiteler, teknoloji şirketleri ve devlet kurumları arasındaki işbirlikleri bu alanda önemli ilerlemeler sağlıyor."
+    },
+    {
+      "id": 2,
+      "slug": "ekonomide-yeni-trendler-ve-gelismeler",
+      "title": "Ekonomide Yeni Trendler ve Gelişmeler",
+      "excerpt": "2024 yılının ekonomik görünümü ve piyasalarda yaşanan son değişiklikler üzerine kapsamlı bir değerlendirme.",
+      "category": "Ekonomi",
+      "image": "yeter.png",
+      "author": "Fatma Demir",
+      "date": "2024-01-14",
+      "readTime": "6 dk",
+      "content": "Küresel ekonomi 2024 yılına girerken birçok belirsizlikle karşı karşıya. Enflasyon oranları, merkez bankası politikaları ve uluslararası ticaret dinamikleri ekonominin seyrini belirleyecek temel faktörler arasında yer alıyor.\n\nFed'in faiz politikası küresel piyasalar için belirleyici olmaya devam ediyor. Avrupa Merkez Bankası ve diğer önemli merkez bankalarının aldığı kararlar, gelişmekte olan ülke ekonomilerini doğrudan etkiliyor.\n\nTürkiye ekonomisinde ise yapısal reformlar ve ortodoks politikalara dönüş süreci devam ediyor. Enflasyonla mücadele programı kapsamında alınan tedbirler meyvelerini vermeye başladı.\n\nKripto para piyasaları volatil seyrini sürdürürken, kurumsal yatırımcıların ilgisi artıyor. Bitcoin ve Ethereum gibi büyük kripto paralar düzenleyici gelişmelere duyarlı hareket ediyor.\n\nEnerji sektöründe yaşanan gelişmeler de ekonomik dengeleri etkiliyor. Yenilenebilir enerji yatırımları artarken, geleneksel enerji kaynaklarının maliyetleri jeopolitik faktörlerden etkileniyor."
+    },
+    {
+      "id": 3,
+      "slug": "spor-dunyasindan-son-dakika-haberleri",
+      "title": "Spor Dünyasından Son Dakika Haberleri",
+      "excerpt": "Futbol, basketbol ve diğer spor dallarından en güncel haberler ve transfer gelişmeleri.",
+      "category": "Spor",
+      "image": "recm.jpg",
+      "author": "Mehmet Özkan",
+      "date": "2024-01-13",
+      "readTime": "4 dk",
+      "content": "Spor dünyası hiç durmuyor! Bu hafta futbol liglerinde yaşanan heyecan verici maçlar, basketbol sahalarındaki rekabet ve olimpiyatlara hazırlık sürecindeki gelişmeler sporseverleri yakından ilgilendiriyor.\n\nTürkiye Süper Ligi'nde şampiyonluk yarışı kızışırken, Avrupa kupalarındaki temsilcilerimiz de önemli maçlara çıkıyor. Galatasaray, Fenerbahçe ve Beşiktaş'ın performansları yakından takip ediliyor.\n\nTransfer döneminin de açılmasıyla birlikte kulüpler arasında yaşanan pazarlıklar ve oyuncu hareketleri dikkat çekiyor. Özellikle genç yeteneklerin Avrupa liglerindeki başarıları umut verici.\n\nBasketbolda ise Türkiye Basketbol Ligi'nde heyecan dorukta. Anadolu Efes ve Fenerbahçe Beko'nun Avrupa'daki başarıları Türk basketbolunu gururlandırıyor.\n\nTenis dünyasında da Türk sporcuların başarıları devam ediyor. Genç tenisçilerimizin uluslararası turnuvalardaki performansları gelecek için umut veriyor."
+    },
+    {
+      "id": 4,
+      "slug": "cevre-ve-surdurulebilirlik-konularinda-farkindalik",
+      "title": "Çevre ve Sürdürülebilirlik Konularında Farkındalık",
+      "excerpt": "İklim değişikliği ve çevre koruma konularında atılan adımlar ve bireysel sorumluluklarımız.",
+      "category": "Çevre",
+      "image": "yeter.png",
+      "author": "Ayşe Kaya",
+      "date": "2024-01-12",
+      "readTime": "5 dk",
+      "content": "İklim değişikliği günümüzün en önemli sorunlarından biri haline geldi. Küresel ısınmanın etkileri her geçen gün daha belirgin hale gelirken, bireysel ve toplumsal düzeyde alınması gereken önlemler kritik önem taşıyor.\n\nYenilenebilir enerji kaynaklarına geçiş hızlanıyor. Güneş ve rüzgar enerjisi maliyetlerinin düşmesiyle bu teknolojiler daha yaygın hale geliyor. Türkiye de bu alanda önemli yatırımlar yapıyor.\n\nGeri dönüşüm ve atık yönetimi konularında bilinç artıyor. Sıfır atık projeleri hem bireysel hem de kurumsal düzeyde yaygınlaşıyor. Plastik kullanımını azaltma çabaları da hız kazanıyor.\n\nSürdürülebilir tarım uygulamaları çiftçiler arasında yaygınlaşıyor. Organik tarım ve permakültür gibi yöntemler hem çevreyi koruyor hem da sağlıklı gıda üretimi sağlıyor.\n\nŞehir planlamasında da sürdürülebilirlik ön planda. Yeşil binalar, bisiklet yolları ve toplu taşıma sistemleri şehirleri daha yaşanabilir hale getiriyor."
+    },
+    {
+      "id": 5,
+      "slug": "saglik-alanindaki-yenilikler-ve-gelismeler",
+      "title": "Sağlık Alanındaki Yenilikler ve Gelişmeler",
+      "excerpt": "Modern tıp teknolojileri ve sağlık alanındaki son araştırmalar hakkında bilmeniz gerekenler.",
+      "category": "Sağlık",
+      "image": "recm.jpg",
+      "author": "Dr. Ali Şen",
+      "date": "2024-01-11",
+      "readTime": "7 dk",
+      "content": "Sağlık teknolojilerindeki ilerlemeler, hastalıkların teşhis ve tedavi yöntemlerini köklü şekilde değiştiriyor. Telemedicine uygulamalarından yapay zeka destekli tanı sistemlerine kadar birçok yenilik, sağlık hizmetlerinin kalitesini artırıyor.\n\nGen terapisi ve kişiselleştirilmiş tıp alanlarında yaşanan gelişmeler, kanser tedavisinden nadir hastalıklara kadar birçok alanda umut veriyor. CRISPR teknolojisi ile gen düzenleme çalışmaları hız kazanıyor.\n\nDijital sağlık uygulamaları, hastaların kendi sağlık verilerini takip etmesini kolaylaştırıyor. Giyilebilir teknolojiler ve akıllı sensörler, sürekli sağlık monitörizasyonu imkanı sunuyor.\n\nPandemi sonrası sağlık sistemlerinin dijitalleşmesi hızlandı. Uzaktan hasta takibi, online konsültasyonlar ve dijital reçete sistemleri yaygınlaştı.\n\nYapay zeka destekli görüntüleme sistemleri, radyoloji alanında devrim yaratıyor. Erken teşhis imkanları artarken, tedavi süreçleri de kişiselleştiriliyor."
+    },
+    {
+      "id": 6,
+      "slug": "egitim-sisteminde-dijital-donusum",
+      "title": "Eğitim Sisteminde Dijital Dönüşüm",
+      "excerpt": "Pandemi sonrası eğitim dünyasında yaşanan değişimler ve dijital öğrenme platformlarının rolü.",
+      "category": "Eğitim",
+      "image": "yeter.png",
+      "author": "Prof. Dr. Zeynep Arslan",
+      "date": "2024-01-10",
+      "readTime": "6 dk",
+      "content": "Eğitim sektörü son yıllarda büyük bir dönüşüm geçiriyor. Dijital öğrenme platformları, uzaktan eğitim sistemleri ve interaktif öğretim yöntemleri geleneksel eğitim anlayışını değiştiriyor.\n\nYapay zeka destekli öğrenme sistemleri, öğrencilerin bireysel ihtiyaçlarına göre kişiselleştirilmiş eğitim içerikleri sunuyor. Adaptif öğrenme algoritmaları, her öğrencinin öğrenme hızına uygun programlar oluşturuyor.\n\nSanal ve artırılmış gerçeklik teknolojileri, özellikle fen bilimleri ve tarih gibi derslerde immersive öğrenme deneyimleri yaratıyor. 3D modeller ve simülasyonlar, karmaşık konuları anlaşılır hale getiriyor.\n\nOnline sertifikasyon programları ve MOOC'lar (Massive Open Online Courses), yaşam boyu öğrenme kültürünü destekliyor. Profesyonel gelişim için esnek eğitim seçenekleri artıyor.\n\nEğitimde gamification (oyunlaştırma) teknikleri de yaygınlaşıyor. Öğrenme sürecini daha eğlenceli ve motive edici hale getiren bu yöntemler, özellikle genç nesil arasında popüler."
+    }
+  ]
+}

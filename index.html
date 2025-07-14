@@ -1,1 +1,1008 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fst. - FISILTI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary-red: #dc2626;
+            --dark-red: #991b1b;
+            --light-red: #ef4444;
+            --white: #ffffff;
+            --black: #000000;
+            --gray: #6b7280;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-red);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-red);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--white);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f3f4f6;
+        }
+
+        /* Loading Animation - Çubuk Çubuk */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-red);
+            z-index: 9999;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            width: 0;
+            height: 100%;
+            background: var(--dark-red);
+            animation: loadingBar 0.8s ease-in-out forwards;
+            border-right: 2px solid var(--white);
+        }
+
+        .loading-bar:nth-child(1) { animation-delay: 0s; }
+        .loading-bar:nth-child(2) { animation-delay: 0.1s; }
+        .loading-bar:nth-child(3) { animation-delay: 0.2s; }
+        .loading-bar:nth-child(4) { animation-delay: 0.3s; }
+        .loading-bar:nth-child(5) { animation-delay: 0.4s; }
+        .loading-bar:nth-child(6) { animation-delay: 0.5s; }
+        .loading-bar:nth-child(7) { animation-delay: 0.6s; }
+        .loading-bar:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes loadingBar {
+            0% { width: 0; }
+            100% { width: 12.5%; }
+        }
+
+        .loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--white);
+            opacity: 0;
+            animation: fadeInText 0.5s ease 0.8s forwards;
+        }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+
+        /* Page Transition - Çubuk Çubuk */
+        .page-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 8888;
+            display: none;
+            pointer-events: none;
+        }
+
+        .transition-bar {
+            width: 12.5%;
+            height: 100%;
+            background: var(--dark-red);
+            transform: translateX(-100%);
+            border-right: 2px solid var(--white);
+            float: left;
+        }
+
+        .transition-bar.animate {
+            animation: slideInBar 0.6s ease-out forwards;
+        }
+
+        .transition-bar:nth-child(1) { animation-delay: 0s; }
+        .transition-bar:nth-child(2) { animation-delay: 0.1s; }
+        .transition-bar:nth-child(3) { animation-delay: 0.2s; }
+        .transition-bar:nth-child(4) { animation-delay: 0.3s; }
+        .transition-bar:nth-child(5) { animation-delay: 0.4s; }
+        .transition-bar:nth-child(6) { animation-delay: 0.5s; }
+        .transition-bar:nth-child(7) { animation-delay: 0.6s; }
+        .transition-bar:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes slideInBar {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(0); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(220, 38, 38, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+            transform: translateY(-100%);
+            animation: slideDown 0.8s ease 1.5s forwards;
+        }
+
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: -2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 3rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+            cursor: pointer;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--white);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            transform: translateY(-2px);
+        }
+
+        .back-button {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        /* Views */
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* Home View */
+        .home-view {
+            margin-top: 100px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 4rem 0 6rem;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            border-radius: 20px;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="90" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: -3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 3rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--white);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Articles Section */
+        .articles-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--white);
+            border-radius: 2px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .article-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .article-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .article-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .article-card:hover .article-image {
+            transform: scale(1.05);
+        }
+
+        .article-content {
+            padding: 2rem;
+        }
+
+        .article-category {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .article-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .article-excerpt {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+        }
+
+        .read-more {
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .read-more:hover {
+            background: var(--primary-red);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Article View */
+        .article-view {
+            margin-top: 100px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 1.5s forwards;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+        }
+
+        .breadcrumb-path {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .breadcrumb-path a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .breadcrumb-path a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .breadcrumb-separator {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Article Content */
+        .article-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .article-category-large {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+
+        .article-title-large {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-meta-large {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .article-image-large {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-content-large {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .article-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--white);
+        }
+
+        .article-text p {
+            margin-bottom: 2rem;
+        }
+
+        .article-text p:first-child {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            border-left: 4px solid var(--white);
+            padding-left: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .back-to-home {
+            text-align: center;
+            margin: 4rem 0;
+        }
+
+        .home-button {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .home-button:hover {
+            background: var(--primary-red);
+            color: var(--white);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .nav-links a {
+                font-size: 1rem;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .articles-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .home-view {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .breadcrumb {
+                padding: 1rem;
+            }
+
+            .article-container {
+                padding: 0 1rem;
+            }
+
+            .article-title-large {
+                font-size: 2rem;
+            }
+
+            .article-meta-large {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .article-content-large {
+                padding: 2rem;
+            }
+
+            .article-text {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Animation Classes */
+        .animate-in {
+            animation: slideInUp 0.8s ease forwards;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-text">fst.</div>
+    </div>
+
+    <!-- Page Transition Animation -->
+    <div class="page-transition" id="page-transition">
+        <div class="transition-bar"></div>
+        <div class="transition-bar"></div>
+        <div class="transition-bar"></div>
+        <div class="transition-bar"></div>
+        <div class="transition-bar"></div>
+        <div class="transition-bar"></div>
+        <div class="transition-bar"></div>
+        <div class="transition-bar"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a class="logo" onclick="showHome()">fst.</a>
+            <ul class="nav-links" id="nav-links">
+                <li><a onclick="showHome()">Anasayfa</a></li>
+                <li><a href="#teknoloji">Teknoloji</a></li>
+                <li><a href="#ekonomi">Ekonomi</a></li>
+                <li><a href="#spor">Spor</a></li>
+                <li><a href="#cevre">Çevre</a></li>
+                <li><a href="#saglik">Sağlık</a></li>
+            </ul>
+            <a class="back-button" id="back-button" onclick="showHome()">
+                <span>←</span>
+                <span>Ana Sayfaya Dön</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Home View -->
+    <div class="view active home-view" id="home-view">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1 class="hero-title">FISILTI</h1>
+            <p class="hero-subtitle">Güncel haberler, derinlemesine analizler ve ilham verici hikayeler</p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-number">1000+</span>
+                    <span class="stat-label">Makale</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">Okuyucu</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Güncel</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Articles Section -->
+        <section class="articles-section">
+            <h2 class="section-title">Son Haberler</h2>
+            <div class="articles-grid" id="articles-container">
+                <!-- Articles will be loaded here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Article View -->
+    <div class="view article-view" id="article-view">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-path">
+                <a onclick="showHome()">Ana Sayfa</a>
+                <span class="breadcrumb-separator">/</span>
+                <span id="breadcrumb-category">Kategori</span>
+                <span class="breadcrumb-separator">/</span>
+                <span id="breadcrumb-title">Makale Başlığı</span>
+            </div>
+        </div>
+
+        <!-- Article Container -->
+        <article class="article-container">
+            <header class="article-header">
+                <span class="article-category-large" id="article-category">Kategori</span>
+                <h1 class="article-title-large" id="article-title">Makale Başlığı</h1>
+                <div class="article-meta-large">
+                    <div class="meta-item">
+                        <span>✍️</span>
+                        <span id="article-author">Yazar</span>
+                    </div>
+                    <div class="meta-item">
+                        <span>📅</span>
+                        <span id="article-date">Tarih</span>
+                    </div>
+                    <div class="meta-item">
+                        <span>⏱️</span>
+                        <span id="article-read-time">Okuma Süresi</span>
+                    </div>
+                </div>
+            </header>
+
+            <img id="article-image" class="article-image-large" src="/placeholder.svg" alt="">
+
+            <div class="article-content-large">
+                <div class="article-text" id="article-text">
+                    <!-- Article content will be loaded here -->
+                </div>
+            </div>
+
+            <div class="back-to-home">
+                <a class="home-button" onclick="showHome()">Diğer Haberleri Gör</a>
+            </div>
+        </article>
+    </div>
+
+    <script nonce="NDAyMzU4NjI5MSw2NDI0OTYzNTk=">
+        // Global variables
+        let articlesData = [];
+        let currentView = 'home';
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading-overlay').style.display = 'none';
+            }, 2000);
+        });
+
+        // Load articles from JSON
+        async function loadArticles() {
+            try {
+                const response = await fetch('./articles.json');
+                const data = await response.json();
+                articlesData = data.articles;
+                renderArticles();
+            } catch (error) {
+                console.error('Error loading articles:', error);
+            }
+        }
+
+        // Render articles
+        function renderArticles() {
+            const container = document.getElementById('articles-container');
+            
+            articlesData.forEach((article, index) => {
+                const articleCard = document.createElement('div');
+                articleCard.className = 'article-card';
+                
+                articleCard.innerHTML = `
+                    <img src="${article.image}" alt="${article.title}" class="article-image">
+                    <div class="article-content">
+                        <span class="article-category">${article.category}</span>
+                        <h3 class="article-title">${article.title}</h3>
+                        <p class="article-excerpt">${article.excerpt}</p>
+                        <div class="article-meta">
+                            <div>
+                                <strong>${article.author}</strong> • ${article.date} • ${article.readTime}
+                            </div>
+                            <span class="read-more" onclick="showArticle('${article.slug}')">Devamını Oku</span>
+                        </div>
+                    </div>
+                `;
+
+                articleCard.addEventListener('click', () => showArticle(article.slug));
+                container.appendChild(articleCard);
+
+                // Animate cards on scroll
+                setTimeout(() => {
+                    articleCard.classList.add('animate-in');
+                }, index * 200);
+            });
+        }
+
+        // Show home view
+        function showHome() {
+            if (currentView === 'home') return;
+            
+            // Show transition animation
+            showTransition(() => {
+                document.getElementById('home-view').classList.add('active');
+                document.getElementById('article-view').classList.remove('active');
+                document.getElementById('nav-links').style.display = 'flex';
+                document.getElementById('back-button').style.display = 'none';
+                currentView = 'home';
+                window.location.hash = '';
+                window.scrollTo(0, 0);
+            });
+        }
+
+        // Show article view
+        function showArticle(slug) {
+            const article = articlesData.find(a => a.slug === slug);
+            if (!article) return;
+
+            // Show transition animation
+            showTransition(() => {
+                // Update page title
+                document.title = `${article.title} - fst. FISILTI`;
+                
+                // Update breadcrumb
+                document.getElementById('breadcrumb-category').textContent = article.category;
+                document.getElementById('breadcrumb-title').textContent = article.title;
+                
+                // Update article content
+                document.getElementById('article-category').textContent = article.category;
+                document.getElementById('article-title').textContent = article.title;
+                document.getElementById('article-author').textContent = article.author;
+                document.getElementById('article-date').textContent = article.date;
+                document.getElementById('article-read-time').textContent = article.readTime;
+                document.getElementById('article-image').src = article.image;
+                document.getElementById('article-image').alt = article.title;
+                
+                // Format article content
+                const paragraphs = article.content.split('\n\n');
+                const formattedContent = paragraphs.map(p => `<p>${p}</p>`).join('');
+                document.getElementById('article-text').innerHTML = formattedContent;
+
+                // Switch views
+                document.getElementById('home-view').classList.remove('active');
+                document.getElementById('article-view').classList.add('active');
+                document.getElementById('nav-links').style.display = 'none';
+                document.getElementById('back-button').style.display = 'flex';
+                currentView = 'article';
+                window.location.hash = slug;
+                window.scrollTo(0, 0);
+            });
+        }
+
+        // Show transition animation
+        function showTransition(callback) {
+            const transition = document.getElementById('page-transition');
+            const bars = transition.querySelectorAll('.transition-bar');
+            
+            transition.style.display = 'flex';
+            bars.forEach(bar => {
+                bar.classList.remove('animate');
+                bar.style.transform = 'translateX(-100%)';
+            });
+            
+            setTimeout(() => {
+                bars.forEach(bar => bar.classList.add('animate'));
+            }, 50);
+            
+            setTimeout(() => {
+                callback();
+            }, 800);
+            
+            setTimeout(() => {
+                transition.style.display = 'none';
+                bars.forEach(bar => bar.classList.remove('animate'));
+            }, 1500);
+        }
+
+        // Handle hash changes
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash && articlesData.length > 0) {
+                const article = articlesData.find(a => a.slug === hash);
+                if (article && currentView !== 'article') {
+                    showArticle(hash);
+                }
+            } else if (!hash && currentView !== 'home') {
+                showHome();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadArticles();
+            
+            // Check initial hash
+            setTimeout(() => {
+                const hash = window.location.hash.substring(1);
+                if (hash) {
+                    showArticle(hash);
+                }
+            }, 2500);
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', () => {
+            if (currentView === 'home') {
+                const scrolled = window.pageYOffset;
+                const hero = document.querySelector('.hero-section');
+                if (hero) {
+                    hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+                }
+            }
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

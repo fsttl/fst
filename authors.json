@@ -1,0 +1,68 @@
+{
+  "authors": [
+    {
+      "id": 1,
+      "slug": "ayse-kaya",
+      "name": "Dr. Ayşe Kaya",
+      "bio": "Bilgisayar Mühendisliği doktorası olan Dr. Ayşe Kaya, yapay zeka ve makine öğrenmesi alanlarında 15 yıllık deneyime sahip. Teknoloji ve sağlık konularında uzman yazılar kaleme alıyor.",
+      "avatar": "/placeholder.svg?height=150&width=150",
+      "specialty": "Yapay Zeka & Sağlık Teknolojileri",
+      "experience": 15,
+      "articleCount": 47,
+      "followers": "12.5K",
+      "socialMedia": {
+        "twitter": "@ayse_kaya_tech",
+        "linkedin": "ayse-kaya-phd",
+        "email": "ayse.kaya@fisilti.com"
+      }
+    },
+    {
+      "id": 2,
+      "slug": "mehmet-ozkan",
+      "name": "Prof. Mehmet Özkan",
+      "bio": "İktisat Profesörü olan Mehmet Özkan, dijital ekonomi ve fintech alanlarında araştırmalar yapıyor. Blockchain teknolojileri ve kripto para konularında düzenli olarak yazılar yayınlıyor.",
+      "avatar": "/placeholder.svg?height=150&width=150",
+      "specialty": "Dijital Ekonomi & Blockchain",
+      "experience": 22,
+      "articleCount": 63,
+      "followers": "18.2K",
+      "socialMedia": {
+        "twitter": "@prof_ozkan",
+        "linkedin": "mehmet-ozkan-prof",
+        "email": "mehmet.ozkan@fisilti.com"
+      }
+    },
+    {
+      "id": 3,
+      "slug": "zeynep-demir",
+      "name": "Zeynep Demir",
+      "bio": "Spor gazetecisi ve eski profesyonel atlet olan Zeynep Demir, spor teknolojileri ve performans analizi konularında uzmanlaşmış. Modern sporlardaki teknolojik gelişmeleri takip ediyor.",
+      "avatar": "/placeholder.svg?height=150&width=150",
+      "specialty": "Spor Teknolojileri",
+      "experience": 12,
+      "articleCount": 34,
+      "followers": "8.7K",
+      "socialMedia": {
+        "twitter": "@zeynep_spor",
+        "instagram": "zeynepdemir_sport",
+        "email": "zeynep.demir@fisilti.com"
+      }
+    },
+    {
+      "id": 4,
+      "slug": "can-yilmaz",
+      "name": "Dr. Can Yılmaz",
+      "bio": "Çevre Mühendisliği doktorası olan Dr. Can Yılmaz, sürdürülebilirlik ve çevre koruma konularında aktif olarak çalışıyor. Yeşil teknolojiler ve iklim değişikliği üzerine yazılar kaleme alıyor.",
+      "avatar": "/placeholder.svg?height=150&width=150",
+      "specialty": "Çevre & Sürdürülebilirlik",
+      "experience": 18,
+      "articleCount": 52,
+      "followers": "15.3K",
+      "socialMedia": {
+        "twitter": "@dr_can_cevre",
+        "linkedin": "can-yilmaz-phd",
+        "email": "can.yilmaz@fisilti.com"
+      }
+    }
+  ]
+}

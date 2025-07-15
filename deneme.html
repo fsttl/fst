@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fst. - FISILTI</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#dc2626">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="fst. FISILTI">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+    
     <style>
         * {
             margin: 0;
@@ -18,6 +27,8 @@
             --white: #ffffff;
             --black: #000000;
             --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --dark-gray: #374151;
         }
 
         body {
@@ -266,6 +277,7 @@
         /* Views */
         .view {
             display: none;
+            min-height: 100vh;
         }
 
         .view.active {
@@ -281,16 +293,16 @@
             padding: 2rem;
         }
 
-        /* Hero Section - Mobile Optimized */
+        /* Hero Section */
         .hero-section {
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 3rem 2rem;
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
             border-radius: 20px;
             margin-bottom: 4rem;
             position: relative;
             overflow: hidden;
-            min-height: 250px;
+            min-height: 300px;
         }
 
         .hero-content {
@@ -304,7 +316,7 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            padding: 1.5rem;
+            padding: 2rem;
         }
 
         .hero-content.active {
@@ -314,17 +326,17 @@
         .hero-article {
             display: flex;
             align-items: center;
-            gap: 2rem;
-            max-width: 800px;
+            gap: 3rem;
+            max-width: 900px;
             width: 100%;
         }
 
         .hero-image {
-            width: 180px;
-            height: 120px;
+            width: 200px;
+            height: 140px;
             object-fit: cover;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             flex-shrink: 0;
         }
 
@@ -337,46 +349,46 @@
             display: inline-block;
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.75rem;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
         }
 
         .hero-title {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 900;
             color: var(--white);
-            margin-bottom: 0.8rem;
+            margin-bottom: 1rem;
             line-height: 1.2;
         }
 
         .hero-excerpt {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.9);
-            line-height: 1.5;
-            margin-bottom: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
         .hero-read-more {
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.7rem 1.3rem;
-            border-radius: 20px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
             text-decoration: none;
             font-weight: 700;
             transition: all 0.3s ease;
             display: inline-block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
         .hero-read-more:hover {
             background: rgba(255, 255, 255, 0.9);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* Articles Section */
@@ -426,14 +438,14 @@
         }
 
         .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.4);
         }
 
         .article-image {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
             transition: transform 0.4s ease;
         }
@@ -515,73 +527,348 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Article View */
+        /* Article View - Completely Redesigned */
         .article-view {
             margin-top: 90px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            min-height: calc(100vh - 90px);
         }
 
-        /* Author View */
-        .author-view {
-            margin-top: 90px;
+        .article-hero {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .author-header {
+        .article-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: blur(2px);
+        }
+
+        .article-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(220, 38, 38, 0.8), rgba(153, 27, 27, 0.6));
+        }
+
+        .article-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
             max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+            padding: 2rem;
+        }
+
+        .article-category-large {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-title-hero {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .article-meta-hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .article-author-hero {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .author-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .article-date-hero {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .article-body {
+            background: var(--white);
+            color: var(--dark-gray);
+            position: relative;
+            z-index: 3;
+        }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .article-content-body {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .article-content-body p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content-body p:first-child {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-red);
+            border-left: 4px solid var(--primary-red);
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .article-content-body h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin: 2.5rem 0 1.5rem 0;
+        }
+
+        .article-content-body h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin: 2rem 0 1rem 0;
+        }
+
+        .article-tags {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+        }
+
+        .share-section {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
             text-align: center;
         }
 
-        .author-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
+        .share-title {
+            font-size: 1.2rem;
+            font-weight: 600;
             margin-bottom: 1.5rem;
-            border: 3px solid var(--white);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            color: var(--dark-gray);
         }
 
-        .author-name {
-            font-size: 2.5rem;
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .share-btn:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Author View - Enhanced */
+        .author-view {
+            margin-top: 90px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            min-height: calc(100vh - 90px);
+        }
+
+        .author-hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .author-avatar-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 2rem;
+            border: 4px solid var(--white);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .author-name-large {
+            font-size: 3rem;
             font-weight: 900;
             color: var(--white);
             margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .author-bio {
-            font-size: 1.1rem;
+        .author-specialty {
+            font-size: 1.2rem;
             color: rgba(255, 255, 255, 0.8);
-            line-height: 1.6;
             margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .author-bio-large {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 3rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .author-stats {
-            display: flex;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 2rem;
             margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .author-stat {
             text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
         }
 
         .stat-number {
-            font-size: 1.8rem;
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--white);
             display: block;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .author-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-red);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* Breadcrumb */
@@ -597,6 +884,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .breadcrumb-path a {
@@ -612,149 +900,6 @@
 
         .breadcrumb-separator {
             color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Article Content */
-        .article-container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .article-header {
-            margin-bottom: 3rem;
-        }
-
-        .article-image-large {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .article-title-large {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--white);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .article-meta-header {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .article-author-info {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .article-date-info {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .article-content-large {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .article-text {
-            font-size: 1.1rem;
-            line-height: 1.7;
-            color: var(--white);
-        }
-
-        .article-text p {
-            margin-bottom: 1.5rem;
-        }
-
-        .article-text p:first-child {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.95);
-            border-left: 3px solid var(--white);
-            padding-left: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        /* Article Tags */
-        .article-tags {
-            margin-bottom: 2rem;
-        }
-
-        .tag {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .tag:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Share Buttons */
-        .share-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .share-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--white);
-        }
-
-        .share-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .share-btn {
-            background: var(--white);
-            color: var(--primary-red);
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .share-btn:hover {
-            background: var(--primary-red);
-            color: var(--white);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .back-to-home {
@@ -783,10 +928,33 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
+        /* Loading Spinner */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 1rem;
+                gap: 1rem;
             }
 
             .logo {
@@ -794,7 +962,7 @@
             }
 
             .search-container {
-                max-width: 250px;
+                max-width: 200px;
             }
 
             .search-input {
@@ -803,14 +971,14 @@
             }
 
             .hero-section {
-                min-height: 200px;
-                padding: 1.5rem 1rem;
+                min-height: 250px;
+                padding: 2rem 1rem;
             }
 
             .hero-article {
                 flex-direction: column;
                 text-align: center;
-                gap: 1rem;
+                gap: 1.5rem;
             }
 
             .hero-text {
@@ -818,16 +986,12 @@
             }
 
             .hero-title {
-                font-size: 1.3rem;
+                font-size: 1.5rem;
             }
 
             .hero-image {
-                width: 150px;
-                height: 100px;
-            }
-
-            .hero-excerpt {
-                font-size: 0.85rem;
+                width: 180px;
+                height: 120px;
             }
 
             .articles-grid {
@@ -844,46 +1008,34 @@
                 font-size: 2rem;
             }
 
-            .breadcrumb {
-                padding: 1rem;
+            .article-title-hero {
+                font-size: 2rem;
             }
 
-            .article-container {
-                padding: 0 1rem;
-            }
-
-            .article-title-large {
-                font-size: 1.8rem;
-            }
-
-            .article-meta-header {
-                flex-direction: column;
-                gap: 0.8rem;
-                align-items: flex-start;
-            }
-
-            .article-content-large {
-                padding: 1.5rem;
-            }
-
-            .article-text {
-                font-size: 1rem;
-            }
-
-            .author-stats {
+            .article-meta-hero {
                 flex-direction: column;
                 gap: 1rem;
             }
 
-            .author-name {
+            .article-container {
+                padding: 2rem 1rem;
+            }
+
+            .author-name-large {
                 font-size: 2rem;
             }
 
-            .author-bio {
-                font-size: 1rem;
+            .author-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
             .share-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-social {
                 flex-direction: column;
                 gap: 0.5rem;
             }
@@ -904,6 +1056,19 @@
                 transform: translateY(0);
             }
         }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -915,7 +1080,7 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a class="logo ripple" href="#" onclick="navigateHome(event)">fst.</a>
+            <a class="logo ripple" href="javascript:void(0)" onclick="navigateHome()">fst.</a>
             
             <div class="search-container">
                 <div class="search-icon">🔍</div>
@@ -923,7 +1088,7 @@
                 <div class="search-results" id="search-results"></div>
             </div>
             
-            <a class="back-button ripple" id="back-button" href="#" onclick="navigateHome(event)">
+            <a class="back-button ripple" id="back-button" href="javascript:void(0)" onclick="navigateHome()">
                 <span>←</span>
                 <span>Geri</span>
             </a>
@@ -934,14 +1099,18 @@
     <div class="view active home-view" id="home-view">
         <!-- Hero Section -->
         <section class="hero-section" id="hero-section">
-            <!-- Hero content will be dynamically loaded -->
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
         </section>
 
         <!-- Articles Section -->
         <section class="articles-section">
             <h2 class="section-title">Son Haberler</h2>
             <div class="articles-grid" id="articles-container">
-                <!-- Articles will be loaded here -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
             </div>
         </section>
     </div>
@@ -951,7 +1120,7 @@
         <!-- Breadcrumb -->
         <div class="breadcrumb">
             <div class="breadcrumb-path">
-                <a class="ripple" href="#" onclick="navigateHome(event)">Ana Sayfa</a>
+                <a href="javascript:void(0)" onclick="navigateHome()">Ana Sayfa</a>
                 <span class="breadcrumb-separator">/</span>
                 <span id="breadcrumb-category">Kategori</span>
                 <span class="breadcrumb-separator">/</span>
@@ -959,46 +1128,53 @@
             </div>
         </div>
 
-        <!-- Article Container -->
-        <article class="article-container">
-            <header class="article-header">
-                <img id="article-image" class="article-image-large" src="/placeholder.svg" alt="">
-                <h1 class="article-title-large" id="article-title">Makale Başlığı</h1>
-                <div class="article-meta-header">
-                    <div class="article-author-info">
-                        <span>👤</span>
-                        <a href="#" class="author-link" id="article-author-link">Yazar</a>
+        <!-- Article Hero -->
+        <div class="article-hero">
+            <img id="article-hero-bg" class="article-hero-bg" src="/placeholder.svg" alt="">
+            <div class="article-hero-overlay"></div>
+            <div class="article-hero-content">
+                <span class="article-category-large" id="article-category-hero">Kategori</span>
+                <h1 class="article-title-hero" id="article-title-hero">Makale Başlığı</h1>
+                <div class="article-meta-hero">
+                    <div class="article-author-hero">
+                        <img id="author-avatar-hero" class="author-avatar-small" src="/placeholder.svg" alt="">
+                        <a href="javascript:void(0)" class="author-link" id="article-author-hero">Yazar</a>
                     </div>
-                    <div class="article-date-info">
+                    <div class="article-date-hero">
                         <span>📅</span>
-                        <span id="article-date">Tarih</span>
+                        <span id="article-date-hero">Tarih</span>
                     </div>
                 </div>
-            </header>
+            </div>
+            <div class="scroll-indicator">↓</div>
+        </div>
 
-            <div class="article-content-large">
-                <div class="article-text" id="article-text">
+        <!-- Article Body -->
+        <div class="article-body">
+            <div class="article-container">
+                <div class="article-content-body" id="article-content-body">
                     <!-- Article content will be loaded here -->
                 </div>
-            </div>
 
-            <div class="article-tags" id="article-tags">
-                <!-- Tags will be loaded here -->
-            </div>
+                <div class="article-tags" id="article-tags">
+                    <!-- Tags will be loaded here -->
+                </div>
 
-            <div class="share-section">
-                <h3 class="share-title">Bu makaleyi paylaş</h3>
-                <div class="share-buttons">
-                    <a href="#" class="share-btn ripple" onclick="shareArticle('twitter')">Twitter</a>
-                    <a href="#" class="share-btn ripple" onclick="shareArticle('facebook')">Facebook</a>
-                    <a href="#" class="share-btn ripple" onclick="shareArticle('whatsapp')">WhatsApp</a>
+                <div class="share-section">
+                    <h3 class="share-title">Bu makaleyi paylaş</h3>
+                    <div class="share-buttons">
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('twitter')">Twitter</a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('facebook')">Facebook</a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('whatsapp')">WhatsApp</a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('linkedin')">LinkedIn</a>
+                    </div>
+                </div>
+
+                <div class="back-to-home">
+                    <a class="home-button ripple" href="javascript:void(0)" onclick="navigateHome()">Diğer Haberler</a>
                 </div>
             </div>
-
-            <div class="back-to-home">
-                <a class="home-button ripple" href="#" onclick="navigateHome(event)">Diğer Haberler</a>
-            </div>
-        </article>
+        </div>
     </div>
 
     <!-- Author View -->
@@ -1006,7 +1182,7 @@
         <!-- Breadcrumb -->
         <div class="breadcrumb">
             <div class="breadcrumb-path">
-                <a class="ripple" href="#" onclick="navigateHome(event)">Ana Sayfa</a>
+                <a href="javascript:void(0)" onclick="navigateHome()">Ana Sayfa</a>
                 <span class="breadcrumb-separator">/</span>
                 <span>Yazarlar</span>
                 <span class="breadcrumb-separator">/</span>
@@ -1014,11 +1190,13 @@
             </div>
         </div>
 
-        <!-- Author Header -->
-        <div class="author-header">
-            <img id="author-avatar" class="author-avatar" src="/placeholder.svg" alt="">
-            <h1 class="author-name" id="author-name">Yazar Adı</h1>
-            <p class="author-bio" id="author-bio">Yazar biyografisi</p>
+        <!-- Author Hero -->
+        <div class="author-hero">
+            <img id="author-avatar-large" class="author-avatar-large" src="/placeholder.svg" alt="">
+            <h1 class="author-name-large" id="author-name-large">Yazar Adı</h1>
+            <p class="author-specialty" id="author-specialty">Uzmanlık Alanı</p>
+            <p class="author-bio-large" id="author-bio-large">Yazar biyografisi</p>
+            
             <div class="author-stats">
                 <div class="author-stat">
                     <span class="stat-number" id="author-article-count">0</span>
@@ -1026,12 +1204,16 @@
                 </div>
                 <div class="author-stat">
                     <span class="stat-number" id="author-experience">0</span>
-                    <span class="stat-label">Yıl</span>
+                    <span class="stat-label">Yıl Deneyim</span>
                 </div>
                 <div class="author-stat">
                     <span class="stat-number" id="author-followers">0</span>
                     <span class="stat-label">Takipçi</span>
                 </div>
+            </div>
+
+            <div class="author-social" id="author-social">
+                <!-- Social links will be loaded here -->
             </div>
         </div>
 
@@ -1039,14 +1221,25 @@
         <section class="articles-section">
             <h2 class="section-title">Yazarın Makaleleri</h2>
             <div class="articles-grid" id="author-articles-container">
-                <!-- Author articles will be loaded here -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
             </div>
         </section>
 
         <div class="back-to-home">
-            <a class="home-button ripple" href="#" onclick="navigateHome(event)">Ana Sayfa</a>
+            <a class="home-button ripple" href="javascript:void(0)" onclick="navigateHome()">Ana Sayfa</a>
         </div>
     </div>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(() => console.log('Service Worker kaydedildi!'))
+                .catch((error) => console.log('Service Worker hatası:', error));
+        }
+    </script>
 
     <script>
         // Global variables
@@ -1056,41 +1249,151 @@
         let heroRotationInterval;
         let currentHeroIndex = 0;
         let lastScrollY = 0;
+        let currentArticleSlug = '';
+        let currentAuthorSlug = '';
 
-        // Load data from JSON files
+        // Sample data - Replace with your actual data
+        const sampleArticles = [
+            {
+                slug: 'teknoloji-gelecegi',
+                title: 'Teknolojinin Geleceği: Yapay Zeka ve İnsan',
+                excerpt: 'Yapay zeka teknolojilerinin hızla geliştiği günümüzde, insan-makine etkileşiminin geleceği nasıl şekillenecek?',
+                content: `Yapay zeka teknolojileri, günümüzde hayatımızın her alanında kendini göstermektedir. Bu devrim niteliğindeki teknolojik gelişmeler, sadece iş dünyasını değil, günlük yaşantımızı da köklü bir şekilde değiştirmektedir.
+
+                Makine öğrenmesi algoritmaları, büyük veri analizi ve derin öğrenme teknikleri sayesinde, yapay zeka sistemleri artık insan benzeri düşünme yetenekleri sergileyebilmektedir. Bu durum, hem büyük fırsatlar hem de önemli zorluklar yaratmaktadır.
+
+                Gelecekte yapay zeka ve insan arasındaki işbirliği, teknolojik ilerlemenin anahtarı olacaktır. İnsanların yaratıcılık, empati ve etik değerlendirme yetenekleri ile yapay zekanın hız, doğruluk ve analitik gücünün birleşimi, benzersiz çözümler üretecektir.
+
+                Ancak bu süreçte, etik değerler ve insan haklarının korunması da büyük önem taşımaktadır. Yapay zeka teknolojilerinin geliştirilmesi ve uygulanmasında, toplumsal fayda ve bireysel haklar arasında denge kurulması gerekmektedir.`,
+                category: 'Teknoloji',
+                author: 'Dr. Ayşe Tekniker',
+                authorSlug: 'ayse-tekniker',
+                date: '15 Ocak 2024',
+                image: '/placeholder.svg?height=300&width=500',
+                tags: ['Yapay Zeka', 'Teknoloji', 'Gelecek', 'İnovasyon']
+            },
+            {
+                slug: 'saglikli-yasam-rehberi',
+                title: 'Sağlıklı Yaşam İçin Pratik Öneriler',
+                excerpt: 'Modern yaşamın getirdiği zorluklara rağmen sağlıklı bir yaşam sürmek için uygulanabilir öneriler.',
+                content: `Sağlıklı yaşam, sadece hastalık olmama durumu değil, fiziksel, mental ve sosyal açıdan tam bir iyilik halidir. Modern yaşamın getirdiği stres, hareketsizlik ve beslenme sorunları karşısında sağlığımızı korumak için bilinçli adımlar atmamız gerekmektedir.
+
+                Düzenli egzersiz, sağlıklı yaşamın temel taşlarından biridir. Haftada en az 150 dakika orta şiddetli aerobik aktivite veya 75 dakika yoğun aktivite yapılması önerilmektedir. Bu, günde sadece 20-30 dakikalık yürüyüş anlamına gelebilir.
+
+                Beslenme konusunda ise çeşitlilik ve denge anahtardır. Bol meyve ve sebze tüketimi, tam tahıllar, kaliteli protein kaynakları ve sağlıklı yağlar dengeli bir diyetin temelini oluşturur. İşlenmiş gıdalardan kaçınmak ve su tüketimini artırmak da önemlidir.
+
+                Mental sağlık için ise stres yönetimi, kaliteli uyku ve sosyal bağlantılar kritik öneme sahiptir. Meditasyon, yoga veya nefes egzersizleri gibi rahatlama teknikleri günlük rutine dahil edilebilir.`,
+                category: 'Sağlık',
+                author: 'Dr. Mehmet Sağlık',
+                authorSlug: 'mehmet-saglik',
+                date: '12 Ocak 2024',
+                image: '/placeholder.svg?height=300&width=500',
+                tags: ['Sağlık', 'Yaşam', 'Beslenme', 'Egzersiz']
+            },
+            {
+                slug: 'cevre-koruma-onerileri',
+                title: 'Çevre Koruma: Bireysel Sorumluluklarımız',
+                excerpt: 'İklim değişikliği ve çevre sorunları karşısında bireysel olarak alabileceğimiz önlemler nelerdir?',
+                content: `İklim değişikliği ve çevre sorunları, günümüzün en acil konularından biridir. Bu küresel sorunlar karşısında bireysel eylemlerimizin de büyük önemi vardır. Her birimizin günlük yaşamında alabileceği küçük adımlar, toplamda büyük değişiklikler yaratabilir.
+
+                Enerji tasarrufu, çevre koruma açısından en etkili yöntemlerden biridir. LED ampul kullanımı, elektronik cihazları kapatmak, enerji verimli ev aletleri tercih etmek gibi basit değişiklikler enerji tüketimini önemli ölçüde azaltabilir.
+
+                Ulaşım tercihlerimiz de çevresel etkimizi belirler. Toplu taşıma kullanımı, bisiklet veya yürüyüş gibi alternatifler, karbon ayak izimizi azaltmanın etkili yollarıdır. Mümkün olduğunda uzaktan çalışma seçeneğini değerlendirmek de faydalıdır.
+
+                Atık yönetimi konusunda geri dönüşüm, kompost yapımı ve tek kullanımlık ürünlerden kaçınmak önemli adımlardır. Ayrıca bilinçli tüketim alışkanlıkları geliştirmek, gereksiz satın alımları azaltmak da çevresel etkimizi minimize eder.`,
+                category: 'Çevre',
+                author: 'Prof. Zeynep Doğa',
+                authorSlug: 'zeynep-doga',
+                date: '10 Ocak 2024',
+                image: '/placeholder.svg?height=300&width=500',
+                tags: ['Çevre', 'Sürdürülebilirlik', 'İklim', 'Doğa']
+            }
+        ];
+
+        const sampleAuthors = [
+            {
+                slug: 'ayse-tekniker',
+                name: 'Dr. Ayşe Tekniker',
+                bio: 'Bilgisayar Mühendisliği doktorası olan Dr. Ayşe Tekniker, yapay zeka ve makine öğrenmesi alanında 15 yıllık deneyime sahiptir. Çeşitli teknoloji şirketlerinde çalışmış ve akademik araştırmalar yapmıştır.',
+                specialty: 'Yapay Zeka Uzmanı',
+                avatar: '/placeholder.svg?height=150&width=150',
+                articleCount: 25,
+                experience: 15,
+                followers: 1200,
+                social: {
+                    twitter: 'https://twitter.com/aysetekniker',
+                    linkedin: 'https://linkedin.com/in/aysetekniker',
+                    email: 'ayse@tekniker.com'
+                }
+            },
+            {
+                slug: 'mehmet-saglik',
+                name: 'Dr. Mehmet Sağlık',
+                bio: 'İç Hastalıkları uzmanı Dr. Mehmet Sağlık, preventif tıp ve sağlıklı yaşam konularında uzmanlaşmıştır. Çeşitli sağlık kuruluşlarında çalışmış ve halk sağlığı projelerinde yer almıştır.',
+                specialty: 'İç Hastalıkları Uzmanı',
+                avatar: '/placeholder.svg?height=150&width=150',
+                articleCount: 18,
+                experience: 12,
+                followers: 850,
+                social: {
+                    twitter: 'https://twitter.com/mehmetsaglik',
+                    linkedin: 'https://linkedin.com/in/mehmetsaglik',
+                    email: 'mehmet@saglik.com'
+                }
+            },
+            {
+                slug: 'zeynep-doga',
+                name: 'Prof. Zeynep Doğa',
+                bio: 'Çevre Mühendisliği profesörü olan Zeynep Doğa, sürdürülebilirlik ve çevre koruma konularında araştırmalar yapmaktadır. Uluslararası çevre projelerinde danışmanlık yapmıştır.',
+                specialty: 'Çevre Mühendisliği Profesörü',
+                avatar: '/placeholder.svg?height=150&width=150',
+                articleCount: 32,
+                experience: 20,
+                followers: 2100,
+                social: {
+                    twitter: 'https://twitter.com/zeynepdoga',
+                    linkedin: 'https://linkedin.com/in/zeynepdoga',
+                    email: 'zeynep@doga.com'
+                }
+            }
+        ];
+
+        // Load data
         async function loadData() {
             try {
+                // Try to load from JSON files first
                 const [articlesResponse, authorsResponse] = await Promise.all([
-                    fetch('./articles.json'),
-                    fetch('./authors.json')
+                    fetch('./articles.json').catch(() => null),
+                    fetch('./authors.json').catch(() => null)
                 ]);
                 
-                const articlesJson = await articlesResponse.json();
-                const authorsJson = await authorsResponse.json();
-                
-                articlesData = articlesJson.articles;
-                authorsData = authorsJson.authors;
+                if (articlesResponse && authorsResponse) {
+                    const articlesJson = await articlesResponse.json();
+                    const authorsJson = await authorsResponse.json();
+                    articlesData = articlesJson.articles;
+                    authorsData = authorsJson.authors;
+                } else {
+                    // Fallback to sample data
+                    articlesData = sampleArticles;
+                    authorsData = sampleAuthors;
+                }
                 
                 renderArticles();
                 startHeroRotation();
                 setupSearch();
                 
-                // Check initial hash after data loads
-                setTimeout(() => {
-                    const hash = window.location.hash.substring(1);
-                    if (hash.startsWith('author-')) {
-                        const authorSlug = hash.substring(7);
-                        showAuthor(authorSlug);
-                    } else if (hash) {
-                        showArticle(hash);
-                    }
-                }, 100);
+                // Handle initial hash
+                handleHashChange();
                 
             } catch (error) {
                 console.error('Error loading data:', error);
-                // Fallback to empty arrays if JSON files don't exist
-                articlesData = [];
-                authorsData = [];
+                // Use sample data as fallback
+                articlesData = sampleArticles;
+                authorsData = sampleAuthors;
+                renderArticles();
+                startHeroRotation();
+                setupSearch();
+                handleHashChange();
             }
         }
 
@@ -1101,10 +1404,9 @@
         });
 
         // Navigation functions
-        function navigateHome(event) {
-            event.preventDefault();
+        function navigateHome() {
+            if (currentView === 'home') return;
             showHome();
-            return false;
         }
 
         // Setup navbar scroll behavior
@@ -1142,8 +1444,8 @@
                         <div class="hero-text">
                             <span class="hero-category">${article.category}</span>
                             <h2 class="hero-title">${article.title}</h2>
-                            <p class="hero-excerpt">${article.excerpt.substring(0, 100)}...</p>
-                            <a href="#${article.slug}" class="hero-read-more ripple" onclick="showArticle('${article.slug}')">Devamını Oku</a>
+                            <p class="hero-excerpt">${article.excerpt}</p>
+                            <a href="javascript:void(0)" class="hero-read-more ripple" onclick="showArticle('${article.slug}')">Devamını Oku</a>
                         </div>
                     </div>
                 `;
@@ -1268,7 +1570,7 @@
                         <p class="article-excerpt">${article.excerpt}</p>
                         <div class="article-meta">
                             <div>
-                                <a href="#author-${article.authorSlug}" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date}
+                                <a href="javascript:void(0)" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date}
                             </div>
                             <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                         </div>
@@ -1291,18 +1593,21 @@
 
         // Show home view
         function showHome() {
-            if (currentView === 'home') return;
-            
             showTransition(() => {
                 document.getElementById('home-view').classList.add('active');
                 document.getElementById('article-view').classList.remove('active');
                 document.getElementById('author-view').classList.remove('active');
-                document.getElementById('search-container').style.display = 'block';
+                document.querySelector('.search-container').style.display = 'block';
                 document.getElementById('back-button').style.display = 'none';
                 currentView = 'home';
-                window.location.hash = '';
-                window.scrollTo(0, 0);
+                currentArticleSlug = '';
+                currentAuthorSlug = '';
                 
+                // Update URL without triggering hashchange
+                history.pushState(null, null, window.location.pathname);
+                document.title = 'fst. - FISILTI';
+                
+                window.scrollTo(0, 0);
                 startHeroRotation();
             });
         }
@@ -1312,6 +1617,8 @@
             const article = articlesData.find(a => a.slug === slug);
             if (!article) return;
 
+            currentArticleSlug = slug;
+            
             showTransition(() => {
                 if (heroRotationInterval) {
                     clearInterval(heroRotationInterval);
@@ -1319,28 +1626,36 @@
 
                 document.title = `${article.title} - fst. FISILTI`;
                 
+                // Update breadcrumb
                 document.getElementById('breadcrumb-category').textContent = article.category;
                 document.getElementById('breadcrumb-title').textContent = article.title;
                 
-                document.getElementById('article-title').textContent = article.title;
+                // Update hero section
+                document.getElementById('article-category-hero').textContent = article.category;
+                document.getElementById('article-title-hero').textContent = article.title;
+                document.getElementById('article-hero-bg').src = article.image;
                 
+                // Update author info
                 const author = authorsData.find(a => a.slug === article.authorSlug);
-                const authorLink = document.getElementById('article-author-link');
-                authorLink.textContent = author ? author.name : article.author;
-                authorLink.href = `#author-${article.authorSlug}`;
-                authorLink.onclick = () => showAuthor(article.authorSlug);
+                if (author) {
+                    document.getElementById('author-avatar-hero').src = author.avatar;
+                    document.getElementById('article-author-hero').textContent = author.name;
+                    document.getElementById('article-author-hero').onclick = () => showAuthor(article.authorSlug);
+                } else {
+                    document.getElementById('author-avatar-hero').src = '/placeholder.svg?height=32&width=32';
+                    document.getElementById('article-author-hero').textContent = article.author;
+                }
                 
-                document.getElementById('article-date').textContent = article.date;
-                document.getElementById('article-image').src = article.image;
-                document.getElementById('article-image').alt = article.title;
+                document.getElementById('article-date-hero').textContent = article.date;
                 
+                // Update content
                 const paragraphs = article.content.split('\n\n');
-                const formattedContent = paragraphs.map(p => `<p>${p}</p>`).join('');
-                document.getElementById('article-text').innerHTML = formattedContent;
+                const formattedContent = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+                document.getElementById('article-content-body').innerHTML = formattedContent;
 
-                // Add tags
+                // Update tags
                 const tagsContainer = document.getElementById('article-tags');
-                if (article.tags) {
+                if (article.tags && article.tags.length > 0) {
                     tagsContainer.innerHTML = article.tags.map(tag => 
                         `<span class="tag">${tag}</span>`
                     ).join('');
@@ -1348,13 +1663,16 @@
                     tagsContainer.innerHTML = '';
                 }
 
+                // Show article view
                 document.getElementById('home-view').classList.remove('active');
                 document.getElementById('article-view').classList.add('active');
-                document.getElementById('author-view').classList.remove('active');
-                document.getElementById('search-container').style.display = 'none';
+                                document.getElementById('author-view').classList.remove('active');
+                document.querySelector('.search-container').style.display = 'none';
                 document.getElementById('back-button').style.display = 'flex';
                 currentView = 'article';
-                window.location.hash = slug;
+                
+                // Update URL
+                history.pushState(null, null, `#${slug}`);
                 window.scrollTo(0, 0);
             });
         }
@@ -1364,6 +1682,8 @@
             const author = authorsData.find(a => a.slug === slug);
             if (!author) return;
 
+            currentAuthorSlug = slug;
+
             showTransition(() => {
                 if (heroRotationInterval) {
                     clearInterval(heroRotationInterval);
@@ -1371,58 +1691,81 @@
 
                 document.title = `${author.name} - fst. FISILTI`;
                 
+                // Update breadcrumb
                 document.getElementById('author-breadcrumb-name').textContent = author.name;
                 
-                document.getElementById('author-avatar').src = author.avatar;
-                document.getElementById('author-name').textContent = author.name;
-                document.getElementById('author-bio').textContent = author.bio;
+                // Update author info
+                document.getElementById('author-avatar-large').src = author.avatar;
+                document.getElementById('author-name-large').textContent = author.name;
+                document.getElementById('author-specialty').textContent = author.specialty;
+                document.getElementById('author-bio-large').textContent = author.bio;
                 document.getElementById('author-article-count').textContent = author.articleCount;
                 document.getElementById('author-experience').textContent = author.experience;
-                document.getElementById('author-followers').textContent = author.followers;
+                document.getElementById('author-followers').textContent = author.followers.toLocaleString();
                 
+                // Update social links
+                const socialContainer = document.getElementById('author-social');
+                socialContainer.innerHTML = '';
+                if (author.social) {
+                    Object.entries(author.social).forEach(([platform, url]) => {
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.className = 'social-link';
+                        link.target = '_blank';
+                        link.textContent = platform.charAt(0).toUpperCase() + platform.slice(1);
+                        socialContainer.appendChild(link);
+                    });
+                }
+                
+                // Load author articles
                 const authorArticles = articlesData.filter(article => article.authorSlug === slug);
                 const authorArticlesContainer = document.getElementById('author-articles-container');
                 authorArticlesContainer.innerHTML = '';
                 
-                authorArticles.forEach((article, index) => {
-                    const articleCard = document.createElement('div');
-                    articleCard.className = 'article-card ripple';
-                    
-                    articleCard.innerHTML = `
-                        <img src="${article.image}" alt="${article.title}" class="article-image">
-                        <div class="article-content">
-                            <span class="article-category">${article.category}</span>
-                            <h3 class="article-title">${article.title}</h3>
-                            <p class="article-excerpt">${article.excerpt}</p>
-                            <div class="article-meta">
-                                <div>
-                                    ${article.date}
+                if (authorArticles.length > 0) {
+                    authorArticles.forEach((article, index) => {
+                        const articleCard = document.createElement('div');
+                        articleCard.className = 'article-card ripple';
+                        
+                        articleCard.innerHTML = `
+                            <img src="${article.image}" alt="${article.title}" class="article-image">
+                            <div class="article-content">
+                                <span class="article-category">${article.category}</span>
+                                <h3 class="article-title">${article.title}</h3>
+                                <p class="article-excerpt">${article.excerpt}</p>
+                                <div class="article-meta">
+                                    <div>${article.date}</div>
+                                    <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                                 </div>
-                                <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                             </div>
-                        </div>
-                    `;
+                        `;
 
-                    articleCard.addEventListener('click', (e) => {
-                        if (!e.target.closest('.read-more')) {
-                            showArticle(article.slug);
-                        }
+                        articleCard.addEventListener('click', (e) => {
+                            if (!e.target.closest('.read-more')) {
+                                showArticle(article.slug);
+                            }
+                        });
+                        
+                        authorArticlesContainer.appendChild(articleCard);
+
+                        setTimeout(() => {
+                            articleCard.classList.add('animate-in');
+                        }, index * 100);
                     });
-                    
-                    authorArticlesContainer.appendChild(articleCard);
+                } else {
+                    authorArticlesContainer.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7);">Henüz makale bulunmuyor.</p>';
+                }
 
-                    setTimeout(() => {
-                        articleCard.classList.add('animate-in');
-                    }, index * 100);
-                });
-
+                // Show author view
                 document.getElementById('home-view').classList.remove('active');
                 document.getElementById('article-view').classList.remove('active');
                 document.getElementById('author-view').classList.add('active');
-                document.getElementById('search-container').style.display = 'none';
+                document.querySelector('.search-container').style.display = 'none';
                 document.getElementById('back-button').style.display = 'flex';
                 currentView = 'author';
-                window.location.hash = 'author-' + slug;
+                
+                // Update URL
+                history.pushState(null, null, `#author-${slug}`);
                 window.scrollTo(0, 0);
             });
         }
@@ -1452,7 +1795,7 @@
         // Share article function
         function shareArticle(platform) {
             const currentUrl = window.location.href;
-            const title = document.getElementById('article-title').textContent;
+            const title = document.getElementById('article-title-hero').textContent;
             
             let shareUrl = '';
             
@@ -1466,6 +1809,9 @@
                 case 'whatsapp':
                     shareUrl = `https://wa.me/?text=${encodeURIComponent(title + ' ' + currentUrl)}`;
                     break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+                    break;
             }
             
             if (shareUrl) {
@@ -1474,22 +1820,302 @@
         }
 
         // Handle hash changes
-        window.addEventListener('hashchange', () => {
+        function handleHashChange() {
             const hash = window.location.hash.substring(1);
+            
+            if (!hash) {
+                if (currentView !== 'home') {
+                    showHome();
+                }
+                return;
+            }
+            
             if (hash.startsWith('author-')) {
                 const authorSlug = hash.substring(7);
-                if (authorsData.find(a => a.slug === authorSlug) && currentView !== 'author') {
+                const author = authorsData.find(a => a.slug === authorSlug);
+                if (author && currentAuthorSlug !== authorSlug) {
                     showAuthor(authorSlug);
                 }
-            } else if (hash && articlesData.length > 0) {
+            } else {
                 const article = articlesData.find(a => a.slug === hash);
-                if (article && currentView !== 'article') {
+                if (article && currentArticleSlug !== hash) {
                     showArticle(hash);
                 }
-            } else if (!hash && currentView !== 'home') {
-                showHome();
+            }
+        }
+
+        // Listen for hash changes
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', (e) => {
+            handleHashChange();
+        });
+
+        // Prevent default link behavior and handle navigation
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="#"]');
+            if (link) {
+                e.preventDefault();
+                const hash = link.getAttribute('href').substring(1);
+                if (hash) {
+                    if (hash.startsWith('author-')) {
+                        const authorSlug = hash.substring(7);
+                        showAuthor(authorSlug);
+                    } else {
+                        showArticle(hash);
+                    }
+                } else {
+                    showHome();
+                }
             }
         });
+
+        // Add smooth scrolling for internal links
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('a[href^="#"]')) {
+                e.preventDefault();
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+
+        // Add loading states
+        function showLoading(containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            `;
+        }
+
+        // Add error handling for images
+        document.addEventListener('error', (e) => {
+            if (e.target.tagName === 'IMG') {
+                e.target.src = '/placeholder.svg?height=300&width=500';
+            }
+        }, true);
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (currentView !== 'home') {
+                    showHome();
+                }
+            }
+            
+            // Search shortcut
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('search-input').focus();
+            }
+        });
+
+        // Add touch gestures for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 100;
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0 && currentView !== 'home') {
+                    // Swipe right - go back
+                    showHome();
+                }
+            }
+        }
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements when they're added to the DOM
+        function observeElements() {
+            document.querySelectorAll('.article-card:not(.animate-in)').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Call observeElements after rendering articles
+        setTimeout(observeElements, 1000);
+
+        // Add performance monitoring
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                console.log(`Page loaded in ${loadTime}ms`);
+            });
+        }
+
+        // Add offline detection
+        window.addEventListener('online', () => {
+            console.log('Connection restored');
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('Connection lost');
+        });
+
+        // Add viewport meta tag adjustment for iOS
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        }
+
+        // Preload critical images
+        function preloadImages() {
+            const imageUrls = articlesData.slice(0, 3).map(article => article.image);
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
+
+        // Call preload after data loads
+        setTimeout(preloadImages, 2000);
+
+        // Add focus management for accessibility
+        function manageFocus() {
+            const focusableElements = document.querySelectorAll(
+                'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+            );
+            
+            focusableElements.forEach(element => {
+                element.addEventListener('focus', () => {
+                    element.style.outline = '2px solid rgba(255, 255, 255, 0.8)';
+                    element.style.outlineOffset = '2px';
+                });
+                
+                element.addEventListener('blur', () => {
+                    element.style.outline = '';
+                    element.style.outlineOffset = '';
+                });
+            });
+        }
+
+        // Initialize focus management
+        setTimeout(manageFocus, 1000);
+
+        // Add print styles
+        const printStyles = `
+            @media print {
+                .navbar, .back-button, .share-section, .search-container {
+                    display: none !important;
+                }
+                
+                .article-view {
+                    margin-top: 0 !important;
+                }
+                
+                .article-body {
+                    background: white !important;
+                    color: black !important;
+                }
+                
+                .article-hero {
+                    height: auto !important;
+                    min-height: auto !important;
+                }
+                
+                .article-title-hero {
+                    color: black !important;
+                    text-shadow: none !important;
+                }
+            }
+        `;
+
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = printStyles;
+        document.head.appendChild(styleSheet);
+
+        // Add meta tags for better SEO
+        function updateMetaTags(title, description, image) {
+            document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
+            document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+            document.querySelector('meta[property="og:image"]')?.setAttribute('content', image);
+            document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+        }
+
+        // Create meta tags if they don't exist
+        function createMetaTags() {
+            const metaTags = [
+                { property: 'og:title', content: 'fst. - FISILTI' },
+                { property: 'og:description', content: 'En güncel haberler ve makaleler' },
+                { property: 'og:image', content: '/placeholder.svg?height=630&width=1200' },
+                { property: 'og:type', content: 'website' },
+                { name: 'description', content: 'En güncel haberler ve makaleler' },
+                { name: 'keywords', content: 'haber, makale, teknoloji, sağlık, çevre' }
+            ];
+
+            metaTags.forEach(tag => {
+                const existing = document.querySelector(`meta[${Object.keys(tag)[0]}="${Object.values(tag)[0]}"]`);
+                if (!existing) {
+                    const meta = document.createElement('meta');
+                    Object.entries(tag).forEach(([key, value]) => {
+                        meta.setAttribute(key, value);
+                    });
+                    document.head.appendChild(meta);
+                }
+            });
+        }
+
+        createMetaTags();
+
+        // Add structured data for articles
+        function addStructuredData(article) {
+            const structuredData = {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": article.title,
+                "description": article.excerpt,
+                "image": article.image,
+                "datePublished": article.date,
+                "author": {
+                    "@type": "Person",
+                    "name": article.author
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "fst. FISILTI"
+                }
+            };
+
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.textContent = JSON.stringify(structuredData);
+            document.head.appendChild(script);
+        }
+
+        // Initialize everything
+        console.log('fst. FISILTI initialized successfully');
     </script>
 </body>
 </html>

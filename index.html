@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fst. - FISILTI</title>
+    
+    <!-- PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#dc2626">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="fst. FISILTI">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+    
     <style>
         * {
             margin: 0;
@@ -18,6 +27,8 @@
             --white: #ffffff;
             --black: #000000;
             --gray: #6b7280;
+            --light-gray: #f3f4f6;
+            --dark-gray: #374151;
         }
 
         body {
@@ -30,7 +41,7 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
@@ -39,102 +50,83 @@
 
         ::-webkit-scrollbar-thumb {
             background: var(--white);
-            border-radius: 6px;
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
             background: #f3f4f6;
         }
 
-        /* Loading Animation - Çubuk Çubuk */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--primary-red);
-            z-index: 9999;
-            display: flex;
+        /* Remove blue tap highlight */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        input, textarea {
+            -webkit-user-select: text;
+            -khtml-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: relative;
             overflow: hidden;
         }
 
-        .loading-bar {
-            width: 0;
-            height: 100%;
-            background: var(--dark-red);
-            animation: loadingBar 0.8s ease-in-out forwards;
-            border-right: 2px solid var(--white);
-        }
-
-        .loading-bar:nth-child(1) { animation-delay: 0s; }
-        .loading-bar:nth-child(2) { animation-delay: 0.1s; }
-        .loading-bar:nth-child(3) { animation-delay: 0.2s; }
-        .loading-bar:nth-child(4) { animation-delay: 0.3s; }
-        .loading-bar:nth-child(5) { animation-delay: 0.4s; }
-        .loading-bar:nth-child(6) { animation-delay: 0.5s; }
-        .loading-bar:nth-child(7) { animation-delay: 0.6s; }
-        .loading-bar:nth-child(8) { animation-delay: 0.7s; }
-
-        @keyframes loadingBar {
-            0% { width: 0; }
-            100% { width: 12.5%; }
-        }
-
-        .loading-text {
+        .ripple::before {
+            content: '';
             position: absolute;
             top: 50%;
             left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
             transform: translate(-50%, -50%);
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--white);
-            opacity: 0;
-            animation: fadeInText 0.5s ease 0.8s forwards;
+            transition: width 0.4s, height 0.4s;
+            pointer-events: none;
         }
 
-        @keyframes fadeInText {
-            to { opacity: 1; }
+        .ripple:active::before {
+            width: 200px;
+            height: 200px;
         }
 
-        /* Page Transition - Çubuk Çubuk */
+        /* Page Transition */
         .page-transition {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 8888;
+            z-index: 9999;
             display: none;
             pointer-events: none;
+            background: var(--primary-red);
         }
 
-        .transition-bar {
-            width: 12.5%;
+        .transition-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
             background: var(--dark-red);
             transform: translateX(-100%);
-            border-right: 2px solid var(--white);
-            float: left;
+            transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
         }
 
-        .transition-bar.animate {
-            animation: slideInBar 0.6s ease-out forwards;
-        }
-
-        .transition-bar:nth-child(1) { animation-delay: 0s; }
-        .transition-bar:nth-child(2) { animation-delay: 0.1s; }
-        .transition-bar:nth-child(3) { animation-delay: 0.2s; }
-        .transition-bar:nth-child(4) { animation-delay: 0.3s; }
-        .transition-bar:nth-child(5) { animation-delay: 0.4s; }
-        .transition-bar:nth-child(6) { animation-delay: 0.5s; }
-        .transition-bar:nth-child(7) { animation-delay: 0.6s; }
-        .transition-bar:nth-child(8) { animation-delay: 0.7s; }
-
-        @keyframes slideInBar {
-            0% { transform: translateX(-100%); }
-            50% { transform: translateX(0); }
-            100% { transform: translateX(100%); }
+        .transition-overlay.animate {
+            transform: translateX(0);
         }
 
         /* Navigation */
@@ -147,12 +139,11 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
             padding: 1rem 0;
-            transform: translateY(-100%);
-            animation: slideDown 0.8s ease 1.5s forwards;
+            transition: transform 0.3s ease;
         }
 
-        @keyframes slideDown {
-            to { transform: translateY(0); }
+        .navbar.hidden {
+            transform: translateY(-100%);
         }
 
         .nav-container {
@@ -162,6 +153,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 2rem;
         }
 
         .logo {
@@ -172,6 +164,7 @@
             letter-spacing: -2px;
             transition: all 0.3s ease;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .logo:hover {
@@ -179,40 +172,86 @@
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 3rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--white);
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
+        /* Search Bar */
+        .search-container {
             position: relative;
-            padding: 0.5rem 0;
-            cursor: pointer;
+            flex: 1;
+            max-width: 400px;
         }
 
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--white);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::before {
+        .search-input {
             width: 100%;
+            padding: 0.8rem 1.5rem 0.8rem 2.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
 
-        .nav-links a:hover {
-            transform: translateY(-2px);
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(220, 38, 38, 0.98);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            margin-top: 0.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1001;
+        }
+
+        .search-result-item {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-title {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .search-result-type {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .back-button {
@@ -227,6 +266,7 @@
             border-radius: 25px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .back-button:hover {
@@ -237,6 +277,7 @@
         /* Views */
         .view {
             display: none;
+            min-height: 100vh;
         }
 
         .view.active {
@@ -245,93 +286,109 @@
 
         /* Home View */
         .home-view {
-            margin-top: 100px;
+            margin-top: 90px;
             max-width: 1400px;
             margin-left: auto;
             margin-right: auto;
             padding: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 2s forwards;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         /* Hero Section */
         .hero-section {
             text-align: center;
-            padding: 4rem 0 6rem;
+            padding: 3rem 2rem;
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
             border-radius: 20px;
             margin-bottom: 4rem;
             position: relative;
             overflow: hidden;
+            min-height: 300px;
         }
 
-        .hero-section::before {
-            content: '';
+        .hero-content {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="10" cy="90" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-            opacity: 0.3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            padding: 2rem;
+        }
+
+        .hero-content.active {
+            opacity: 1;
+        }
+
+        .hero-article {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .hero-image {
+            width: 200px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            flex-shrink: 0;
+        }
+
+        .hero-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .hero-category {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
         }
 
         .hero-title {
-            font-size: 5rem;
+            font-size: 2rem;
             font-weight: 900;
             color: var(--white);
             margin-bottom: 1rem;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            letter-spacing: -3px;
-            position: relative;
-            z-index: 1;
+            line-height: 1.2;
         }
 
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 2rem;
-            font-weight: 300;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-stats {
-            display: flex;
-            justify-content: center;
-            gap: 4rem;
-            margin-top: 3rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--white);
-            display: block;
-        }
-
-        .stat-label {
+        .hero-excerpt {
             font-size: 1rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-read-more {
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .hero-read-more:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* Articles Section */
@@ -340,7 +397,7 @@
         }
 
         .section-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--white);
             margin-bottom: 3rem;
@@ -354,17 +411,17 @@
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
+            width: 80px;
+            height: 3px;
             background: var(--white);
             border-radius: 2px;
         }
 
         .articles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
         .article-card {
@@ -381,14 +438,14 @@
         }
 
         .article-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             border-color: rgba(255, 255, 255, 0.4);
         }
 
         .article-image {
             width: 100%;
-            height: 250px;
+            height: 220px;
             object-fit: cover;
             transition: transform 0.4s ease;
         }
@@ -398,16 +455,16 @@
         }
 
         .article-content {
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .article-category {
             display: inline-block;
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -415,7 +472,7 @@
         }
 
         .article-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--white);
             margin-bottom: 1rem;
@@ -426,29 +483,41 @@
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
             margin-bottom: 1.5rem;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .article-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.7);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 1rem;
         }
 
+        .author-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .author-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
         .read-more {
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.7rem 1.5rem;
-            border-radius: 25px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
             display: inline-block;
             cursor: pointer;
+            font-size: 0.85rem;
         }
 
         .read-more:hover {
@@ -458,11 +527,348 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Article View */
+        /* Article View - Completely Redesigned */
         .article-view {
-            margin-top: 100px;
-            opacity: 0;
-            animation: fadeInUp 1s ease 1.5s forwards;
+            margin-top: 90px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            min-height: calc(100vh - 90px);
+        }
+
+        .article-hero {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .article-hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            filter: blur(2px);
+        }
+
+        .article-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(220, 38, 38, 0.8), rgba(153, 27, 27, 0.6));
+        }
+
+        .article-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .article-category-large {
+            display: inline-block;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-title-hero {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .article-meta-hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .article-author-hero {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .author-avatar-small {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .article-date-hero {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--white);
+            font-size: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .article-body {
+            background: var(--white);
+            color: var(--dark-gray);
+            position: relative;
+            z-index: 3;
+        }
+
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .article-content-body {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .article-content-body p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content-body p:first-child {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-red);
+            border-left: 4px solid var(--primary-red);
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .article-content-body h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-red);
+            margin: 2.5rem 0 1.5rem 0;
+        }
+
+        .article-content-body h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin: 2rem 0 1rem 0;
+        }
+
+        .article-tags {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+        }
+
+        .share-section {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .share-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--dark-gray);
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            background: var(--primary-red);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .share-btn:hover {
+            background: var(--dark-red);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Author View - Enhanced */
+        .author-view {
+            margin-top: 90px;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            min-height: calc(100vh - 90px);
+        }
+
+        .author-hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .author-avatar-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 2rem;
+            border: 4px solid var(--white);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .author-name-large {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-specialty {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .author-bio-large {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .author-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .author-stat {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--white);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .author-social {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary-red);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         /* Breadcrumb */
@@ -478,6 +884,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .breadcrumb-path a {
@@ -495,96 +902,9 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Article Content */
-        .article-container {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .article-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .article-category-large {
-            display: inline-block;
-            background: var(--white);
-            color: var(--primary-red);
-            padding: 0.7rem 1.5rem;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2rem;
-        }
-
-        .article-title-large {
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--white);
-            margin-bottom: 2rem;
-            line-height: 1.2;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .article-meta-large {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-        }
-
-        .meta-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .article-image-large {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 20px;
-            margin-bottom: 3rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-
-        .article-content-large {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .article-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: var(--white);
-        }
-
-        .article-text p {
-            margin-bottom: 2rem;
-        }
-
-        .article-text p:first-child {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.95);
-            border-left: 4px solid var(--white);
-            padding-left: 2rem;
-            margin-bottom: 3rem;
-        }
-
         .back-to-home {
             text-align: center;
-            margin: 4rem 0;
+            margin: 3rem 0;
         }
 
         .home-button {
@@ -592,10 +912,10 @@
             background: var(--white);
             color: var(--primary-red);
             padding: 1rem 2rem;
-            border-radius: 30px;
+            border-radius: 25px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             cursor: pointer;
@@ -608,69 +928,116 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
         }
 
+        /* Loading Spinner */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 1rem;
+                gap: 1rem;
             }
 
-            .nav-links {
+            .logo {
+                font-size: 2rem;
+            }
+
+            .search-container {
+                max-width: 200px;
+            }
+
+            .search-input {
+                font-size: 0.9rem;
+                padding: 0.7rem 1.2rem 0.7rem 2.2rem;
+            }
+
+            .hero-section {
+                min-height: 250px;
+                padding: 2rem 1rem;
+            }
+
+            .hero-article {
+                flex-direction: column;
+                text-align: center;
                 gap: 1.5rem;
             }
 
-            .nav-links a {
-                font-size: 1rem;
+            .hero-text {
+                text-align: center;
             }
 
             .hero-title {
-                font-size: 3rem;
+                font-size: 1.5rem;
             }
 
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-
-            .hero-stats {
-                flex-direction: column;
-                gap: 2rem;
+            .hero-image {
+                width: 180px;
+                height: 120px;
             }
 
             .articles-grid {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 1.5rem;
             }
 
             .home-view {
                 padding: 1rem;
+                margin-top: 80px;
             }
 
             .section-title {
                 font-size: 2rem;
             }
 
-            .breadcrumb {
-                padding: 1rem;
-            }
-
-            .article-container {
-                padding: 0 1rem;
-            }
-
-            .article-title-large {
+            .article-title-hero {
                 font-size: 2rem;
             }
 
-            .article-meta-large {
+            .article-meta-hero {
                 flex-direction: column;
                 gap: 1rem;
             }
 
-            .article-content-large {
-                padding: 2rem;
+            .article-container {
+                padding: 2rem 1rem;
             }
 
-            .article-text {
-                font-size: 1.1rem;
+            .author-name-large {
+                font-size: 2rem;
+            }
+
+            .author-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .share-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .author-social {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
 
@@ -689,49 +1056,41 @@
                 transform: translateY(0);
             }
         }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Loading Animation -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loading-bar"></div>
-        <div class="loading-bar"></div>
-        <div class="loading-bar"></div>
-        <div class="loading-bar"></div>
-        <div class="loading-bar"></div>
-        <div class="loading-bar"></div>
-        <div class="loading-bar"></div>
-        <div class="loading-bar"></div>
-        <div class="loading-text">fst.</div>
-    </div>
-
     <!-- Page Transition Animation -->
     <div class="page-transition" id="page-transition">
-        <div class="transition-bar"></div>
-        <div class="transition-bar"></div>
-        <div class="transition-bar"></div>
-        <div class="transition-bar"></div>
-        <div class="transition-bar"></div>
-        <div class="transition-bar"></div>
-        <div class="transition-bar"></div>
-        <div class="transition-bar"></div>
+        <div class="transition-overlay"></div>
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a class="logo" onclick="showHome()">fst.</a>
-            <ul class="nav-links" id="nav-links">
-                <li><a onclick="showHome()">Anasayfa</a></li>
-                <li><a href="#teknoloji">Teknoloji</a></li>
-                <li><a href="#ekonomi">Ekonomi</a></li>
-                <li><a href="#spor">Spor</a></li>
-                <li><a href="#cevre">Çevre</a></li>
-                <li><a href="#saglik">Sağlık</a></li>
-            </ul>
-            <a class="back-button" id="back-button" onclick="showHome()">
+            <a class="logo ripple" href="javascript:void(0)" onclick="navigateHome()">fst.</a>
+            
+            <div class="search-container">
+                <div class="search-icon">🔍</div>
+                <input type="text" class="search-input" placeholder="Ara..." id="search-input">
+                <div class="search-results" id="search-results"></div>
+            </div>
+            
+            <a class="back-button ripple" id="back-button" href="javascript:void(0)" onclick="navigateHome()">
                 <span>←</span>
-                <span>Ana Sayfaya Dön</span>
+                <span>Geri</span>
             </a>
         </div>
     </nav>
@@ -739,23 +1098,9 @@
     <!-- Home View -->
     <div class="view active home-view" id="home-view">
         <!-- Hero Section -->
-        <section class="hero-section">
-            <h1 class="hero-title">FISILTI</h1>
-            <p class="hero-subtitle">Güncel haberler, derinlemesine analizler ve ilham verici hikayeler</p>
-            
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number">1000+</span>
-                    <span class="stat-label">Makale</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">Okuyucu</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label">Güncel</span>
-                </div>
+        <section class="hero-section" id="hero-section">
+            <div class="loading">
+                <div class="spinner"></div>
             </div>
         </section>
 
@@ -763,7 +1108,9 @@
         <section class="articles-section">
             <h2 class="section-title">Son Haberler</h2>
             <div class="articles-grid" id="articles-container">
-                <!-- Articles will be loaded here -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
             </div>
         </section>
     </div>
@@ -773,80 +1120,447 @@
         <!-- Breadcrumb -->
         <div class="breadcrumb">
             <div class="breadcrumb-path">
-                <a onclick="showHome()">Ana Sayfa</a>
+                <a href="javascript:void(0)" onclick="navigateHome()">Ana Sayfa</a>
                 <span class="breadcrumb-separator">/</span>
                 <span id="breadcrumb-category">Kategori</span>
                 <span class="breadcrumb-separator">/</span>
-                <span id="breadcrumb-title">Makale Başlığı</span>
+                <span id="breadcrumb-title">Makale</span>
             </div>
         </div>
 
-        <!-- Article Container -->
-        <article class="article-container">
-            <header class="article-header">
-                <span class="article-category-large" id="article-category">Kategori</span>
-                <h1 class="article-title-large" id="article-title">Makale Başlığı</h1>
-                <div class="article-meta-large">
-                    <div class="meta-item">
-                        <span>✍️</span>
-                        <span id="article-author">Yazar</span>
+        <!-- Article Hero -->
+        <div class="article-hero">
+            <img id="article-hero-bg" class="article-hero-bg" src="/placeholder.svg" alt="">
+            <div class="article-hero-overlay"></div>
+            <div class="article-hero-content">
+                <span class="article-category-large" id="article-category-hero">Kategori</span>
+                <h1 class="article-title-hero" id="article-title-hero">Makale Başlığı</h1>
+                <div class="article-meta-hero">
+                    <div class="article-author-hero">
+                        <img id="author-avatar-hero" class="author-avatar-small" src="/placeholder.svg" alt="">
+                        <a href="javascript:void(0)" class="author-link" id="article-author-hero">Yazar</a>
                     </div>
-                    <div class="meta-item">
+                    <div class="article-date-hero">
                         <span>📅</span>
-                        <span id="article-date">Tarih</span>
-                    </div>
-                    <div class="meta-item">
-                        <span>⏱️</span>
-                        <span id="article-read-time">Okuma Süresi</span>
+                        <span id="article-date-hero">Tarih</span>
                     </div>
                 </div>
-            </header>
+            </div>
+            <div class="scroll-indicator">↓</div>
+        </div>
 
-            <img id="article-image" class="article-image-large" src="/placeholder.svg" alt="">
-
-            <div class="article-content-large">
-                <div class="article-text" id="article-text">
+        <!-- Article Body -->
+        <div class="article-body">
+            <div class="article-container">
+                <div class="article-content-body" id="article-content-body">
                     <!-- Article content will be loaded here -->
                 </div>
-            </div>
 
-            <div class="back-to-home">
-                <a class="home-button" onclick="showHome()">Diğer Haberleri Gör</a>
+                <div class="article-tags" id="article-tags">
+                    <!-- Tags will be loaded here -->
+                </div>
+
+                <div class="share-section">
+                    <h3 class="share-title">Bu makaleyi paylaş</h3>
+                    <div class="share-buttons">
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('twitter')">Twitter</a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('facebook')">Facebook</a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('whatsapp')">WhatsApp</a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('linkedin')">LinkedIn</a>
+                    </div>
+                </div>
+
+                <div class="back-to-home">
+                    <a class="home-button ripple" href="javascript:void(0)" onclick="navigateHome()">Diğer Haberler</a>
+                </div>
             </div>
-        </article>
+        </div>
     </div>
 
-    <script nonce="NDAyMzU4NjI5MSw2NDI0OTYzNTk=">
+    <!-- Author View -->
+    <div class="view author-view" id="author-view">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-path">
+                <a href="javascript:void(0)" onclick="navigateHome()">Ana Sayfa</a>
+                <span class="breadcrumb-separator">/</span>
+                <span>Yazarlar</span>
+                <span class="breadcrumb-separator">/</span>
+                <span id="author-breadcrumb-name">Yazar</span>
+            </div>
+        </div>
+
+        <!-- Author Hero -->
+        <div class="author-hero">
+            <img id="author-avatar-large" class="author-avatar-large" src="/placeholder.svg" alt="">
+            <h1 class="author-name-large" id="author-name-large">Yazar Adı</h1>
+            <p class="author-specialty" id="author-specialty">Uzmanlık Alanı</p>
+            <p class="author-bio-large" id="author-bio-large">Yazar biyografisi</p>
+            
+            <div class="author-stats">
+                <div class="author-stat">
+                    <span class="stat-number" id="author-article-count">0</span>
+                    <span class="stat-label">Makale</span>
+                </div>
+                <div class="author-stat">
+                    <span class="stat-number" id="author-experience">0</span>
+                    <span class="stat-label">Yıl Deneyim</span>
+                </div>
+                <div class="author-stat">
+                    <span class="stat-number" id="author-followers">0</span>
+                    <span class="stat-label">Takipçi</span>
+                </div>
+            </div>
+
+            <div class="author-social" id="author-social">
+                <!-- Social links will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Author Articles -->
+        <section class="articles-section">
+            <h2 class="section-title">Yazarın Makaleleri</h2>
+            <div class="articles-grid" id="author-articles-container">
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="back-to-home">
+            <a class="home-button ripple" href="javascript:void(0)" onclick="navigateHome()">Ana Sayfa</a>
+        </div>
+    </div>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(() => console.log('Service Worker kaydedildi!'))
+                .catch((error) => console.log('Service Worker hatası:', error));
+        }
+    </script>
+
+    <script>
         // Global variables
         let articlesData = [];
+        let authorsData = [];
         let currentView = 'home';
+        let heroRotationInterval;
+        let currentHeroIndex = 0;
+        let lastScrollY = 0;
+        let currentArticleSlug = '';
+        let currentAuthorSlug = '';
 
-        // Loading animation
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loading-overlay').style.display = 'none';
-            }, 2000);
+        // Sample data - Replace with your actual data
+        const sampleArticles = [
+            {
+                slug: 'teknoloji-gelecegi',
+                title: 'Teknolojinin Geleceği: Yapay Zeka ve İnsan',
+                excerpt: 'Yapay zeka teknolojilerinin hızla geliştiği günümüzde, insan-makine etkileşiminin geleceği nasıl şekillenecek?',
+                content: `Yapay zeka teknolojileri, günümüzde hayatımızın her alanında kendini göstermektedir. Bu devrim niteliğindeki teknolojik gelişmeler, sadece iş dünyasını değil, günlük yaşantımızı da köklü bir şekilde değiştirmektedir.
+
+                Makine öğrenmesi algoritmaları, büyük veri analizi ve derin öğrenme teknikleri sayesinde, yapay zeka sistemleri artık insan benzeri düşünme yetenekleri sergileyebilmektedir. Bu durum, hem büyük fırsatlar hem de önemli zorluklar yaratmaktadır.
+
+                Gelecekte yapay zeka ve insan arasındaki işbirliği, teknolojik ilerlemenin anahtarı olacaktır. İnsanların yaratıcılık, empati ve etik değerlendirme yetenekleri ile yapay zekanın hız, doğruluk ve analitik gücünün birleşimi, benzersiz çözümler üretecektir.
+
+                Ancak bu süreçte, etik değerler ve insan haklarının korunması da büyük önem taşımaktadır. Yapay zeka teknolojilerinin geliştirilmesi ve uygulanmasında, toplumsal fayda ve bireysel haklar arasında denge kurulması gerekmektedir.`,
+                category: 'Teknoloji',
+                author: 'Dr. Ayşe Tekniker',
+                authorSlug: 'ayse-tekniker',
+                date: '15 Ocak 2024',
+                image: '/placeholder.svg?height=300&width=500',
+                tags: ['Yapay Zeka', 'Teknoloji', 'Gelecek', 'İnovasyon']
+            },
+            {
+                slug: 'saglikli-yasam-rehberi',
+                title: 'Sağlıklı Yaşam İçin Pratik Öneriler',
+                excerpt: 'Modern yaşamın getirdiği zorluklara rağmen sağlıklı bir yaşam sürmek için uygulanabilir öneriler.',
+                content: `Sağlıklı yaşam, sadece hastalık olmama durumu değil, fiziksel, mental ve sosyal açıdan tam bir iyilik halidir. Modern yaşamın getirdiği stres, hareketsizlik ve beslenme sorunları karşısında sağlığımızı korumak için bilinçli adımlar atmamız gerekmektedir.
+
+                Düzenli egzersiz, sağlıklı yaşamın temel taşlarından biridir. Haftada en az 150 dakika orta şiddetli aerobik aktivite veya 75 dakika yoğun aktivite yapılması önerilmektedir. Bu, günde sadece 20-30 dakikalık yürüyüş anlamına gelebilir.
+
+                Beslenme konusunda ise çeşitlilik ve denge anahtardır. Bol meyve ve sebze tüketimi, tam tahıllar, kaliteli protein kaynakları ve sağlıklı yağlar dengeli bir diyetin temelini oluşturur. İşlenmiş gıdalardan kaçınmak ve su tüketimini artırmak da önemlidir.
+
+                Mental sağlık için ise stres yönetimi, kaliteli uyku ve sosyal bağlantılar kritik öneme sahiptir. Meditasyon, yoga veya nefes egzersizleri gibi rahatlama teknikleri günlük rutine dahil edilebilir.`,
+                category: 'Sağlık',
+                author: 'Dr. Mehmet Sağlık',
+                authorSlug: 'mehmet-saglik',
+                date: '12 Ocak 2024',
+                image: '/placeholder.svg?height=300&width=500',
+                tags: ['Sağlık', 'Yaşam', 'Beslenme', 'Egzersiz']
+            },
+            {
+                slug: 'cevre-koruma-onerileri',
+                title: 'Çevre Koruma: Bireysel Sorumluluklarımız',
+                excerpt: 'İklim değişikliği ve çevre sorunları karşısında bireysel olarak alabileceğimiz önlemler nelerdir?',
+                content: `İklim değişikliği ve çevre sorunları, günümüzün en acil konularından biridir. Bu küresel sorunlar karşısında bireysel eylemlerimizin de büyük önemi vardır. Her birimizin günlük yaşamında alabileceği küçük adımlar, toplamda büyük değişiklikler yaratabilir.
+
+                Enerji tasarrufu, çevre koruma açısından en etkili yöntemlerden biridir. LED ampul kullanımı, elektronik cihazları kapatmak, enerji verimli ev aletleri tercih etmek gibi basit değişiklikler enerji tüketimini önemli ölçüde azaltabilir.
+
+                Ulaşım tercihlerimiz de çevresel etkimizi belirler. Toplu taşıma kullanımı, bisiklet veya yürüyüş gibi alternatifler, karbon ayak izimizi azaltmanın etkili yollarıdır. Mümkün olduğunda uzaktan çalışma seçeneğini değerlendirmek de faydalıdır.
+
+                Atık yönetimi konusunda geri dönüşüm, kompost yapımı ve tek kullanımlık ürünlerden kaçınmak önemli adımlardır. Ayrıca bilinçli tüketim alışkanlıkları geliştirmek, gereksiz satın alımları azaltmak da çevresel etkimizi minimize eder.`,
+                category: 'Çevre',
+                author: 'Prof. Zeynep Doğa',
+                authorSlug: 'zeynep-doga',
+                date: '10 Ocak 2024',
+                image: '/placeholder.svg?height=300&width=500',
+                tags: ['Çevre', 'Sürdürülebilirlik', 'İklim', 'Doğa']
+            }
+        ];
+
+        const sampleAuthors = [
+            {
+                slug: 'ayse-tekniker',
+                name: 'Dr. Ayşe Tekniker',
+                bio: 'Bilgisayar Mühendisliği doktorası olan Dr. Ayşe Tekniker, yapay zeka ve makine öğrenmesi alanında 15 yıllık deneyime sahiptir. Çeşitli teknoloji şirketlerinde çalışmış ve akademik araştırmalar yapmıştır.',
+                specialty: 'Yapay Zeka Uzmanı',
+                avatar: '/placeholder.svg?height=150&width=150',
+                articleCount: 25,
+                experience: 15,
+                followers: 1200,
+                social: {
+                    twitter: 'https://twitter.com/aysetekniker',
+                    linkedin: 'https://linkedin.com/in/aysetekniker',
+                    email: 'ayse@tekniker.com'
+                }
+            },
+            {
+                slug: 'mehmet-saglik',
+                name: 'Dr. Mehmet Sağlık',
+                bio: 'İç Hastalıkları uzmanı Dr. Mehmet Sağlık, preventif tıp ve sağlıklı yaşam konularında uzmanlaşmıştır. Çeşitli sağlık kuruluşlarında çalışmış ve halk sağlığı projelerinde yer almıştır.',
+                specialty: 'İç Hastalıkları Uzmanı',
+                avatar: '/placeholder.svg?height=150&width=150',
+                articleCount: 18,
+                experience: 12,
+                followers: 850,
+                social: {
+                    twitter: 'https://twitter.com/mehmetsaglik',
+                    linkedin: 'https://linkedin.com/in/mehmetsaglik',
+                    email: 'mehmet@saglik.com'
+                }
+            },
+            {
+                slug: 'zeynep-doga',
+                name: 'Prof. Zeynep Doğa',
+                bio: 'Çevre Mühendisliği profesörü olan Zeynep Doğa, sürdürülebilirlik ve çevre koruma konularında araştırmalar yapmaktadır. Uluslararası çevre projelerinde danışmanlık yapmıştır.',
+                specialty: 'Çevre Mühendisliği Profesörü',
+                avatar: '/placeholder.svg?height=150&width=150',
+                articleCount: 32,
+                experience: 20,
+                followers: 2100,
+                social: {
+                    twitter: 'https://twitter.com/zeynepdoga',
+                    linkedin: 'https://linkedin.com/in/zeynepdoga',
+                    email: 'zeynep@doga.com'
+                }
+            }
+        ];
+
+        // Load data
+        async function loadData() {
+            try {
+                // Try to load from JSON files first
+                const [articlesResponse, authorsResponse] = await Promise.all([
+                    fetch('./articles.json').catch(() => null),
+                    fetch('./authors.json').catch(() => null)
+                ]);
+                
+                if (articlesResponse && authorsResponse) {
+                    const articlesJson = await articlesResponse.json();
+                    const authorsJson = await authorsResponse.json();
+                    articlesData = articlesJson.articles;
+                    authorsData = authorsJson.authors;
+                } else {
+                    // Fallback to sample data
+                    articlesData = sampleArticles;
+                    authorsData = sampleAuthors;
+                }
+                
+                renderArticles();
+                startHeroRotation();
+                setupSearch();
+                
+                // Handle initial hash
+                handleHashChange();
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                // Use sample data as fallback
+                articlesData = sampleArticles;
+                authorsData = sampleAuthors;
+                renderArticles();
+                startHeroRotation();
+                setupSearch();
+                handleHashChange();
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            setupNavbarScroll();
         });
 
-        // Load articles from JSON
-        async function loadArticles() {
-            try {
-                const response = await fetch('./articles.json');
-                const data = await response.json();
-                articlesData = data.articles;
-                renderArticles();
-            } catch (error) {
-                console.error('Error loading articles:', error);
+        // Navigation functions
+        function navigateHome() {
+            if (currentView === 'home') return;
+            showHome();
+        }
+
+        // Setup navbar scroll behavior
+        function setupNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
+                
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    navbar.classList.add('hidden');
+                } else {
+                    navbar.classList.remove('hidden');
+                }
+                
+                lastScrollY = currentScrollY;
+            });
+        }
+
+        // Start hero section rotation
+        function startHeroRotation() {
+            if (articlesData.length === 0) return;
+            
+            const heroSection = document.getElementById('hero-section');
+            const featuredArticles = articlesData.slice(0, 3);
+            
+            heroSection.innerHTML = '';
+            
+            featuredArticles.forEach((article, index) => {
+                const heroContent = document.createElement('div');
+                heroContent.className = `hero-content ${index === 0 ? 'active' : ''}`;
+                heroContent.innerHTML = `
+                    <div class="hero-article">
+                        <img src="${article.image}" alt="${article.title}" class="hero-image">
+                        <div class="hero-text">
+                            <span class="hero-category">${article.category}</span>
+                            <h2 class="hero-title">${article.title}</h2>
+                            <p class="hero-excerpt">${article.excerpt}</p>
+                            <a href="javascript:void(0)" class="hero-read-more ripple" onclick="showArticle('${article.slug}')">Devamını Oku</a>
+                        </div>
+                    </div>
+                `;
+                heroSection.appendChild(heroContent);
+            });
+
+            if (heroRotationInterval) {
+                clearInterval(heroRotationInterval);
+            }
+            
+            heroRotationInterval = setInterval(() => {
+                const heroContents = heroSection.querySelectorAll('.hero-content');
+                if (heroContents.length > 0) {
+                    heroContents[currentHeroIndex].classList.remove('active');
+                    currentHeroIndex = (currentHeroIndex + 1) % featuredArticles.length;
+                    heroContents[currentHeroIndex].classList.add('active');
+                }
+            }, 5000);
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            const searchResults = document.getElementById('search-results');
+            let searchTimeout;
+
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+                const query = e.target.value.trim().toLowerCase();
+                
+                if (query.length < 2) {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+
+                searchTimeout = setTimeout(() => {
+                    performSearch(query);
+                }, 300);
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        }
+
+        // Perform search
+        function performSearch(query) {
+            const searchResults = document.getElementById('search-results');
+            const results = [];
+
+            articlesData.forEach(article => {
+                if (article.title.toLowerCase().includes(query) || 
+                    article.excerpt.toLowerCase().includes(query) ||
+                    article.content.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'article',
+                        title: article.title,
+                        subtitle: article.category,
+                        slug: article.slug
+                    });
+                }
+            });
+
+            authorsData.forEach(author => {
+                if (author.name.toLowerCase().includes(query) ||
+                    author.bio.toLowerCase().includes(query)) {
+                    results.push({
+                        type: 'author',
+                        title: author.name,
+                        subtitle: author.specialty,
+                        slug: author.slug
+                    });
+                }
+            });
+
+            if (results.length > 0) {
+                searchResults.innerHTML = results.slice(0, 8).map(result => `
+                    <div class="search-result-item ripple" onclick="handleSearchResult('${result.type}', '${result.slug}')">
+                        <div class="search-result-title">${result.title}</div>
+                        <div class="search-result-type">${result.type === 'article' ? 'Makale' : 'Yazar'} • ${result.subtitle}</div>
+                    </div>
+                `).join('');
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.innerHTML = '<div class="search-result-item">Sonuç bulunamadı</div>';
+                searchResults.style.display = 'block';
+            }
+        }
+
+        // Handle search result click
+        function handleSearchResult(type, slug) {
+            document.getElementById('search-results').style.display = 'none';
+            document.getElementById('search-input').value = '';
+            
+            if (type === 'article') {
+                showArticle(slug);
+            } else {
+                showAuthor(slug);
             }
         }
 
         // Render articles
         function renderArticles() {
+            if (articlesData.length === 0) return;
+            
             const container = document.getElementById('articles-container');
+            container.innerHTML = '';
             
             articlesData.forEach((article, index) => {
                 const articleCard = document.createElement('div');
-                articleCard.className = 'article-card';
+                articleCard.className = 'article-card ripple';
+                
+                const author = authorsData.find(a => a.slug === article.authorSlug);
                 
                 articleCard.innerHTML = `
                     <img src="${article.image}" alt="${article.title}" class="article-image">
@@ -856,36 +1570,45 @@
                         <p class="article-excerpt">${article.excerpt}</p>
                         <div class="article-meta">
                             <div>
-                                <strong>${article.author}</strong> • ${article.date} • ${article.readTime}
+                                <a href="javascript:void(0)" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date}
                             </div>
-                            <span class="read-more" onclick="showArticle('${article.slug}')">Devamını Oku</span>
+                            <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                         </div>
                     </div>
                 `;
 
-                articleCard.addEventListener('click', () => showArticle(article.slug));
+                articleCard.addEventListener('click', (e) => {
+                    if (!e.target.closest('.author-link') && !e.target.closest('.read-more')) {
+                        showArticle(article.slug);
+                    }
+                });
+                
                 container.appendChild(articleCard);
 
-                // Animate cards on scroll
                 setTimeout(() => {
                     articleCard.classList.add('animate-in');
-                }, index * 200);
+                }, index * 100);
             });
         }
 
         // Show home view
         function showHome() {
-            if (currentView === 'home') return;
-            
-            // Show transition animation
             showTransition(() => {
                 document.getElementById('home-view').classList.add('active');
                 document.getElementById('article-view').classList.remove('active');
-                document.getElementById('nav-links').style.display = 'flex';
+                document.getElementById('author-view').classList.remove('active');
+                document.querySelector('.search-container').style.display = 'block';
                 document.getElementById('back-button').style.display = 'none';
                 currentView = 'home';
-                window.location.hash = '';
+                currentArticleSlug = '';
+                currentAuthorSlug = '';
+                
+                // Update URL without triggering hashchange
+                history.pushState(null, null, window.location.pathname);
+                document.title = 'fst. - FISILTI';
+                
                 window.scrollTo(0, 0);
+                startHeroRotation();
             });
         }
 
@@ -894,36 +1617,155 @@
             const article = articlesData.find(a => a.slug === slug);
             if (!article) return;
 
-            // Show transition animation
+            currentArticleSlug = slug;
+            
             showTransition(() => {
-                // Update page title
+                if (heroRotationInterval) {
+                    clearInterval(heroRotationInterval);
+                }
+
                 document.title = `${article.title} - fst. FISILTI`;
                 
                 // Update breadcrumb
                 document.getElementById('breadcrumb-category').textContent = article.category;
                 document.getElementById('breadcrumb-title').textContent = article.title;
                 
-                // Update article content
-                document.getElementById('article-category').textContent = article.category;
-                document.getElementById('article-title').textContent = article.title;
-                document.getElementById('article-author').textContent = article.author;
-                document.getElementById('article-date').textContent = article.date;
-                document.getElementById('article-read-time').textContent = article.readTime;
-                document.getElementById('article-image').src = article.image;
-                document.getElementById('article-image').alt = article.title;
+                // Update hero section
+                document.getElementById('article-category-hero').textContent = article.category;
+                document.getElementById('article-title-hero').textContent = article.title;
+                document.getElementById('article-hero-bg').src = article.image;
                 
-                // Format article content
+                // Update author info
+                const author = authorsData.find(a => a.slug === article.authorSlug);
+                if (author) {
+                    document.getElementById('author-avatar-hero').src = author.avatar;
+                    document.getElementById('article-author-hero').textContent = author.name;
+                    document.getElementById('article-author-hero').onclick = () => showAuthor(article.authorSlug);
+                } else {
+                    document.getElementById('author-avatar-hero').src = '/placeholder.svg?height=32&width=32';
+                    document.getElementById('article-author-hero').textContent = article.author;
+                }
+                
+                document.getElementById('article-date-hero').textContent = article.date;
+                
+                // Update content
                 const paragraphs = article.content.split('\n\n');
-                const formattedContent = paragraphs.map(p => `<p>${p}</p>`).join('');
-                document.getElementById('article-text').innerHTML = formattedContent;
+                const formattedContent = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+                document.getElementById('article-content-body').innerHTML = formattedContent;
 
-                // Switch views
+                // Update tags
+                const tagsContainer = document.getElementById('article-tags');
+                if (article.tags && article.tags.length > 0) {
+                    tagsContainer.innerHTML = article.tags.map(tag => 
+                        `<span class="tag">${tag}</span>`
+                    ).join('');
+                } else {
+                    tagsContainer.innerHTML = '';
+                }
+
+                // Show article view
                 document.getElementById('home-view').classList.remove('active');
                 document.getElementById('article-view').classList.add('active');
-                document.getElementById('nav-links').style.display = 'none';
+                                document.getElementById('author-view').classList.remove('active');
+                document.querySelector('.search-container').style.display = 'none';
                 document.getElementById('back-button').style.display = 'flex';
                 currentView = 'article';
-                window.location.hash = slug;
+                
+                // Update URL
+                history.pushState(null, null, `#${slug}`);
+                window.scrollTo(0, 0);
+            });
+        }
+
+        // Show author view
+        function showAuthor(slug) {
+            const author = authorsData.find(a => a.slug === slug);
+            if (!author) return;
+
+            currentAuthorSlug = slug;
+
+            showTransition(() => {
+                if (heroRotationInterval) {
+                    clearInterval(heroRotationInterval);
+                }
+
+                document.title = `${author.name} - fst. FISILTI`;
+                
+                // Update breadcrumb
+                document.getElementById('author-breadcrumb-name').textContent = author.name;
+                
+                // Update author info
+                document.getElementById('author-avatar-large').src = author.avatar;
+                document.getElementById('author-name-large').textContent = author.name;
+                document.getElementById('author-specialty').textContent = author.specialty;
+                document.getElementById('author-bio-large').textContent = author.bio;
+                document.getElementById('author-article-count').textContent = author.articleCount;
+                document.getElementById('author-experience').textContent = author.experience;
+                document.getElementById('author-followers').textContent = author.followers.toLocaleString();
+                
+                // Update social links
+                const socialContainer = document.getElementById('author-social');
+                socialContainer.innerHTML = '';
+                if (author.social) {
+                    Object.entries(author.social).forEach(([platform, url]) => {
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.className = 'social-link';
+                        link.target = '_blank';
+                        link.textContent = platform.charAt(0).toUpperCase() + platform.slice(1);
+                        socialContainer.appendChild(link);
+                    });
+                }
+                
+                // Load author articles
+                const authorArticles = articlesData.filter(article => article.authorSlug === slug);
+                const authorArticlesContainer = document.getElementById('author-articles-container');
+                authorArticlesContainer.innerHTML = '';
+                
+                if (authorArticles.length > 0) {
+                    authorArticles.forEach((article, index) => {
+                        const articleCard = document.createElement('div');
+                        articleCard.className = 'article-card ripple';
+                        
+                        articleCard.innerHTML = `
+                            <img src="${article.image}" alt="${article.title}" class="article-image">
+                            <div class="article-content">
+                                <span class="article-category">${article.category}</span>
+                                <h3 class="article-title">${article.title}</h3>
+                                <p class="article-excerpt">${article.excerpt}</p>
+                                <div class="article-meta">
+                                    <div>${article.date}</div>
+                                    <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
+                                </div>
+                            </div>
+                        `;
+
+                        articleCard.addEventListener('click', (e) => {
+                            if (!e.target.closest('.read-more')) {
+                                showArticle(article.slug);
+                            }
+                        });
+                        
+                        authorArticlesContainer.appendChild(articleCard);
+
+                        setTimeout(() => {
+                            articleCard.classList.add('animate-in');
+                        }, index * 100);
+                    });
+                } else {
+                    authorArticlesContainer.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7);">Henüz makale bulunmuyor.</p>';
+                }
+
+                // Show author view
+                document.getElementById('home-view').classList.remove('active');
+                document.getElementById('article-view').classList.remove('active');
+                document.getElementById('author-view').classList.add('active');
+                document.querySelector('.search-container').style.display = 'none';
+                document.getElementById('back-button').style.display = 'flex';
+                currentView = 'author';
+                
+                // Update URL
+                history.pushState(null, null, `#author-${slug}`);
                 window.scrollTo(0, 0);
             });
         }
@@ -931,78 +1773,349 @@
         // Show transition animation
         function showTransition(callback) {
             const transition = document.getElementById('page-transition');
-            const bars = transition.querySelectorAll('.transition-bar');
+            const overlay = transition.querySelector('.transition-overlay');
             
             transition.style.display = 'flex';
-            bars.forEach(bar => {
-                bar.classList.remove('animate');
-                bar.style.transform = 'translateX(-100%)';
-            });
+            overlay.classList.remove('animate');
             
             setTimeout(() => {
-                bars.forEach(bar => bar.classList.add('animate'));
+                overlay.classList.add('animate');
             }, 50);
             
             setTimeout(() => {
                 callback();
-            }, 800);
+            }, 250);
             
             setTimeout(() => {
                 transition.style.display = 'none';
-                bars.forEach(bar => bar.classList.remove('animate'));
-            }, 1500);
+                overlay.classList.remove('animate');
+            }, 500);
+        }
+
+        // Share article function
+        function shareArticle(platform) {
+            const currentUrl = window.location.href;
+            const title = document.getElementById('article-title-hero').textContent;
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl)}`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+                    break;
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${encodeURIComponent(title + ' ' + currentUrl)}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+                    break;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
         }
 
         // Handle hash changes
-        window.addEventListener('hashchange', () => {
+        function handleHashChange() {
             const hash = window.location.hash.substring(1);
-            if (hash && articlesData.length > 0) {
-                const article = articlesData.find(a => a.slug === hash);
-                if (article && currentView !== 'article') {
-                    showArticle(hash);
-                }
-            } else if (!hash && currentView !== 'home') {
-                showHome();
-            }
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadArticles();
             
-            // Check initial hash
-            setTimeout(() => {
-                const hash = window.location.hash.substring(1);
-                if (hash) {
+            if (!hash) {
+                if (currentView !== 'home') {
+                    showHome();
+                }
+                return;
+            }
+            
+            if (hash.startsWith('author-')) {
+                const authorSlug = hash.substring(7);
+                const author = authorsData.find(a => a.slug === authorSlug);
+                if (author && currentAuthorSlug !== authorSlug) {
+                    showAuthor(authorSlug);
+                }
+            } else {
+                const article = articlesData.find(a => a.slug === hash);
+                if (article && currentArticleSlug !== hash) {
                     showArticle(hash);
                 }
-            }, 2500);
+            }
+        }
+
+        // Listen for hash changes
+        window.addEventListener('hashchange', handleHashChange);
+
+        // Handle browser back/forward buttons
+        window.addEventListener('popstate', (e) => {
+            handleHashChange();
         });
 
-        // Parallax effect for hero section
-        window.addEventListener('scroll', () => {
-            if (currentView === 'home') {
-                const scrolled = window.pageYOffset;
-                const hero = document.querySelector('.hero-section');
-                if (hero) {
-                    hero.style.transform = `translateY(${scrolled * 0.3}px)`;
+        // Prevent default link behavior and handle navigation
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="#"]');
+            if (link) {
+                e.preventDefault();
+                const hash = link.getAttribute('href').substring(1);
+                if (hash) {
+                    if (hash.startsWith('author-')) {
+                        const authorSlug = hash.substring(7);
+                        showAuthor(authorSlug);
+                    } else {
+                        showArticle(hash);
+                    }
+                } else {
+                    showHome();
                 }
             }
         });
 
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+        // Add smooth scrolling for internal links
+        document.addEventListener('click', (e) => {
+            if (e.target.matches('a[href^="#"]')) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
+                const targetId = e.target.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
                 }
-            });
+            }
         });
+
+        // Add loading states
+        function showLoading(containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                </div>
+            `;
+        }
+
+        // Add error handling for images
+        document.addEventListener('error', (e) => {
+            if (e.target.tagName === 'IMG') {
+                e.target.src = '/placeholder.svg?height=300&width=500';
+            }
+        }, true);
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (currentView !== 'home') {
+                    showHome();
+                }
+            }
+            
+            // Search shortcut
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('search-input').focus();
+            }
+        });
+
+        // Add touch gestures for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 100;
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0 && currentView !== 'home') {
+                    // Swipe right - go back
+                    showHome();
+                }
+            }
+        }
+
+        // Add intersection observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements when they're added to the DOM
+        function observeElements() {
+            document.querySelectorAll('.article-card:not(.animate-in)').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Call observeElements after rendering articles
+        setTimeout(observeElements, 1000);
+
+        // Add performance monitoring
+        if ('performance' in window) {
+            window.addEventListener('load', () => {
+                const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                console.log(`Page loaded in ${loadTime}ms`);
+            });
+        }
+
+        // Add offline detection
+        window.addEventListener('online', () => {
+            console.log('Connection restored');
+        });
+
+        window.addEventListener('offline', () => {
+            console.log('Connection lost');
+        });
+
+        // Add viewport meta tag adjustment for iOS
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            const viewport = document.querySelector('meta[name="viewport"]');
+            viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        }
+
+        // Preload critical images
+        function preloadImages() {
+            const imageUrls = articlesData.slice(0, 3).map(article => article.image);
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+            });
+        }
+
+        // Call preload after data loads
+        setTimeout(preloadImages, 2000);
+
+        // Add focus management for accessibility
+        function manageFocus() {
+            const focusableElements = document.querySelectorAll(
+                'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
+            );
+            
+            focusableElements.forEach(element => {
+                element.addEventListener('focus', () => {
+                    element.style.outline = '2px solid rgba(255, 255, 255, 0.8)';
+                    element.style.outlineOffset = '2px';
+                });
+                
+                element.addEventListener('blur', () => {
+                    element.style.outline = '';
+                    element.style.outlineOffset = '';
+                });
+            });
+        }
+
+        // Initialize focus management
+        setTimeout(manageFocus, 1000);
+
+        // Add print styles
+        const printStyles = `
+            @media print {
+                .navbar, .back-button, .share-section, .search-container {
+                    display: none !important;
+                }
+                
+                .article-view {
+                    margin-top: 0 !important;
+                }
+                
+                .article-body {
+                    background: white !important;
+                    color: black !important;
+                }
+                
+                .article-hero {
+                    height: auto !important;
+                    min-height: auto !important;
+                }
+                
+                .article-title-hero {
+                    color: black !important;
+                    text-shadow: none !important;
+                }
+            }
+        `;
+
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = printStyles;
+        document.head.appendChild(styleSheet);
+
+        // Add meta tags for better SEO
+        function updateMetaTags(title, description, image) {
+            document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
+            document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+            document.querySelector('meta[property="og:image"]')?.setAttribute('content', image);
+            document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+        }
+
+        // Create meta tags if they don't exist
+        function createMetaTags() {
+            const metaTags = [
+                { property: 'og:title', content: 'fst. - FISILTI' },
+                { property: 'og:description', content: 'En güncel haberler ve makaleler' },
+                { property: 'og:image', content: '/placeholder.svg?height=630&width=1200' },
+                { property: 'og:type', content: 'website' },
+                { name: 'description', content: 'En güncel haberler ve makaleler' },
+                { name: 'keywords', content: 'haber, makale, teknoloji, sağlık, çevre' }
+            ];
+
+            metaTags.forEach(tag => {
+                const existing = document.querySelector(`meta[${Object.keys(tag)[0]}="${Object.values(tag)[0]}"]`);
+                if (!existing) {
+                    const meta = document.createElement('meta');
+                    Object.entries(tag).forEach(([key, value]) => {
+                        meta.setAttribute(key, value);
+                    });
+                    document.head.appendChild(meta);
+                }
+            });
+        }
+
+        createMetaTags();
+
+        // Add structured data for articles
+        function addStructuredData(article) {
+            const structuredData = {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": article.title,
+                "description": article.excerpt,
+                "image": article.image,
+                "datePublished": article.date,
+                "author": {
+                    "@type": "Person",
+                    "name": article.author
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "fst. FISILTI"
+                }
+            };
+
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.textContent = JSON.stringify(structuredData);
+            document.head.appendChild(script);
+        }
+
+        // Initialize everything
+        console.log('fst. FISILTI initialized successfully');
     </script>
 </body>
 </html>

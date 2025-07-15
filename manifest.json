@@ -1,0 +1,16 @@
+{
+  "name": "FST App",
+  "short_name": "FST",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ff0000",
+  "theme_color": "#ff0000",
+  "description": "fst.theleng.site için PWA uygulaması",
+  "icons": [
+    {
+      "src": "fst.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

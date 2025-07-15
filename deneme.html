@@ -46,6 +46,25 @@
             background: #f3f4f6;
         }
 
+        /* Remove blue tap highlight */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        input, textarea {
+            -webkit-user-select: text;
+            -khtml-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
         /* Ripple Effect */
         .ripple {
             position: relative;
@@ -62,12 +81,13 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
             transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
+            transition: width 0.4s, height 0.4s;
+            pointer-events: none;
         }
 
         .ripple:active::before {
-            width: 300px;
-            height: 300px;
+            width: 200px;
+            height: 200px;
         }
 
         /* Page Transition */
@@ -77,27 +97,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 8888;
+            z-index: 9999;
             display: none;
             pointer-events: none;
             background: var(--primary-red);
         }
 
-        .transition-circle {
+        .transition-overlay {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: var(--dark-red);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
         }
 
-        .transition-circle.animate {
-            width: 200vmax;
-            height: 200vmax;
+        .transition-overlay.animate {
+            transform: translateX(0);
         }
 
         /* Navigation */
@@ -256,23 +274,23 @@
 
         /* Home View */
         .home-view {
-            margin-top: 80px;
+            margin-top: 90px;
             max-width: 1400px;
             margin-left: auto;
             margin-right: auto;
             padding: 2rem;
         }
 
-        /* Hero Section - Simplified for Mobile */
+        /* Hero Section - Mobile Optimized */
         .hero-section {
             text-align: center;
-            padding: 3rem 1rem;
+            padding: 2rem 1rem;
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
             border-radius: 20px;
             margin-bottom: 4rem;
             position: relative;
             overflow: hidden;
-            min-height: 300px;
+            min-height: 250px;
         }
 
         .hero-content {
@@ -286,7 +304,7 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .hero-content.active {
@@ -297,13 +315,13 @@
             display: flex;
             align-items: center;
             gap: 2rem;
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
         }
 
         .hero-image {
-            width: 200px;
-            height: 130px;
+            width: 180px;
+            height: 120px;
             object-fit: cover;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -321,7 +339,7 @@
             color: var(--primary-red);
             padding: 0.3rem 0.8rem;
             border-radius: 15px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -329,7 +347,7 @@
         }
 
         .hero-title {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 900;
             color: var(--white);
             margin-bottom: 0.8rem;
@@ -337,22 +355,22 @@
         }
 
         .hero-excerpt {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: rgba(255, 255, 255, 0.9);
             line-height: 1.5;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .hero-read-more {
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.8rem 1.5rem;
+            padding: 0.7rem 1.3rem;
             border-radius: 20px;
             text-decoration: none;
             font-weight: 700;
             transition: all 0.3s ease;
             display: inline-block;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .hero-read-more:hover {
@@ -499,12 +517,12 @@
 
         /* Article View */
         .article-view {
-            margin-top: 80px;
+            margin-top: 90px;
         }
 
         /* Author View */
         .author-view {
-            margin-top: 80px;
+            margin-top: 90px;
         }
 
         .author-header {
@@ -604,21 +622,16 @@
         }
 
         .article-header {
-            text-align: center;
             margin-bottom: 3rem;
         }
 
-        .article-category-large {
-            display: inline-block;
-            background: var(--white);
-            color: var(--primary-red);
-            padding: 0.6rem 1.2rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1.5rem;
+        .article-image-large {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
         .article-title-large {
@@ -630,34 +643,27 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        .article-meta-large {
+        .article-meta-header {
             display: flex;
-            justify-content: center;
             align-items: center;
-            gap: 1.5rem;
+            gap: 2rem;
             color: rgba(255, 255, 255, 0.8);
             font-size: 1rem;
             margin-bottom: 2rem;
-            flex-wrap: wrap;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .meta-item {
+        .article-author-info {
             display: flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
         }
 
-        .meta-icon {
-            font-size: 1rem;
-        }
-
-        .article-image-large {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        .article-date-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .article-content-large {
@@ -686,6 +692,69 @@
             border-left: 3px solid var(--white);
             padding-left: 1.5rem;
             margin-bottom: 2rem;
+        }
+
+        /* Article Tags */
+        .article-tags {
+            margin-bottom: 2rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Share Buttons */
+        .share-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .share-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .share-btn {
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .share-btn:hover {
+            background: var(--primary-red);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .back-to-home {
@@ -733,10 +802,15 @@
                 padding: 0.7rem 1.2rem 0.7rem 2.2rem;
             }
 
+            .hero-section {
+                min-height: 200px;
+                padding: 1.5rem 1rem;
+            }
+
             .hero-article {
                 flex-direction: column;
                 text-align: center;
-                gap: 1.5rem;
+                gap: 1rem;
             }
 
             .hero-text {
@@ -744,16 +818,16 @@
             }
 
             .hero-title {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
             }
 
             .hero-image {
-                width: 180px;
-                height: 120px;
+                width: 150px;
+                height: 100px;
             }
 
             .hero-excerpt {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
             }
 
             .articles-grid {
@@ -763,7 +837,7 @@
 
             .home-view {
                 padding: 1rem;
-                margin-top: 70px;
+                margin-top: 80px;
             }
 
             .section-title {
@@ -782,9 +856,10 @@
                 font-size: 1.8rem;
             }
 
-            .article-meta-large {
+            .article-meta-header {
                 flex-direction: column;
                 gap: 0.8rem;
+                align-items: flex-start;
             }
 
             .article-content-large {
@@ -806,6 +881,11 @@
 
             .author-bio {
                 font-size: 1rem;
+            }
+
+            .share-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
 
@@ -829,13 +909,13 @@
 <body>
     <!-- Page Transition Animation -->
     <div class="page-transition" id="page-transition">
-        <div class="transition-circle"></div>
+        <div class="transition-overlay"></div>
     </div>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a class="logo ripple" onclick="showHome()">fst.</a>
+            <a class="logo ripple" href="#" onclick="navigateHome(event)">fst.</a>
             
             <div class="search-container">
                 <div class="search-icon">🔍</div>
@@ -843,7 +923,7 @@
                 <div class="search-results" id="search-results"></div>
             </div>
             
-            <a class="back-button ripple" id="back-button" onclick="showHome()">
+            <a class="back-button ripple" id="back-button" href="#" onclick="navigateHome(event)">
                 <span>←</span>
                 <span>Geri</span>
             </a>
@@ -871,7 +951,7 @@
         <!-- Breadcrumb -->
         <div class="breadcrumb">
             <div class="breadcrumb-path">
-                <a class="ripple" onclick="showHome()">Ana Sayfa</a>
+                <a class="ripple" href="#" onclick="navigateHome(event)">Ana Sayfa</a>
                 <span class="breadcrumb-separator">/</span>
                 <span id="breadcrumb-category">Kategori</span>
                 <span class="breadcrumb-separator">/</span>
@@ -882,25 +962,19 @@
         <!-- Article Container -->
         <article class="article-container">
             <header class="article-header">
-                <span class="article-category-large" id="article-category">Kategori</span>
+                <img id="article-image" class="article-image-large" src="/placeholder.svg" alt="">
                 <h1 class="article-title-large" id="article-title">Makale Başlığı</h1>
-                <div class="article-meta-large">
-                    <div class="meta-item">
-                        <span class="meta-icon">👤</span>
+                <div class="article-meta-header">
+                    <div class="article-author-info">
+                        <span>👤</span>
                         <a href="#" class="author-link" id="article-author-link">Yazar</a>
                     </div>
-                    <div class="meta-item">
-                        <span class="meta-icon">📅</span>
+                    <div class="article-date-info">
+                        <span>📅</span>
                         <span id="article-date">Tarih</span>
-                    </div>
-                    <div class="meta-item">
-                        <span class="meta-icon">⏱</span>
-                        <span id="article-read-time">Süre</span>
                     </div>
                 </div>
             </header>
-
-            <img id="article-image" class="article-image-large" src="/placeholder.svg" alt="">
 
             <div class="article-content-large">
                 <div class="article-text" id="article-text">
@@ -908,8 +982,21 @@
                 </div>
             </div>
 
+            <div class="article-tags" id="article-tags">
+                <!-- Tags will be loaded here -->
+            </div>
+
+            <div class="share-section">
+                <h3 class="share-title">Bu makaleyi paylaş</h3>
+                <div class="share-buttons">
+                    <a href="#" class="share-btn ripple" onclick="shareArticle('twitter')">Twitter</a>
+                    <a href="#" class="share-btn ripple" onclick="shareArticle('facebook')">Facebook</a>
+                    <a href="#" class="share-btn ripple" onclick="shareArticle('whatsapp')">WhatsApp</a>
+                </div>
+            </div>
+
             <div class="back-to-home">
-                <a class="home-button ripple" onclick="showHome()">Diğer Haberler</a>
+                <a class="home-button ripple" href="#" onclick="navigateHome(event)">Diğer Haberler</a>
             </div>
         </article>
     </div>
@@ -919,7 +1006,7 @@
         <!-- Breadcrumb -->
         <div class="breadcrumb">
             <div class="breadcrumb-path">
-                <a class="ripple" onclick="showHome()">Ana Sayfa</a>
+                <a class="ripple" href="#" onclick="navigateHome(event)">Ana Sayfa</a>
                 <span class="breadcrumb-separator">/</span>
                 <span>Yazarlar</span>
                 <span class="breadcrumb-separator">/</span>
@@ -957,164 +1044,68 @@
         </section>
 
         <div class="back-to-home">
-            <a class="home-button ripple" onclick="showHome()">Ana Sayfa</a>
+            <a class="home-button ripple" href="#" onclick="navigateHome(event)">Ana Sayfa</a>
         </div>
     </div>
 
     <script>
-        // Mock data - replace with actual JSON files
-        const articlesData = [
-            {
-                id: 1,
-                slug: "yapay-zeka-gelecegi",
-                title: "Yapay Zeka ve Geleceğin Teknolojileri",
-                excerpt: "Yapay zeka teknolojilerinin günlük hayatımıza etkisi ve gelecekte bizi bekleyen yenilikler hakkında detaylı bir analiz.",
-                content: "Yapay zeka, 21. yüzyılın en önemli teknolojik gelişmelerinden biri olarak karşımızda duruyor. Bu devrim niteliğindeki teknoloji, sadece bilim kurgu filmlerinin konusu olmaktan çıkarak günlük hayatımızın ayrılmaz bir parçası haline geldi.\n\nGünümüzde yapay zeka, akıllı telefonlarımızdan otomobillerimize, sağlık hizmetlerinden eğitime kadar pek çok alanda kullanılıyor. Makine öğrenmesi algoritmaları sayesinde sistemler, insan müdahalesi olmadan öğrenebiliyor ve kendilerini geliştirebiliyor.\n\nGelecekte yapay zeka teknolojilerinin daha da yaygınlaşacağı ve hayatımızı köklü şekilde değiştireceği öngörülüyor. Otonom araçlar, akıllı şehirler ve kişiselleştirilmiş tıp gibi alanlar, yapay zekanın potansiyelini gözler önüne seriyor.",
-                category: "Teknoloji",
-                author: "Dr. Ayşe Kaya",
-                authorSlug: "ayse-kaya",
-                date: "15 Ocak 2024",
-                readTime: "8 dk",
-                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop"
-            },
-            {
-                id: 2,
-                slug: "ekonomik-donusum",
-                title: "Dijital Ekonominin Yükselişi",
-                excerpt: "Dijital dönüşümün ekonomiye etkisi ve yeni iş modellerinin ortaya çıkışı üzerine kapsamlı bir değerlendirme.",
-                content: "Dijital ekonomi, geleneksel iş modellerini kökten değiştiren bir güç olarak karşımızda duruyor. E-ticaret, fintech, dijital pazarlama gibi alanlar, ekonominin yeni dinamiklerini şekillendiriyor.\n\nCOVID-19 pandemisi, dijital dönüşümü hızlandıran bir katalizör görevi gördü. Uzaktan çalışma, online eğitim ve dijital ödeme sistemleri, pandemi döneminde yaşamın vazgeçilmez parçaları haline geldi.\n\nBlokchain teknolojisi, kripto paralar ve NFT'ler gibi yenilikler, finansal sistemlerde devrim yaratıyor. Bu teknolojiler, merkezi olmayan finansal sistemlerin temellerini atıyor.",
-                category: "Ekonomi",
-                author: "Prof. Mehmet Özkan",
-                authorSlug: "mehmet-ozkan",
-                date: "12 Ocak 2024",
-                readTime: "6 dk",
-                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop"
-            },
-            {
-                id: 3,
-                slug: "spor-teknolojisi",
-                title: "Sporda Teknoloji Devrimi",
-                excerpt: "Modern sporlarda teknolojinin rolü ve sporcuların performansını artırmak için kullanılan yenilikçi çözümler.",
-                content: "Teknoloji, spor dünyasında devrim yaratarak hem sporcuların performansını artırıyor hem de seyircilerin deneyimini zenginleştiriyor. Giyilebilir teknolojiler, sporcuların antrenman verilerini gerçek zamanlı olarak takip etmelerine olanak sağlıyor.\n\nVAR sistemi, futbolda hakemlik kararlarının doğruluğunu artırırken, tenis ve krikette kullanılan Hawk-Eye teknolojisi, tartışmalı pozisyonları netleştiriyor.\n\nSanal gerçeklik ve artırılmış gerçeklik teknolojileri, sporcuların antrenman kalitesini artırıyor. Bu teknolojiler sayesinde sporcular, gerçek müsabaka koşullarını simüle ederek daha etkili antrenmanlar yapabiliyor.",
-                category: "Spor",
-                author: "Zeynep Demir",
-                authorSlug: "zeynep-demir",
-                date: "10 Ocak 2024",
-                readTime: "5 dk",
-                image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop"
-            },
-            {
-                id: 4,
-                slug: "cevre-surdurulebilirlik",
-                title: "Sürdürülebilir Yaşam İçin Pratik Çözümler",
-                excerpt: "Çevre dostu yaşam tarzı benimseyen bireyler için günlük hayatta uygulanabilir sürdürülebilirlik önerileri.",
-                content: "Sürdürülebilir yaşam, gelecek nesillere yaşanabilir bir dünya bırakmanın anahtarı. Günlük hayatımızda yapabileceğimiz küçük değişiklikler, büyük çevresel etkiler yaratabilir.\n\nEnerji tasarrufu, sürdürülebilirliğin temel taşlarından biri. LED ampuller kullanmak, elektronik cihazları fişten çekmek ve yenilenebilir enerji kaynaklarını tercih etmek, karbon ayak izimizi azaltıyor.\n\nAtık yönetimi, çevre koruma açısından kritik önem taşıyor. Geri dönüşüm, kompost yapımı ve tek kullanımlık ürünlerden kaçınmak, atık miktarını önemli ölçüde azaltıyor.",
-                category: "Çevre",
-                author: "Dr. Can Yılmaz",
-                authorSlug: "can-yilmaz",
-                date: "8 Ocak 2024",
-                readTime: "7 dk",
-                image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop"
-            },
-            {
-                id: 5,
-                slug: "saglik-teknolojisi",
-                title: "Dijital Sağlık Çözümleri",
-                excerpt: "Telemedicine, sağlık uygulamaları ve dijital sağlık teknolojilerinin hasta bakımına etkisi.",
-                content: "Dijital sağlık teknolojileri, hasta bakımını dönüştüren yenilikçi çözümler sunuyor. Telemedicine, hastaların uzaktan tıbbi danışmanlık alabilmesini sağlayarak sağlık hizmetlerine erişimi demokratikleştiriyor.\n\nGiyilebilir sağlık cihazları, kalp ritmi, kan basıncı ve uyku kalitesi gibi vital verileri sürekli olarak izleyerek erken teşhis imkanı sağlıyor. Bu cihazlar, kronik hastalıkların yönetiminde önemli rol oynuyor.\n\nYapay zeka destekli tanı sistemleri, radyoloji görüntülerinin analizinde doktorlara yardımcı oluyor. Bu sistemler, kanser gibi kritik hastalıkların erken teşhisinde yüksek doğruluk oranları sağlıyor.",
-                category: "Sağlık",
-                author: "Dr. Ayşe Kaya",
-                authorSlug: "ayse-kaya",
-                date: "5 Ocak 2024",
-                readTime: "6 dk",
-                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop"
-            },
-            {
-                id: 6,
-                slug: "blockchain-gelecegi",
-                title: "Blockchain Teknolojisinin Geleceği",
-                excerpt: "Blockchain teknolojisinin finans sektörü dışındaki uygulamaları ve potansiyel etkileri.",
-                content: "Blockchain teknolojisi, kripto paralarla tanınmasına rağmen, potansiyeli bundan çok daha geniş. Bu devrim niteliğindeki teknoloji, güven gerektiren her alanda uygulanabilir.\n\nTedarik zinciri yönetiminde blockchain, ürünlerin kaynağından tüketiciye kadar olan yolculuğunu şeffaf hale getiriyor. Bu sayede sahte ürünlerin tespiti ve gıda güvenliği konularında önemli ilerlemeler kaydediliyor.\n\nDijital kimlik doğrulama, blockchain'in önemli uygulama alanlarından biri. Merkezi olmayan kimlik sistemleri, kişisel verilerin güvenliğini artırırken, kullanıcılara kendi verilerinin kontrolünü geri veriyor.",
-                category: "Teknoloji",
-                author: "Prof. Mehmet Özkan",
-                authorSlug: "mehmet-ozkan",
-                date: "3 Ocak 2024",
-                readTime: "9 dk",
-                image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&h=400&fit=crop"
-            }
-        ];
-
-        const authorsData = [
-            {
-                id: 1,
-                slug: "ayse-kaya",
-                name: "Dr. Ayşe Kaya",
-                bio: "Bilgisayar Mühendisliği doktorası olan Dr. Ayşe Kaya, yapay zeka ve makine öğrenmesi alanlarında 15 yıllık deneyime sahip. Teknoloji ve sağlık konularında uzman yazılar kaleme alıyor.",
-                avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
-                specialty: "Yapay Zeka & Sağlık",
-                experience: 15,
-                articleCount: 47,
-                followers: "12.5K"
-            },
-            {
-                id: 2,
-                slug: "mehmet-ozkan",
-                name: "Prof. Mehmet Özkan",
-                bio: "İktisat Profesörü olan Mehmet Özkan, dijital ekonomi ve fintech alanlarında araştırmalar yapıyor. Blockchain teknolojileri ve kripto para konularında düzenli olarak yazılar yayınlıyor.",
-                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-                specialty: "Dijital Ekonomi",
-                experience: 22,
-                articleCount: 63,
-                followers: "18.2K"
-            },
-            {
-                id: 3,
-                slug: "zeynep-demir",
-                name: "Zeynep Demir",
-                bio: "Spor gazetecisi ve eski profesyonel atlet olan Zeynep Demir, spor teknolojileri ve performans analizi konularında uzmanlaşmış. Modern sporlardaki teknolojik gelişmeleri takip ediyor.",
-                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
-                specialty: "Spor Teknolojileri",
-                experience: 12,
-                articleCount: 34,
-                followers: "8.7K"
-            },
-            {
-                id: 4,
-                slug: "can-yilmaz",
-                name: "Dr. Can Yılmaz",
-                bio: "Çevre Mühendisliği doktorası olan Dr. Can Yılmaz, sürdürülebilirlik ve çevre koruma konularında aktif olarak çalışıyor. Yeşil teknolojiler ve iklim değişikliği üzerine yazılar kaleme alıyor.",
-                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
-                specialty: "Çevre & Sürdürülebilirlik",
-                experience: 18,
-                articleCount: 52,
-                followers: "15.3K"
-            }
-        ];
-
         // Global variables
+        let articlesData = [];
+        let authorsData = [];
         let currentView = 'home';
         let heroRotationInterval;
         let currentHeroIndex = 0;
         let lastScrollY = 0;
 
+        // Load data from JSON files
+        async function loadData() {
+            try {
+                const [articlesResponse, authorsResponse] = await Promise.all([
+                    fetch('./articles.json'),
+                    fetch('./authors.json')
+                ]);
+                
+                const articlesJson = await articlesResponse.json();
+                const authorsJson = await authorsResponse.json();
+                
+                articlesData = articlesJson.articles;
+                authorsData = authorsJson.authors;
+                
+                renderArticles();
+                startHeroRotation();
+                setupSearch();
+                
+                // Check initial hash after data loads
+                setTimeout(() => {
+                    const hash = window.location.hash.substring(1);
+                    if (hash.startsWith('author-')) {
+                        const authorSlug = hash.substring(7);
+                        showAuthor(authorSlug);
+                    } else if (hash) {
+                        showArticle(hash);
+                    }
+                }, 100);
+                
+            } catch (error) {
+                console.error('Error loading data:', error);
+                // Fallback to empty arrays if JSON files don't exist
+                articlesData = [];
+                authorsData = [];
+            }
+        }
+
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            renderArticles();
-            startHeroRotation();
-            setupSearch();
+            loadData();
             setupNavbarScroll();
-            
-            // Check initial hash
-            setTimeout(() => {
-                const hash = window.location.hash.substring(1);
-                if (hash.startsWith('author-')) {
-                    const authorSlug = hash.substring(7);
-                    showAuthor(authorSlug);
-                } else if (hash) {
-                    showArticle(hash);
-                }
-            }, 100);
         });
+
+        // Navigation functions
+        function navigateHome(event) {
+            event.preventDefault();
+            showHome();
+            return false;
+        }
 
         // Setup navbar scroll behavior
         function setupNavbarScroll() {
@@ -1124,10 +1115,8 @@
                 const currentScrollY = window.scrollY;
                 
                 if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                    // Scrolling down
                     navbar.classList.add('hidden');
                 } else {
-                    // Scrolling up
                     navbar.classList.remove('hidden');
                 }
                 
@@ -1137,13 +1126,13 @@
 
         // Start hero section rotation
         function startHeroRotation() {
+            if (articlesData.length === 0) return;
+            
             const heroSection = document.getElementById('hero-section');
             const featuredArticles = articlesData.slice(0, 3);
             
-            // Clear existing content
             heroSection.innerHTML = '';
             
-            // Create hero content elements
             featuredArticles.forEach((article, index) => {
                 const heroContent = document.createElement('div');
                 heroContent.className = `hero-content ${index === 0 ? 'active' : ''}`;
@@ -1153,15 +1142,14 @@
                         <div class="hero-text">
                             <span class="hero-category">${article.category}</span>
                             <h2 class="hero-title">${article.title}</h2>
-                            <p class="hero-excerpt">${article.excerpt.substring(0, 120)}...</p>
-                            <a href="#" class="hero-read-more ripple" onclick="showArticle('${article.slug}')">Devamını Oku</a>
+                            <p class="hero-excerpt">${article.excerpt.substring(0, 100)}...</p>
+                            <a href="#${article.slug}" class="hero-read-more ripple" onclick="showArticle('${article.slug}')">Devamını Oku</a>
                         </div>
                     </div>
                 `;
                 heroSection.appendChild(heroContent);
             });
 
-            // Start rotation
             if (heroRotationInterval) {
                 clearInterval(heroRotationInterval);
             }
@@ -1196,7 +1184,6 @@
                 }, 300);
             });
 
-            // Hide search results when clicking outside
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.search-container')) {
                     searchResults.style.display = 'none';
@@ -1209,7 +1196,6 @@
             const searchResults = document.getElementById('search-results');
             const results = [];
 
-            // Search articles
             articlesData.forEach(article => {
                 if (article.title.toLowerCase().includes(query) || 
                     article.excerpt.toLowerCase().includes(query) ||
@@ -1223,7 +1209,6 @@
                 }
             });
 
-            // Search authors
             authorsData.forEach(author => {
                 if (author.name.toLowerCase().includes(query) ||
                     author.bio.toLowerCase().includes(query)) {
@@ -1236,7 +1221,6 @@
                 }
             });
 
-            // Display results
             if (results.length > 0) {
                 searchResults.innerHTML = results.slice(0, 8).map(result => `
                     <div class="search-result-item ripple" onclick="handleSearchResult('${result.type}', '${result.slug}')">
@@ -1265,6 +1249,8 @@
 
         // Render articles
         function renderArticles() {
+            if (articlesData.length === 0) return;
+            
             const container = document.getElementById('articles-container');
             container.innerHTML = '';
             
@@ -1282,7 +1268,7 @@
                         <p class="article-excerpt">${article.excerpt}</p>
                         <div class="article-meta">
                             <div>
-                                <a href="#" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date} • ${article.readTime}
+                                <a href="#author-${article.authorSlug}" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date}
                             </div>
                             <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                         </div>
@@ -1297,7 +1283,6 @@
                 
                 container.appendChild(articleCard);
 
-                // Animate cards
                 setTimeout(() => {
                     articleCard.classList.add('animate-in');
                 }, index * 100);
@@ -1318,7 +1303,6 @@
                 window.location.hash = '';
                 window.scrollTo(0, 0);
                 
-                // Restart hero rotation
                 startHeroRotation();
             });
         }
@@ -1329,38 +1313,41 @@
             if (!article) return;
 
             showTransition(() => {
-                // Stop hero rotation
                 if (heroRotationInterval) {
                     clearInterval(heroRotationInterval);
                 }
 
-                // Update page title
                 document.title = `${article.title} - fst. FISILTI`;
                 
-                // Update breadcrumb
                 document.getElementById('breadcrumb-category').textContent = article.category;
                 document.getElementById('breadcrumb-title').textContent = article.title;
                 
-                // Update article content
-                document.getElementById('article-category').textContent = article.category;
                 document.getElementById('article-title').textContent = article.title;
                 
                 const author = authorsData.find(a => a.slug === article.authorSlug);
                 const authorLink = document.getElementById('article-author-link');
                 authorLink.textContent = author ? author.name : article.author;
+                authorLink.href = `#author-${article.authorSlug}`;
                 authorLink.onclick = () => showAuthor(article.authorSlug);
                 
                 document.getElementById('article-date').textContent = article.date;
-                document.getElementById('article-read-time').textContent = article.readTime;
                 document.getElementById('article-image').src = article.image;
                 document.getElementById('article-image').alt = article.title;
                 
-                // Format article content
                 const paragraphs = article.content.split('\n\n');
                 const formattedContent = paragraphs.map(p => `<p>${p}</p>`).join('');
                 document.getElementById('article-text').innerHTML = formattedContent;
 
-                // Switch views
+                // Add tags
+                const tagsContainer = document.getElementById('article-tags');
+                if (article.tags) {
+                    tagsContainer.innerHTML = article.tags.map(tag => 
+                        `<span class="tag">${tag}</span>`
+                    ).join('');
+                } else {
+                    tagsContainer.innerHTML = '';
+                }
+
                 document.getElementById('home-view').classList.remove('active');
                 document.getElementById('article-view').classList.add('active');
                 document.getElementById('author-view').classList.remove('active');
@@ -1378,18 +1365,14 @@
             if (!author) return;
 
             showTransition(() => {
-                // Stop hero rotation
                 if (heroRotationInterval) {
                     clearInterval(heroRotationInterval);
                 }
 
-                // Update page title
                 document.title = `${author.name} - fst. FISILTI`;
                 
-                // Update breadcrumb
                 document.getElementById('author-breadcrumb-name').textContent = author.name;
                 
-                // Update author content
                 document.getElementById('author-avatar').src = author.avatar;
                 document.getElementById('author-name').textContent = author.name;
                 document.getElementById('author-bio').textContent = author.bio;
@@ -1397,7 +1380,6 @@
                 document.getElementById('author-experience').textContent = author.experience;
                 document.getElementById('author-followers').textContent = author.followers;
                 
-                // Load author articles
                 const authorArticles = articlesData.filter(article => article.authorSlug === slug);
                 const authorArticlesContainer = document.getElementById('author-articles-container');
                 authorArticlesContainer.innerHTML = '';
@@ -1414,7 +1396,7 @@
                             <p class="article-excerpt">${article.excerpt}</p>
                             <div class="article-meta">
                                 <div>
-                                    ${article.date} • ${article.readTime}
+                                    ${article.date}
                                 </div>
                                 <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                             </div>
@@ -1429,13 +1411,11 @@
                     
                     authorArticlesContainer.appendChild(articleCard);
 
-                    // Animate cards
                     setTimeout(() => {
                         articleCard.classList.add('animate-in');
                     }, index * 100);
                 });
 
-                // Switch views
                 document.getElementById('home-view').classList.remove('active');
                 document.getElementById('article-view').classList.remove('active');
                 document.getElementById('author-view').classList.add('active');
@@ -1450,23 +1430,47 @@
         // Show transition animation
         function showTransition(callback) {
             const transition = document.getElementById('page-transition');
-            const circle = transition.querySelector('.transition-circle');
+            const overlay = transition.querySelector('.transition-overlay');
             
             transition.style.display = 'flex';
-            circle.classList.remove('animate');
+            overlay.classList.remove('animate');
             
             setTimeout(() => {
-                circle.classList.add('animate');
+                overlay.classList.add('animate');
             }, 50);
             
             setTimeout(() => {
                 callback();
-            }, 400);
+            }, 250);
             
             setTimeout(() => {
                 transition.style.display = 'none';
-                circle.classList.remove('animate');
-            }, 800);
+                overlay.classList.remove('animate');
+            }, 500);
+        }
+
+        // Share article function
+        function shareArticle(platform) {
+            const currentUrl = window.location.href;
+            const title = document.getElementById('article-title').textContent;
+            
+            let shareUrl = '';
+            
+            switch(platform) {
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl)}`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+                    break;
+                case 'whatsapp':
+                    shareUrl = `https://wa.me/?text=${encodeURIComponent(title + ' ' + currentUrl)}`;
+                    break;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
         }
 
         // Handle hash changes

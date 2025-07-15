@@ -1,16 +1,103 @@
 {
-  "name": "FST App",
-  "short_name": "FST",
+  "name": "fst. FISILTI",
+  "short_name": "fst.",
+  "description": "En güncel haberler, teknoloji, sağlık ve çevre makaleleri",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#dc2626",
   "theme_color": "#dc2626",
-  "description": "fst.theleng.site için PWA uygulaması",
+  "orientation": "portrait-primary",
+  "categories": ["news", "magazines", "productivity"],
+  "lang": "tr",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "fst.jpeg",
+      "src": "/fst.jpeg",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/fst.jpeg",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/fst.jpeg",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/fst.jpeg",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/fst.jpeg",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-wide.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshot-narrow.png",
+      "sizes": "720x1280",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Son Haberler",
+      "short_name": "Haberler",
+      "description": "En son haberleri görüntüle",
+      "url": "/",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Teknoloji",
+      "short_name": "Teknoloji",
+      "description": "Teknoloji haberlerini görüntüle",
+      "url": "/#teknoloji",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }

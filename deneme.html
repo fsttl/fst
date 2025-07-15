@@ -30,7 +30,7 @@
 
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 12px;
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
@@ -39,7 +39,7 @@
 
         ::-webkit-scrollbar-thumb {
             background: var(--white);
-            border-radius: 6px;
+            border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -70,7 +70,7 @@
             height: 300px;
         }
 
-        /* Page Transition - Mobile Friendly */
+        /* Page Transition */
         .page-transition {
             position: fixed;
             top: 0;
@@ -110,12 +110,11 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
             padding: 1rem 0;
-            transform: translateY(-100%);
-            animation: slideDown 0.8s ease 1.5s forwards;
+            transition: transform 0.3s ease;
         }
 
-        @keyframes slideDown {
-            to { transform: translateY(0); }
+        .navbar.hidden {
+            transform: translateY(-100%);
         }
 
         .nav-container {
@@ -125,6 +124,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 2rem;
         }
 
         .logo {
@@ -135,6 +135,7 @@
             letter-spacing: -2px;
             transition: all 0.3s ease;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .logo:hover {
@@ -146,13 +147,12 @@
         .search-container {
             position: relative;
             flex: 1;
-            max-width: 500px;
-            margin: 0 2rem;
+            max-width: 400px;
         }
 
         .search-input {
             width: 100%;
-            padding: 0.8rem 1.5rem 0.8rem 3rem;
+            padding: 0.8rem 1.5rem 0.8rem 2.5rem;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 25px;
             background: rgba(255, 255, 255, 0.1);
@@ -175,11 +175,11 @@
 
         .search-icon {
             position: absolute;
-            left: 1rem;
+            left: 0.8rem;
             top: 50%;
             transform: translateY(-50%);
             color: rgba(255, 255, 255, 0.7);
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .search-results {
@@ -237,6 +237,7 @@
             border-radius: 25px;
             border: 1px solid rgba(255, 255, 255, 0.3);
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .back-button:hover {
@@ -255,36 +256,23 @@
 
         /* Home View */
         .home-view {
-            margin-top: 100px;
+            margin-top: 80px;
             max-width: 1400px;
             margin-left: auto;
             margin-right: auto;
             padding: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 2s forwards;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Hero Section with Rotating Content */
+        /* Hero Section - Simplified for Mobile */
         .hero-section {
             text-align: center;
-            padding: 4rem 0 6rem;
+            padding: 3rem 1rem;
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
             border-radius: 20px;
             margin-bottom: 4rem;
             position: relative;
             overflow: hidden;
-            height: 500px;
+            min-height: 300px;
         }
 
         .hero-content {
@@ -298,6 +286,7 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
+            padding: 2rem;
         }
 
         .hero-content.active {
@@ -307,17 +296,18 @@
         .hero-article {
             display: flex;
             align-items: center;
-            gap: 3rem;
-            max-width: 1000px;
-            padding: 0 2rem;
+            gap: 2rem;
+            max-width: 900px;
+            width: 100%;
         }
 
         .hero-image {
-            width: 300px;
-            height: 200px;
+            width: 200px;
+            height: 130px;
             object-fit: cover;
             border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
         }
 
         .hero-text {
@@ -329,45 +319,46 @@
             display: inline-block;
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
         }
 
         .hero-title {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 900;
             color: var(--white);
-            margin-bottom: 1rem;
+            margin-bottom: 0.8rem;
             line-height: 1.2;
         }
 
         .hero-excerpt {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            margin-bottom: 2rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
         }
 
         .hero-read-more {
             background: var(--white);
             color: var(--primary-red);
-            padding: 1rem 2rem;
-            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
             text-decoration: none;
             font-weight: 700;
             transition: all 0.3s ease;
             display: inline-block;
+            font-size: 0.9rem;
         }
 
         .hero-read-more:hover {
             background: rgba(255, 255, 255, 0.9);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         /* Articles Section */
@@ -376,7 +367,7 @@
         }
 
         .section-title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--white);
             margin-bottom: 3rem;
@@ -390,17 +381,17 @@
             bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
+            width: 80px;
+            height: 3px;
             background: var(--white);
             border-radius: 2px;
         }
 
         .articles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 3rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
         .article-card {
@@ -417,14 +408,14 @@
         }
 
         .article-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
             border-color: rgba(255, 255, 255, 0.4);
         }
 
         .article-image {
             width: 100%;
-            height: 250px;
+            height: 200px;
             object-fit: cover;
             transition: transform 0.4s ease;
         }
@@ -434,16 +425,16 @@
         }
 
         .article-content {
-            padding: 2rem;
+            padding: 1.5rem;
         }
 
         .article-category {
             display: inline-block;
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -451,7 +442,7 @@
         }
 
         .article-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--white);
             margin-bottom: 1rem;
@@ -462,14 +453,14 @@
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
             margin-bottom: 1.5rem;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .article-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.7);
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 1rem;
@@ -489,13 +480,14 @@
         .read-more {
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.7rem 1.5rem;
-            border-radius: 25px;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
             display: inline-block;
             cursor: pointer;
+            font-size: 0.85rem;
         }
 
         .read-more:hover {
@@ -507,44 +499,40 @@
 
         /* Article View */
         .article-view {
-            margin-top: 100px;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.5s forwards;
+            margin-top: 80px;
         }
 
         /* Author View */
         .author-view {
-            margin-top: 100px;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.5s forwards;
+            margin-top: 80px;
         }
 
         .author-header {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 2rem auto;
             padding: 0 2rem;
             text-align: center;
         }
 
         .author-avatar {
-            width: 150px;
-            height: 150px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            margin-bottom: 2rem;
-            border: 4px solid var(--white);
+            margin-bottom: 1.5rem;
+            border: 3px solid var(--white);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .author-name {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--white);
             margin-bottom: 1rem;
         }
 
         .author-bio {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.8);
             line-height: 1.6;
             margin-bottom: 2rem;
@@ -556,8 +544,8 @@
         .author-stats {
             display: flex;
             justify-content: center;
-            gap: 3rem;
-            margin-bottom: 4rem;
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
         .author-stat {
@@ -565,14 +553,14 @@
         }
 
         .stat-number {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 900;
             color: var(--white);
             display: block;
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.7);
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -610,7 +598,7 @@
 
         /* Article Content */
         .article-container {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 2rem auto;
             padding: 0 2rem;
         }
@@ -624,20 +612,20 @@
             display: inline-block;
             background: var(--white);
             color: var(--primary-red);
-            padding: 0.7rem 1.5rem;
-            border-radius: 25px;
-            font-size: 1rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .article-title-large {
-            font-size: 3rem;
+            font-size: 2.5rem;
             font-weight: 900;
             color: var(--white);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             line-height: 1.2;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
@@ -646,62 +634,63 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
+            gap: 1.5rem;
             color: rgba(255, 255, 255, 0.8);
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
         }
 
         .meta-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .meta-icon {
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
 
         .article-image-large {
             width: 100%;
-            height: 400px;
+            height: 300px;
             object-fit: cover;
-            border-radius: 20px;
-            margin-bottom: 3rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
         }
 
         .article-content-large {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-bottom: 3rem;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
         }
 
         .article-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
+            font-size: 1.1rem;
+            line-height: 1.7;
             color: var(--white);
         }
 
         .article-text p {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .article-text p:first-child {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: rgba(255, 255, 255, 0.95);
-            border-left: 4px solid var(--white);
-            padding-left: 2rem;
-            margin-bottom: 3rem;
+            border-left: 3px solid var(--white);
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .back-to-home {
             text-align: center;
-            margin: 4rem 0;
+            margin: 3rem 0;
         }
 
         .home-button {
@@ -709,10 +698,10 @@
             background: var(--white);
             color: var(--primary-red);
             padding: 1rem 2rem;
-            border-radius: 30px;
+            border-radius: 25px;
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.3s ease;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             cursor: pointer;
@@ -729,18 +718,25 @@
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 1rem;
-                flex-direction: column;
-                gap: 1rem;
+            }
+
+            .logo {
+                font-size: 2rem;
             }
 
             .search-container {
-                margin: 0;
-                max-width: 100%;
+                max-width: 250px;
+            }
+
+            .search-input {
+                font-size: 0.9rem;
+                padding: 0.7rem 1.2rem 0.7rem 2.2rem;
             }
 
             .hero-article {
                 flex-direction: column;
                 text-align: center;
+                gap: 1.5rem;
             }
 
             .hero-text {
@@ -748,21 +744,26 @@
             }
 
             .hero-title {
-                font-size: 2rem;
+                font-size: 1.5rem;
             }
 
             .hero-image {
-                width: 250px;
-                height: 150px;
+                width: 180px;
+                height: 120px;
+            }
+
+            .hero-excerpt {
+                font-size: 0.9rem;
             }
 
             .articles-grid {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 1.5rem;
             }
 
             .home-view {
                 padding: 1rem;
+                margin-top: 70px;
             }
 
             .section-title {
@@ -778,25 +779,33 @@
             }
 
             .article-title-large {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
 
             .article-meta-large {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 0.8rem;
             }
 
             .article-content-large {
-                padding: 2rem;
+                padding: 1.5rem;
             }
 
             .article-text {
-                font-size: 1.1rem;
+                font-size: 1rem;
             }
 
             .author-stats {
                 flex-direction: column;
                 gap: 1rem;
+            }
+
+            .author-name {
+                font-size: 2rem;
+            }
+
+            .author-bio {
+                font-size: 1rem;
             }
         }
 
@@ -824,26 +833,26 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a class="logo ripple" onclick="showHome()">fst.</a>
             
             <div class="search-container">
                 <div class="search-icon">🔍</div>
-                <input type="text" class="search-input" placeholder="Makale veya yazar ara..." id="search-input">
+                <input type="text" class="search-input" placeholder="Ara..." id="search-input">
                 <div class="search-results" id="search-results"></div>
             </div>
             
             <a class="back-button ripple" id="back-button" onclick="showHome()">
                 <span>←</span>
-                <span>Ana Sayfa</span>
+                <span>Geri</span>
             </a>
         </div>
     </nav>
 
     <!-- Home View -->
     <div class="view active home-view" id="home-view">
-        <!-- Hero Section with Rotating Articles -->
+        <!-- Hero Section -->
         <section class="hero-section" id="hero-section">
             <!-- Hero content will be dynamically loaded -->
         </section>
@@ -866,7 +875,7 @@
                 <span class="breadcrumb-separator">/</span>
                 <span id="breadcrumb-category">Kategori</span>
                 <span class="breadcrumb-separator">/</span>
-                <span id="breadcrumb-title">Makale Başlığı</span>
+                <span id="breadcrumb-title">Makale</span>
             </div>
         </div>
 
@@ -885,8 +894,8 @@
                         <span id="article-date">Tarih</span>
                     </div>
                     <div class="meta-item">
-                        <span class="meta-icon">⏱️</span>
-                        <span id="article-read-time">Okuma Süresi</span>
+                        <span class="meta-icon">⏱</span>
+                        <span id="article-read-time">Süre</span>
                     </div>
                 </div>
             </header>
@@ -900,7 +909,7 @@
             </div>
 
             <div class="back-to-home">
-                <a class="home-button ripple" onclick="showHome()">Diğer Haberleri Gör</a>
+                <a class="home-button ripple" onclick="showHome()">Diğer Haberler</a>
             </div>
         </article>
     </div>
@@ -930,7 +939,7 @@
                 </div>
                 <div class="author-stat">
                     <span class="stat-number" id="author-experience">0</span>
-                    <span class="stat-label">Yıl Deneyim</span>
+                    <span class="stat-label">Yıl</span>
                 </div>
                 <div class="author-stat">
                     <span class="stat-number" id="author-followers">0</span>
@@ -948,44 +957,191 @@
         </section>
 
         <div class="back-to-home">
-            <a class="home-button ripple" onclick="showHome()">Ana Sayfaya Dön</a>
+            <a class="home-button ripple" onclick="showHome()">Ana Sayfa</a>
         </div>
     </div>
 
     <script>
+        // Mock data - replace with actual JSON files
+        const articlesData = [
+            {
+                id: 1,
+                slug: "yapay-zeka-gelecegi",
+                title: "Yapay Zeka ve Geleceğin Teknolojileri",
+                excerpt: "Yapay zeka teknolojilerinin günlük hayatımıza etkisi ve gelecekte bizi bekleyen yenilikler hakkında detaylı bir analiz.",
+                content: "Yapay zeka, 21. yüzyılın en önemli teknolojik gelişmelerinden biri olarak karşımızda duruyor. Bu devrim niteliğindeki teknoloji, sadece bilim kurgu filmlerinin konusu olmaktan çıkarak günlük hayatımızın ayrılmaz bir parçası haline geldi.\n\nGünümüzde yapay zeka, akıllı telefonlarımızdan otomobillerimize, sağlık hizmetlerinden eğitime kadar pek çok alanda kullanılıyor. Makine öğrenmesi algoritmaları sayesinde sistemler, insan müdahalesi olmadan öğrenebiliyor ve kendilerini geliştirebiliyor.\n\nGelecekte yapay zeka teknolojilerinin daha da yaygınlaşacağı ve hayatımızı köklü şekilde değiştireceği öngörülüyor. Otonom araçlar, akıllı şehirler ve kişiselleştirilmiş tıp gibi alanlar, yapay zekanın potansiyelini gözler önüne seriyor.",
+                category: "Teknoloji",
+                author: "Dr. Ayşe Kaya",
+                authorSlug: "ayse-kaya",
+                date: "15 Ocak 2024",
+                readTime: "8 dk",
+                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop"
+            },
+            {
+                id: 2,
+                slug: "ekonomik-donusum",
+                title: "Dijital Ekonominin Yükselişi",
+                excerpt: "Dijital dönüşümün ekonomiye etkisi ve yeni iş modellerinin ortaya çıkışı üzerine kapsamlı bir değerlendirme.",
+                content: "Dijital ekonomi, geleneksel iş modellerini kökten değiştiren bir güç olarak karşımızda duruyor. E-ticaret, fintech, dijital pazarlama gibi alanlar, ekonominin yeni dinamiklerini şekillendiriyor.\n\nCOVID-19 pandemisi, dijital dönüşümü hızlandıran bir katalizör görevi gördü. Uzaktan çalışma, online eğitim ve dijital ödeme sistemleri, pandemi döneminde yaşamın vazgeçilmez parçaları haline geldi.\n\nBlokchain teknolojisi, kripto paralar ve NFT'ler gibi yenilikler, finansal sistemlerde devrim yaratıyor. Bu teknolojiler, merkezi olmayan finansal sistemlerin temellerini atıyor.",
+                category: "Ekonomi",
+                author: "Prof. Mehmet Özkan",
+                authorSlug: "mehmet-ozkan",
+                date: "12 Ocak 2024",
+                readTime: "6 dk",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop"
+            },
+            {
+                id: 3,
+                slug: "spor-teknolojisi",
+                title: "Sporda Teknoloji Devrimi",
+                excerpt: "Modern sporlarda teknolojinin rolü ve sporcuların performansını artırmak için kullanılan yenilikçi çözümler.",
+                content: "Teknoloji, spor dünyasında devrim yaratarak hem sporcuların performansını artırıyor hem de seyircilerin deneyimini zenginleştiriyor. Giyilebilir teknolojiler, sporcuların antrenman verilerini gerçek zamanlı olarak takip etmelerine olanak sağlıyor.\n\nVAR sistemi, futbolda hakemlik kararlarının doğruluğunu artırırken, tenis ve krikette kullanılan Hawk-Eye teknolojisi, tartışmalı pozisyonları netleştiriyor.\n\nSanal gerçeklik ve artırılmış gerçeklik teknolojileri, sporcuların antrenman kalitesini artırıyor. Bu teknolojiler sayesinde sporcular, gerçek müsabaka koşullarını simüle ederek daha etkili antrenmanlar yapabiliyor.",
+                category: "Spor",
+                author: "Zeynep Demir",
+                authorSlug: "zeynep-demir",
+                date: "10 Ocak 2024",
+                readTime: "5 dk",
+                image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop"
+            },
+            {
+                id: 4,
+                slug: "cevre-surdurulebilirlik",
+                title: "Sürdürülebilir Yaşam İçin Pratik Çözümler",
+                excerpt: "Çevre dostu yaşam tarzı benimseyen bireyler için günlük hayatta uygulanabilir sürdürülebilirlik önerileri.",
+                content: "Sürdürülebilir yaşam, gelecek nesillere yaşanabilir bir dünya bırakmanın anahtarı. Günlük hayatımızda yapabileceğimiz küçük değişiklikler, büyük çevresel etkiler yaratabilir.\n\nEnerji tasarrufu, sürdürülebilirliğin temel taşlarından biri. LED ampuller kullanmak, elektronik cihazları fişten çekmek ve yenilenebilir enerji kaynaklarını tercih etmek, karbon ayak izimizi azaltıyor.\n\nAtık yönetimi, çevre koruma açısından kritik önem taşıyor. Geri dönüşüm, kompost yapımı ve tek kullanımlık ürünlerden kaçınmak, atık miktarını önemli ölçüde azaltıyor.",
+                category: "Çevre",
+                author: "Dr. Can Yılmaz",
+                authorSlug: "can-yilmaz",
+                date: "8 Ocak 2024",
+                readTime: "7 dk",
+                image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop"
+            },
+            {
+                id: 5,
+                slug: "saglik-teknolojisi",
+                title: "Dijital Sağlık Çözümleri",
+                excerpt: "Telemedicine, sağlık uygulamaları ve dijital sağlık teknolojilerinin hasta bakımına etkisi.",
+                content: "Dijital sağlık teknolojileri, hasta bakımını dönüştüren yenilikçi çözümler sunuyor. Telemedicine, hastaların uzaktan tıbbi danışmanlık alabilmesini sağlayarak sağlık hizmetlerine erişimi demokratikleştiriyor.\n\nGiyilebilir sağlık cihazları, kalp ritmi, kan basıncı ve uyku kalitesi gibi vital verileri sürekli olarak izleyerek erken teşhis imkanı sağlıyor. Bu cihazlar, kronik hastalıkların yönetiminde önemli rol oynuyor.\n\nYapay zeka destekli tanı sistemleri, radyoloji görüntülerinin analizinde doktorlara yardımcı oluyor. Bu sistemler, kanser gibi kritik hastalıkların erken teşhisinde yüksek doğruluk oranları sağlıyor.",
+                category: "Sağlık",
+                author: "Dr. Ayşe Kaya",
+                authorSlug: "ayse-kaya",
+                date: "5 Ocak 2024",
+                readTime: "6 dk",
+                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop"
+            },
+            {
+                id: 6,
+                slug: "blockchain-gelecegi",
+                title: "Blockchain Teknolojisinin Geleceği",
+                excerpt: "Blockchain teknolojisinin finans sektörü dışındaki uygulamaları ve potansiyel etkileri.",
+                content: "Blockchain teknolojisi, kripto paralarla tanınmasına rağmen, potansiyeli bundan çok daha geniş. Bu devrim niteliğindeki teknoloji, güven gerektiren her alanda uygulanabilir.\n\nTedarik zinciri yönetiminde blockchain, ürünlerin kaynağından tüketiciye kadar olan yolculuğunu şeffaf hale getiriyor. Bu sayede sahte ürünlerin tespiti ve gıda güvenliği konularında önemli ilerlemeler kaydediliyor.\n\nDijital kimlik doğrulama, blockchain'in önemli uygulama alanlarından biri. Merkezi olmayan kimlik sistemleri, kişisel verilerin güvenliğini artırırken, kullanıcılara kendi verilerinin kontrolünü geri veriyor.",
+                category: "Teknoloji",
+                author: "Prof. Mehmet Özkan",
+                authorSlug: "mehmet-ozkan",
+                date: "3 Ocak 2024",
+                readTime: "9 dk",
+                image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=600&h=400&fit=crop"
+            }
+        ];
+
+        const authorsData = [
+            {
+                id: 1,
+                slug: "ayse-kaya",
+                name: "Dr. Ayşe Kaya",
+                bio: "Bilgisayar Mühendisliği doktorası olan Dr. Ayşe Kaya, yapay zeka ve makine öğrenmesi alanlarında 15 yıllık deneyime sahip. Teknoloji ve sağlık konularında uzman yazılar kaleme alıyor.",
+                avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+                specialty: "Yapay Zeka & Sağlık",
+                experience: 15,
+                articleCount: 47,
+                followers: "12.5K"
+            },
+            {
+                id: 2,
+                slug: "mehmet-ozkan",
+                name: "Prof. Mehmet Özkan",
+                bio: "İktisat Profesörü olan Mehmet Özkan, dijital ekonomi ve fintech alanlarında araştırmalar yapıyor. Blockchain teknolojileri ve kripto para konularında düzenli olarak yazılar yayınlıyor.",
+                avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+                specialty: "Dijital Ekonomi",
+                experience: 22,
+                articleCount: 63,
+                followers: "18.2K"
+            },
+            {
+                id: 3,
+                slug: "zeynep-demir",
+                name: "Zeynep Demir",
+                bio: "Spor gazetecisi ve eski profesyonel atlet olan Zeynep Demir, spor teknolojileri ve performans analizi konularında uzmanlaşmış. Modern sporlardaki teknolojik gelişmeleri takip ediyor.",
+                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+                specialty: "Spor Teknolojileri",
+                experience: 12,
+                articleCount: 34,
+                followers: "8.7K"
+            },
+            {
+                id: 4,
+                slug: "can-yilmaz",
+                name: "Dr. Can Yılmaz",
+                bio: "Çevre Mühendisliği doktorası olan Dr. Can Yılmaz, sürdürülebilirlik ve çevre koruma konularında aktif olarak çalışıyor. Yeşil teknolojiler ve iklim değişikliği üzerine yazılar kaleme alıyor.",
+                avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+                specialty: "Çevre & Sürdürülebilirlik",
+                experience: 18,
+                articleCount: 52,
+                followers: "15.3K"
+            }
+        ];
+
         // Global variables
-        let articlesData = [];
-        let authorsData = [];
         let currentView = 'home';
         let heroRotationInterval;
         let currentHeroIndex = 0;
+        let lastScrollY = 0;
 
-        // Load data from JSON files
-        async function loadData() {
-            try {
-                const [articlesResponse, authorsResponse] = await Promise.all([
-                    fetch('./articles.json'),
-                    fetch('./authors.json')
-                ]);
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderArticles();
+            startHeroRotation();
+            setupSearch();
+            setupNavbarScroll();
+            
+            // Check initial hash
+            setTimeout(() => {
+                const hash = window.location.hash.substring(1);
+                if (hash.startsWith('author-')) {
+                    const authorSlug = hash.substring(7);
+                    showAuthor(authorSlug);
+                } else if (hash) {
+                    showArticle(hash);
+                }
+            }, 100);
+        });
+
+        // Setup navbar scroll behavior
+        function setupNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                const currentScrollY = window.scrollY;
                 
-                const articlesJson = await articlesResponse.json();
-                const authorsJson = await authorsResponse.json();
+                if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                    // Scrolling down
+                    navbar.classList.add('hidden');
+                } else {
+                    // Scrolling up
+                    navbar.classList.remove('hidden');
+                }
                 
-                articlesData = articlesJson.articles;
-                authorsData = authorsJson.authors;
-                
-                renderArticles();
-                startHeroRotation();
-                setupSearch();
-            } catch (error) {
-                console.error('Error loading data:', error);
-            }
+                lastScrollY = currentScrollY;
+            });
         }
 
         // Start hero section rotation
         function startHeroRotation() {
             const heroSection = document.getElementById('hero-section');
-            const featuredArticles = articlesData.slice(0, 3); // First 3 articles for hero
+            const featuredArticles = articlesData.slice(0, 3);
+            
+            // Clear existing content
+            heroSection.innerHTML = '';
             
             // Create hero content elements
             featuredArticles.forEach((article, index) => {
@@ -997,7 +1153,7 @@
                         <div class="hero-text">
                             <span class="hero-category">${article.category}</span>
                             <h2 class="hero-title">${article.title}</h2>
-                            <p class="hero-excerpt">${article.excerpt}</p>
+                            <p class="hero-excerpt">${article.excerpt.substring(0, 120)}...</p>
                             <a href="#" class="hero-read-more ripple" onclick="showArticle('${article.slug}')">Devamını Oku</a>
                         </div>
                     </div>
@@ -1006,11 +1162,17 @@
             });
 
             // Start rotation
+            if (heroRotationInterval) {
+                clearInterval(heroRotationInterval);
+            }
+            
             heroRotationInterval = setInterval(() => {
                 const heroContents = heroSection.querySelectorAll('.hero-content');
-                heroContents[currentHeroIndex].classList.remove('active');
-                currentHeroIndex = (currentHeroIndex + 1) % featuredArticles.length;
-                heroContents[currentHeroIndex].classList.add('active');
+                if (heroContents.length > 0) {
+                    heroContents[currentHeroIndex].classList.remove('active');
+                    currentHeroIndex = (currentHeroIndex + 1) % featuredArticles.length;
+                    heroContents[currentHeroIndex].classList.add('active');
+                }
             }, 5000);
         }
 
@@ -1056,7 +1218,7 @@
                         type: 'article',
                         title: article.title,
                         subtitle: article.category,
-                        action: () => showArticle(article.slug)
+                        slug: article.slug
                     });
                 }
             });
@@ -1069,7 +1231,7 @@
                         type: 'author',
                         title: author.name,
                         subtitle: author.specialty,
-                        action: () => showAuthor(author.slug)
+                        slug: author.slug
                     });
                 }
             });
@@ -1077,7 +1239,7 @@
             // Display results
             if (results.length > 0) {
                 searchResults.innerHTML = results.slice(0, 8).map(result => `
-                    <div class="search-result-item ripple" onclick="handleSearchResult('${result.type}', '${result.type === 'article' ? articlesData.find(a => a.title === result.title).slug : authorsData.find(a => a.name === result.title).slug}')">
+                    <div class="search-result-item ripple" onclick="handleSearchResult('${result.type}', '${result.slug}')">
                         <div class="search-result-title">${result.title}</div>
                         <div class="search-result-type">${result.type === 'article' ? 'Makale' : 'Yazar'} • ${result.subtitle}</div>
                     </div>
@@ -1104,6 +1266,7 @@
         // Render articles
         function renderArticles() {
             const container = document.getElementById('articles-container');
+            container.innerHTML = '';
             
             articlesData.forEach((article, index) => {
                 const articleCard = document.createElement('div');
@@ -1121,7 +1284,7 @@
                             <div>
                                 <a href="#" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date} • ${article.readTime}
                             </div>
-                            <span class="read-more" onclick="showArticle('${article.slug}')">Devamını Oku</span>
+                            <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                         </div>
                     </div>
                 `;
@@ -1134,10 +1297,10 @@
                 
                 container.appendChild(articleCard);
 
-                // Animate cards on scroll
+                // Animate cards
                 setTimeout(() => {
                     articleCard.classList.add('animate-in');
-                }, index * 200);
+                }, index * 100);
             });
         }
 
@@ -1156,9 +1319,6 @@
                 window.scrollTo(0, 0);
                 
                 // Restart hero rotation
-                if (heroRotationInterval) {
-                    clearInterval(heroRotationInterval);
-                }
                 startHeroRotation();
             });
         }
@@ -1256,7 +1416,7 @@
                                 <div>
                                     ${article.date} • ${article.readTime}
                                 </div>
-                                <span class="read-more" onclick="showArticle('${article.slug}')">Devamını Oku</span>
+                                <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                             </div>
                         </div>
                     `;
@@ -1272,7 +1432,7 @@
                     // Animate cards
                     setTimeout(() => {
                         articleCard.classList.add('animate-in');
-                    }, index * 200);
+                    }, index * 100);
                 });
 
                 // Switch views
@@ -1325,22 +1485,6 @@
             } else if (!hash && currentView !== 'home') {
                 showHome();
             }
-        });
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            
-            // Check initial hash after data loads
-            setTimeout(() => {
-                const hash = window.location.hash.substring(1);
-                if (hash.startsWith('author-')) {
-                    const authorSlug = hash.substring(7);
-                    showAuthor(authorSlug);
-                } else if (hash) {
-                    showArticle(hash);
-                }
-            }, 1000);
         });
     </script>
 </body>

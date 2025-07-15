@@ -5,6 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fst. - FISILTI</title>
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="En güncel haberler, teknoloji, sağlık ve çevre makaleleri - fst. FISILTI">
+    <meta name="keywords" content="haber, makale, teknoloji, sağlık, çevre, güncel">
+    <meta name="author" content="fst. FISILTI">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="fst. - FISILTI">
+    <meta property="og:description" content="En güncel haberler ve makaleler">
+    <meta property="og:image" content="/icon-512x512.png">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yoursite.com">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="fst. - FISILTI">
+    <meta name="twitter:description" content="En güncel haberler ve makaleler">
+    <meta name="twitter:image" content="/icon-512x512.png">
+    
     <!-- PWA Meta Tags -->
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#dc2626">
@@ -12,14 +30,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="fst. FISILTI">
     <link rel="apple-touch-icon" href="/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icon-16x16.png">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" as="style">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap">
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
             --primary-red: #dc2626;
             --dark-red: #991b1b;
@@ -29,14 +47,30 @@
             --gray: #6b7280;
             --light-gray: #f3f4f6;
             --dark-gray: #374151;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--primary-red);
             color: var(--white);
             overflow-x: hidden;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Performance Optimizations */
+        img {
+            loading: lazy;
+            decoding: async;
         }
 
         /* Custom Scrollbar */
@@ -57,29 +91,22 @@
             background: #f3f4f6;
         }
 
-        /* Remove blue tap highlight */
+        /* Remove tap highlights */
         * {
             -webkit-tap-highlight-color: transparent;
             -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
         }
 
-        input, textarea {
+        input, textarea, [contenteditable] {
             -webkit-user-select: text;
-            -khtml-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
             user-select: text;
         }
 
-        /* Ripple Effect */
+        /* Improved Ripple Effect */
         .ripple {
             position: relative;
             overflow: hidden;
+            transform: translateZ(0);
         }
 
         .ripple::before {
@@ -92,7 +119,7 @@
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
             transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
+            transition: width 0.4s ease, height 0.4s ease;
             pointer-events: none;
         }
 
@@ -101,35 +128,7 @@
             height: 200px;
         }
 
-        /* Page Transition */
-        .page-transition {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            display: none;
-            pointer-events: none;
-            background: var(--primary-red);
-        }
-
-        .transition-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--dark-red);
-            transform: translateX(-100%);
-            transition: transform 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-
-        .transition-overlay.animate {
-            transform: translateX(0);
-        }
-
-        /* Navigation */
+        /* Enhanced Navigation */
         .navbar {
             position: fixed;
             top: 0;
@@ -139,7 +138,8 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             z-index: 1000;
             padding: 1rem 0;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+            will-change: transform;
         }
 
         .navbar.hidden {
@@ -172,11 +172,11 @@
             text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
-        /* Search Bar */
+        /* Enhanced Search */
         .search-container {
             position: relative;
             flex: 1;
-            max-width: 400px;
+            max-width: 500px;
         }
 
         .search-input {
@@ -189,6 +189,7 @@
             font-size: 1rem;
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            font-family: inherit;
         }
 
         .search-input::placeholder {
@@ -225,6 +226,7 @@
             overflow-y: auto;
             display: none;
             z-index: 1001;
+            box-shadow: var(--shadow-lg);
         }
 
         .search-result-item {
@@ -284,7 +286,7 @@
             display: block;
         }
 
-        /* Home View */
+        /* Home View - Removed hero section */
         .home-view {
             margin-top: 90px;
             max-width: 1400px;
@@ -293,105 +295,7 @@
             padding: 2rem;
         }
 
-        /* Hero Section */
-        .hero-section {
-            text-align: center;
-            padding: 3rem 2rem;
-            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
-            border-radius: 20px;
-            margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-            min-height: 300px;
-        }
-
-        .hero-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            padding: 2rem;
-        }
-
-        .hero-content.active {
-            opacity: 1;
-        }
-
-        .hero-article {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-            max-width: 900px;
-            width: 100%;
-        }
-
-        .hero-image {
-            width: 200px;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            flex-shrink: 0;
-        }
-
-        .hero-text {
-            flex: 1;
-            text-align: left;
-        }
-
-        .hero-category {
-            display: inline-block;
-            background: var(--white);
-            color: var(--primary-red);
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        .hero-title {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--white);
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .hero-excerpt {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-read-more {
-            background: var(--white);
-            color: var(--primary-red);
-            padding: 0.8rem 1.5rem;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            display: inline-block;
-            font-size: 0.9rem;
-        }
-
-        .hero-read-more:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Articles Section */
+        /* Enhanced Articles Section */
         .articles-section {
             margin-bottom: 4rem;
         }
@@ -417,6 +321,35 @@
             border-radius: 2px;
         }
 
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-tab:hover,
+        .filter-tab.active {
+            background: var(--white);
+            color: var(--primary-red);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
         .articles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -430,11 +363,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             overflow: hidden;
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
             cursor: pointer;
             position: relative;
             transform: translateY(20px);
             opacity: 0;
+            will-change: transform;
         }
 
         .article-card:hover {
@@ -527,7 +461,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Article View - Completely Redesigned */
+        /* Enhanced Article View */
         .article-view {
             margin-top: 90px;
             background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
@@ -699,6 +633,19 @@
             margin: 2rem 0 1rem 0;
         }
 
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--white);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        }
+
+        /* Article Tags */
         .article-tags {
             margin-bottom: 3rem;
             padding-bottom: 2rem;
@@ -715,6 +662,7 @@
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .tag:hover {
@@ -722,6 +670,7 @@
             transform: translateY(-2px);
         }
 
+        /* Enhanced Share Section */
         .share-section {
             background: var(--light-gray);
             border-radius: 15px;
@@ -753,12 +702,77 @@
             font-weight: 600;
             transition: all 0.3s ease;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .share-btn:hover {
             background: var(--dark-red);
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        /* Related Articles */
+        .related-articles {
+            background: var(--light-gray);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .related-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .related-image {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .related-content {
+            padding: 1rem;
+        }
+
+        .related-category {
+            font-size: 0.7rem;
+            color: var(--primary-red);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-title-small {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--dark-gray);
+            line-height: 1.3;
         }
 
         /* Author View - Enhanced */
@@ -950,7 +964,31 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Responsive */
+        /* PWA Install Button */
+        .install-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--white);
+            color: var(--primary-red);
+            padding: 1rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            display: none;
+            z-index: 1000;
+        }
+
+        .install-button:hover {
+            background: var(--primary-red);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .nav-container {
                 padding: 0 1rem;
@@ -968,30 +1006,6 @@
             .search-input {
                 font-size: 0.9rem;
                 padding: 0.7rem 1.2rem 0.7rem 2.2rem;
-            }
-
-            .hero-section {
-                min-height: 250px;
-                padding: 2rem 1rem;
-            }
-
-            .hero-article {
-                flex-direction: column;
-                text-align: center;
-                gap: 1.5rem;
-            }
-
-            .hero-text {
-                text-align: center;
-            }
-
-            .hero-title {
-                font-size: 1.5rem;
-            }
-
-            .hero-image {
-                width: 180px;
-                height: 120px;
             }
 
             .articles-grid {
@@ -1039,11 +1053,31 @@
                 flex-direction: column;
                 gap: 0.5rem;
             }
+
+            .filter-tabs {
+                gap: 0.5rem;
+            }
+
+            .filter-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .related-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .install-button {
+                bottom: 1rem;
+                right: 1rem;
+                padding: 0.8rem 1.2rem;
+                font-size: 0.9rem;
+            }
         }
 
         /* Animation Classes */
         .animate-in {
-            animation: slideInUp 0.8s ease forwards;
+            animation: slideInUp 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
         }
 
         @keyframes slideInUp {
@@ -1069,13 +1103,54 @@
                 opacity: 1;
             }
         }
+
+        /* Print Styles */
+        @media print {
+            .navbar, .back-button, .share-section, .search-container, .install-button {
+                display: none !important;
+            }
+            
+            .article-view {
+                margin-top: 0 !important;
+            }
+            
+            .article-body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .article-hero {
+                height: auto !important;
+                min-height: auto !important;
+            }
+            
+            .article-title-hero {
+                color: black !important;
+                text-shadow: none !important;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --white: #ffffff;
+                --black: #000000;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Page Transition Animation -->
-    <div class="page-transition" id="page-transition">
-        <div class="transition-overlay"></div>
-    </div>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress" id="reading-progress"></div>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -1084,7 +1159,7 @@
             
             <div class="search-container">
                 <div class="search-icon">🔍</div>
-                <input type="text" class="search-input" placeholder="Ara..." id="search-input">
+                <input type="text" class="search-input" placeholder="Ara..." id="search-input" autocomplete="off">
                 <div class="search-results" id="search-results"></div>
             </div>
             
@@ -1095,18 +1170,23 @@
         </div>
     </nav>
 
+    <!-- PWA Install Button -->
+    <button class="install-button" id="install-button">Uygulamayı Yükle</button>
+
     <!-- Home View -->
     <div class="view active home-view" id="home-view">
-        <!-- Hero Section -->
-        <section class="hero-section" id="hero-section">
-            <div class="loading">
-                <div class="spinner"></div>
-            </div>
-        </section>
-
         <!-- Articles Section -->
         <section class="articles-section">
             <h2 class="section-title">Son Haberler</h2>
+            
+            <!-- Filter Tabs -->
+            <div class="filter-tabs" id="filter-tabs">
+                <div class="filter-tab active" data-category="all">Tümü</div>
+                <div class="filter-tab" data-category="Teknoloji">Teknoloji</div>
+                <div class="filter-tab" data-category="Sağlık">Sağlık</div>
+                <div class="filter-tab" data-category="Çevre">Çevre</div>
+            </div>
+            
             <div class="articles-grid" id="articles-container">
                 <div class="loading">
                     <div class="spinner"></div>
@@ -1163,10 +1243,25 @@
                 <div class="share-section">
                     <h3 class="share-title">Bu makaleyi paylaş</h3>
                     <div class="share-buttons">
-                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('twitter')">Twitter</a>
-                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('facebook')">Facebook</a>
-                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('whatsapp')">WhatsApp</a>
-                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('linkedin')">LinkedIn</a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('twitter')">
+                            <span>🐦</span> Twitter
+                        </a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('facebook')">
+                            <span>📘</span> Facebook
+                        </a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('whatsapp')">
+                            <span>💬</span> WhatsApp
+                        </a>
+                        <a href="javascript:void(0)" class="share-btn ripple" onclick="shareArticle('linkedin')">
+                            <span>💼</span> LinkedIn
+                        </a>
+                    </div>
+                </div>
+
+                <div class="related-articles" id="related-articles">
+                    <h3 class="related-title">İlgili Makaleler</h3>
+                    <div class="related-grid" id="related-grid">
+                        <!-- Related articles will be loaded here -->
                     </div>
                 </div>
 
@@ -1232,25 +1327,16 @@
         </div>
     </div>
 
-    <!-- PWA Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(() => console.log('Service Worker kaydedildi!'))
-                .catch((error) => console.log('Service Worker hatası:', error));
-        }
-    </script>
-
     <script>
         // Global variables
         let articlesData = [];
         let authorsData = [];
         let currentView = 'home';
-        let heroRotationInterval;
-        let currentHeroIndex = 0;
         let lastScrollY = 0;
         let currentArticleSlug = '';
         let currentAuthorSlug = '';
+        let currentFilter = 'all';
+        let deferredPrompt;
 
         // Sample data - Replace with your actual data
         const sampleArticles = [
@@ -1269,8 +1355,9 @@
                 author: 'Dr. Ayşe Tekniker',
                 authorSlug: 'ayse-tekniker',
                 date: '15 Ocak 2024',
-                image: '/placeholder.svg?height=300&width=500',
-                tags: ['Yapay Zeka', 'Teknoloji', 'Gelecek', 'İnovasyon']
+                image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=500&h=300&fit=crop',
+                tags: ['Yapay Zeka', 'Teknoloji', 'Gelecek', 'İnovasyon'],
+                readTime: '5 dk'
             },
             {
                 slug: 'saglikli-yasam-rehberi',
@@ -1287,8 +1374,9 @@
                 author: 'Dr. Mehmet Sağlık',
                 authorSlug: 'mehmet-saglik',
                 date: '12 Ocak 2024',
-                image: '/placeholder.svg?height=300&width=500',
-                tags: ['Sağlık', 'Yaşam', 'Beslenme', 'Egzersiz']
+                image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=300&fit=crop',
+                tags: ['Sağlık', 'Yaşam', 'Beslenme', 'Egzersiz'],
+                readTime: '4 dk'
             },
             {
                 slug: 'cevre-koruma-onerileri',
@@ -1305,8 +1393,28 @@
                 author: 'Prof. Zeynep Doğa',
                 authorSlug: 'zeynep-doga',
                 date: '10 Ocak 2024',
-                image: '/placeholder.svg?height=300&width=500',
-                tags: ['Çevre', 'Sürdürülebilirlik', 'İklim', 'Doğa']
+                image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=300&fit=crop',
+                tags: ['Çevre', 'Sürdürülebilirlik', 'İklim', 'Doğa'],
+                readTime: '6 dk'
+            },
+            {
+                slug: 'dijital-detoks-rehberi',
+                title: 'Dijital Detoks: Teknoloji Bağımlılığından Kurtulma',
+                excerpt: 'Dijital cihazlarla olan ilişkimizi yeniden düzenleyerek daha sağlıklı bir yaşam sürmek mümkün.',
+                content: `Dijital teknolojiler hayatımızı kolaylaştırırken, aynı zamanda bağımlılık yaratabilir. Sürekli bildirimler, sosyal medya kullanımı ve ekran karşısında geçirilen uzun saatler mental sağlığımızı olumsuz etkileyebilir.
+
+                Dijital detoks, teknoloji kullanımımızı bilinçli bir şekilde sınırlayarak zihinsel ve fiziksel sağlığımızı iyileştirme sürecidir. Bu süreç, tamamen teknolojiden uzak durmak değil, dengeli bir kullanım alışkanlığı geliştirmektir.
+
+                Başlangıç için günlük ekran sürenizi takip edin ve belirli saatlerde cihazlarınızı kapatın. Özellikle yemek saatlerinde ve yatmadan önce telefon kullanımından kaçının. Bunun yerine kitap okuma, müzik dinleme veya doğa yürüyüşü gibi aktiviteleri tercih edin.
+
+                Sosyal medya kullanımınızı sınırlandırın ve gereksiz uygulamaları telefonunuzdan kaldırın. Bildirimlerinizi kapatarak sürekli dikkat dağınıklığından kurtulabilirsiniz.`,
+                category: 'Teknoloji',
+                author: 'Dr. Ayşe Tekniker',
+                authorSlug: 'ayse-tekniker',
+                date: '8 Ocak 2024',
+                image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&h=300&fit=crop',
+                tags: ['Dijital Detoks', 'Mental Sağlık', 'Teknoloji', 'Yaşam'],
+                readTime: '3 dk'
             }
         ];
 
@@ -1316,7 +1424,7 @@
                 name: 'Dr. Ayşe Tekniker',
                 bio: 'Bilgisayar Mühendisliği doktorası olan Dr. Ayşe Tekniker, yapay zeka ve makine öğrenmesi alanında 15 yıllık deneyime sahiptir. Çeşitli teknoloji şirketlerinde çalışmış ve akademik araştırmalar yapmıştır.',
                 specialty: 'Yapay Zeka Uzmanı',
-                avatar: '/placeholder.svg?height=150&width=150',
+                avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
                 articleCount: 25,
                 experience: 15,
                 followers: 1200,
@@ -1331,7 +1439,7 @@
                 name: 'Dr. Mehmet Sağlık',
                 bio: 'İç Hastalıkları uzmanı Dr. Mehmet Sağlık, preventif tıp ve sağlıklı yaşam konularında uzmanlaşmıştır. Çeşitli sağlık kuruluşlarında çalışmış ve halk sağlığı projelerinde yer almıştır.',
                 specialty: 'İç Hastalıkları Uzmanı',
-                avatar: '/placeholder.svg?height=150&width=150',
+                avatar: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&h=150&fit=crop&crop=face',
                 articleCount: 18,
                 experience: 12,
                 followers: 850,
@@ -1346,7 +1454,7 @@
                 name: 'Prof. Zeynep Doğa',
                 bio: 'Çevre Mühendisliği profesörü olan Zeynep Doğa, sürdürülebilirlik ve çevre koruma konularında araştırmalar yapmaktadır. Uluslararası çevre projelerinde danışmanlık yapmıştır.',
                 specialty: 'Çevre Mühendisliği Profesörü',
-                avatar: '/placeholder.svg?height=150&width=150',
+                avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop&crop=face',
                 articleCount: 32,
                 experience: 20,
                 followers: 2100,
@@ -1358,55 +1466,161 @@
             }
         ];
 
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            setupNavbarScroll();
+            setupPWA();
+            setupReadingProgress();
+            setupFilterTabs();
+        });
+
         // Load data
         async function loadData() {
             try {
-                // Try to load from JSON files first
-                const [articlesResponse, authorsResponse] = await Promise.all([
-                    fetch('./articles.json').catch(() => null),
-                    fetch('./authors.json').catch(() => null)
-                ]);
-                
-                if (articlesResponse && authorsResponse) {
-                    const articlesJson = await articlesResponse.json();
-                    const authorsJson = await authorsResponse.json();
-                    articlesData = articlesJson.articles;
-                    authorsData = authorsJson.authors;
-                } else {
-                    // Fallback to sample data
-                    articlesData = sampleArticles;
-                    authorsData = sampleAuthors;
-                }
+                // Use sample data (replace with your API calls)
+                articlesData = sampleArticles;
+                authorsData = sampleAuthors;
                 
                 renderArticles();
-                startHeroRotation();
                 setupSearch();
-                
-                // Handle initial hash
                 handleHashChange();
                 
             } catch (error) {
                 console.error('Error loading data:', error);
-                // Use sample data as fallback
                 articlesData = sampleArticles;
                 authorsData = sampleAuthors;
                 renderArticles();
-                startHeroRotation();
                 setupSearch();
                 handleHashChange();
             }
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            setupNavbarScroll();
-        });
+        // Setup PWA functionality
+        function setupPWA() {
+            // Register service worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(() => console.log('Service Worker registered'))
+                    .catch((error) => console.log('Service Worker error:', error));
+            }
 
-        // Navigation functions
-        function navigateHome() {
-            if (currentView === 'home') return;
-            showHome();
+            // Handle PWA install prompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                document.getElementById('install-button').style.display = 'block';
+            });
+
+            document.getElementById('install-button').addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log(`User response: ${outcome}`);
+                    deferredPrompt = null;
+                    document.getElementById('install-button').style.display = 'none';
+                }
+            });
+        }
+
+        // Setup reading progress bar
+        function setupReadingProgress() {
+            const progressBar = document.getElementById('reading-progress');
+            
+            window.addEventListener('scroll', () => {
+                if (currentView === 'article') {
+                    const article = document.querySelector('.article-content-body');
+                    if (article) {
+                        const articleTop = article.offsetTop;
+                        const articleHeight = article.offsetHeight;
+                        const windowHeight = window.innerHeight;
+                        const scrollTop = window.scrollY;
+                        
+                        const progress = Math.min(
+                            Math.max((scrollTop - articleTop + windowHeight) / articleHeight, 0),
+                            1
+                        );
+                        
+                        progressBar.style.width = `${progress * 100}%`;
+                    }
+                } else {
+                    progressBar.style.width = '0%';
+                }
+            });
+        }
+
+        // Setup filter tabs
+        function setupFilterTabs() {
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Get filter category
+                    currentFilter = tab.dataset.category;
+                    
+                    // Filter articles
+                    filterArticles(currentFilter);
+                });
+            });
+        }
+
+        // Filter articles by category
+        function filterArticles(category) {
+            const filteredArticles = category === 'all' 
+                ? articlesData 
+                : articlesData.filter(article => article.category === category);
+            
+            renderFilteredArticles(filteredArticles);
+        }
+
+        // Render filtered articles
+        function renderFilteredArticles(articles) {
+            const container = document.getElementById('articles-container');
+            container.innerHTML = '';
+            
+            if (articles.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7);">Bu kategoride makale bulunmuyor.</p>';
+                return;
+            }
+            
+            articles.forEach((article, index) => {
+                const articleCard = document.createElement('div');
+                articleCard.className = 'article-card ripple';
+                
+                const author = authorsData.find(a => a.slug === article.authorSlug);
+                
+                articleCard.innerHTML = `
+                    <img src="${article.image}" alt="${article.title}" class="article-image">
+                    <div class="article-content">
+                        <span class="article-category">${article.category}</span>
+                        <h3 class="article-title">${article.title}</h3>
+                        <p class="article-excerpt">${article.excerpt}</p>
+                        <div class="article-meta">
+                            <div>
+                                <a href="javascript:void(0)" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date} • ${article.readTime}
+                            </div>
+                            <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
+                        </div>
+                    </div>
+                `;
+
+                articleCard.addEventListener('click', (e) => {
+                    if (!e.target.closest('.author-link') && !e.target.closest('.read-more')) {
+                        showArticle(article.slug);
+                    }
+                });
+                
+                container.appendChild(articleCard);
+
+                setTimeout(() => {
+                    articleCard.classList.add('animate-in');
+                }, index * 100);
+            });
         }
 
         // Setup navbar scroll behavior
@@ -1424,46 +1638,6 @@
                 
                 lastScrollY = currentScrollY;
             });
-        }
-
-        // Start hero section rotation
-        function startHeroRotation() {
-            if (articlesData.length === 0) return;
-            
-            const heroSection = document.getElementById('hero-section');
-            const featuredArticles = articlesData.slice(0, 3);
-            
-            heroSection.innerHTML = '';
-            
-            featuredArticles.forEach((article, index) => {
-                const heroContent = document.createElement('div');
-                heroContent.className = `hero-content ${index === 0 ? 'active' : ''}`;
-                heroContent.innerHTML = `
-                    <div class="hero-article">
-                        <img src="${article.image}" alt="${article.title}" class="hero-image">
-                        <div class="hero-text">
-                            <span class="hero-category">${article.category}</span>
-                            <h2 class="hero-title">${article.title}</h2>
-                            <p class="hero-excerpt">${article.excerpt}</p>
-                            <a href="javascript:void(0)" class="hero-read-more ripple" onclick="showArticle('${article.slug}')">Devamını Oku</a>
-                        </div>
-                    </div>
-                `;
-                heroSection.appendChild(heroContent);
-            });
-
-            if (heroRotationInterval) {
-                clearInterval(heroRotationInterval);
-            }
-            
-            heroRotationInterval = setInterval(() => {
-                const heroContents = heroSection.querySelectorAll('.hero-content');
-                if (heroContents.length > 0) {
-                    heroContents[currentHeroIndex].classList.remove('active');
-                    currentHeroIndex = (currentHeroIndex + 1) % featuredArticles.length;
-                    heroContents[currentHeroIndex].classList.add('active');
-                }
-            }, 5000);
         }
 
         // Setup search functionality
@@ -1501,7 +1675,8 @@
             articlesData.forEach(article => {
                 if (article.title.toLowerCase().includes(query) || 
                     article.excerpt.toLowerCase().includes(query) ||
-                    article.content.toLowerCase().includes(query)) {
+                    article.content.toLowerCase().includes(query) ||
+                    article.tags.some(tag => tag.toLowerCase().includes(query))) {
                     results.push({
                         type: 'article',
                         title: article.title,
@@ -1513,7 +1688,8 @@
 
             authorsData.forEach(author => {
                 if (author.name.toLowerCase().includes(query) ||
-                    author.bio.toLowerCase().includes(query)) {
+                    author.bio.toLowerCase().includes(query) ||
+                    author.specialty.toLowerCase().includes(query)) {
                     results.push({
                         type: 'author',
                         title: author.name,
@@ -1553,63 +1729,31 @@
         function renderArticles() {
             if (articlesData.length === 0) return;
             
-            const container = document.getElementById('articles-container');
-            container.innerHTML = '';
-            
-            articlesData.forEach((article, index) => {
-                const articleCard = document.createElement('div');
-                articleCard.className = 'article-card ripple';
-                
-                const author = authorsData.find(a => a.slug === article.authorSlug);
-                
-                articleCard.innerHTML = `
-                    <img src="${article.image}" alt="${article.title}" class="article-image">
-                    <div class="article-content">
-                        <span class="article-category">${article.category}</span>
-                        <h3 class="article-title">${article.title}</h3>
-                        <p class="article-excerpt">${article.excerpt}</p>
-                        <div class="article-meta">
-                            <div>
-                                <a href="javascript:void(0)" class="author-link" onclick="showAuthor('${article.authorSlug}')">${author ? author.name : article.author}</a> • ${article.date}
-                            </div>
-                            <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
-                        </div>
-                    </div>
-                `;
+            renderFilteredArticles(articlesData);
+        }
 
-                articleCard.addEventListener('click', (e) => {
-                    if (!e.target.closest('.author-link') && !e.target.closest('.read-more')) {
-                        showArticle(article.slug);
-                    }
-                });
-                
-                container.appendChild(articleCard);
-
-                setTimeout(() => {
-                    articleCard.classList.add('animate-in');
-                }, index * 100);
-            });
+        // Navigation functions
+        function navigateHome() {
+            if (currentView === 'home') return;
+            showHome();
         }
 
         // Show home view
         function showHome() {
-            showTransition(() => {
-                document.getElementById('home-view').classList.add('active');
-                document.getElementById('article-view').classList.remove('active');
-                document.getElementById('author-view').classList.remove('active');
-                document.querySelector('.search-container').style.display = 'block';
-                document.getElementById('back-button').style.display = 'none';
-                currentView = 'home';
-                currentArticleSlug = '';
-                currentAuthorSlug = '';
-                
-                // Update URL without triggering hashchange
-                history.pushState(null, null, window.location.pathname);
-                document.title = 'fst. - FISILTI';
-                
-                window.scrollTo(0, 0);
-                startHeroRotation();
-            });
+            document.getElementById('home-view').classList.add('active');
+            document.getElementById('article-view').classList.remove('active');
+            document.getElementById('author-view').classList.remove('active');
+            document.querySelector('.search-container').style.display = 'block';
+            document.getElementById('back-button').style.display = 'none';
+            currentView = 'home';
+            currentArticleSlug = '';
+            currentAuthorSlug = '';
+            
+            // Update URL without triggering hashchange
+            history.pushState(null, null, window.location.pathname);
+            document.title = 'fst. - FISILTI';
+            
+            window.scrollTo(0, 0);
         }
 
         // Show article view
@@ -1619,62 +1763,102 @@
 
             currentArticleSlug = slug;
             
-            showTransition(() => {
-                if (heroRotationInterval) {
-                    clearInterval(heroRotationInterval);
-                }
+            document.title = `${article.title} - fst. FISILTI`;
+            
+            // Update meta tags for SEO
+            updateMetaTags(article.title, article.excerpt, article.image);
+            
+            // Update breadcrumb
+            document.getElementById('breadcrumb-category').textContent = article.category;
+            document.getElementById('breadcrumb-title').textContent = article.title;
+            
+            // Update hero section
+            document.getElementById('article-category-hero').textContent = article.category;
+            document.getElementById('article-title-hero').textContent = article.title;
+            document.getElementById('article-hero-bg').src = article.image;
+            
+            // Update author info
+            const author = authorsData.find(a => a.slug === article.authorSlug);
+            if (author) {
+                document.getElementById('author-avatar-hero').src = author.avatar;
+                document.getElementById('article-author-hero').textContent = author.name;
+                document.getElementById('article-author-hero').onclick = () => showAuthor(article.authorSlug);
+            } else {
+                document.getElementById('author-avatar-hero').src = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face';
+                document.getElementById('article-author-hero').textContent = article.author;
+            }
+            
+            document.getElementById('article-date-hero').textContent = article.date;
+            
+            // Update content
+            const paragraphs = article.content.split('\n\n');
+            const formattedContent = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+            document.getElementById('article-content-body').innerHTML = formattedContent;
 
-                document.title = `${article.title} - fst. FISILTI`;
-                
-                // Update breadcrumb
-                document.getElementById('breadcrumb-category').textContent = article.category;
-                document.getElementById('breadcrumb-title').textContent = article.title;
-                
-                // Update hero section
-                document.getElementById('article-category-hero').textContent = article.category;
-                document.getElementById('article-title-hero').textContent = article.title;
-                document.getElementById('article-hero-bg').src = article.image;
-                
-                // Update author info
-                const author = authorsData.find(a => a.slug === article.authorSlug);
-                if (author) {
-                    document.getElementById('author-avatar-hero').src = author.avatar;
-                    document.getElementById('article-author-hero').textContent = author.name;
-                    document.getElementById('article-author-hero').onclick = () => showAuthor(article.authorSlug);
-                } else {
-                    document.getElementById('author-avatar-hero').src = '/placeholder.svg?height=32&width=32';
-                    document.getElementById('article-author-hero').textContent = article.author;
-                }
-                
-                document.getElementById('article-date-hero').textContent = article.date;
-                
-                // Update content
-                const paragraphs = article.content.split('\n\n');
-                const formattedContent = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
-                document.getElementById('article-content-body').innerHTML = formattedContent;
+            // Update tags
+            const tagsContainer = document.getElementById('article-tags');
+            if (article.tags && article.tags.length > 0) {
+                tagsContainer.innerHTML = article.tags.map(tag => 
+                    `<span class="tag" onclick="filterByTag('${tag}')">${tag}</span>`
+                ).join('');
+            } else {
+                tagsContainer.innerHTML = '';
+            }
 
-                // Update tags
-                const tagsContainer = document.getElementById('article-tags');
-                if (article.tags && article.tags.length > 0) {
-                    tagsContainer.innerHTML = article.tags.map(tag => 
-                        `<span class="tag">${tag}</span>`
-                    ).join('');
-                } else {
-                    tagsContainer.innerHTML = '';
-                }
+            // Load related articles
+            loadRelatedArticles(article);
 
-                // Show article view
-                document.getElementById('home-view').classList.remove('active');
-                document.getElementById('article-view').classList.add('active');
-                                document.getElementById('author-view').classList.remove('active');
-                document.querySelector('.search-container').style.display = 'none';
-                document.getElementById('back-button').style.display = 'flex';
-                currentView = 'article';
+            // Show article view
+            document.getElementById('home-view').classList.remove('active');
+            document.getElementById('article-view').classList.add('active');
+            document.getElementById('author-view').classList.remove('active');
+            document.querySelector('.search-container').style.display = 'none';
+            document.getElementById('back-button').style.display = 'flex';
+            currentView = 'article';
+            
+            // Update URL
+            history.pushState(null, null, `#${slug}`);
+            window.scrollTo(0, 0);
+        }
+
+        // Load related articles
+        function loadRelatedArticles(currentArticle) {
+            const relatedGrid = document.getElementById('related-grid');
+            const relatedArticles = articlesData
+                .filter(article => 
+                    article.slug !== currentArticle.slug && 
+                    (article.category === currentArticle.category || 
+                     article.tags.some(tag => currentArticle.tags.includes(tag)))
+                )
+                .slice(0, 3);
+
+            if (relatedArticles.length > 0) {
+                relatedGrid.innerHTML = relatedArticles.map(article => `
+                    <div class="related-card ripple" onclick="showArticle('${article.slug}')">
+                        <img src="${article.image}" alt="${article.title}" class="related-image">
+                        <div class="related-content">
+                            <div class="related-category">${article.category}</div>
+                            <div class="related-title-small">${article.title}</div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                document.getElementById('related-articles').style.display = 'none';
+            }
+        }
+
+        // Filter by tag
+        function filterByTag(tag) {
+            showHome();
+            setTimeout(() => {
+                const filteredArticles = articlesData.filter(article => 
+                    article.tags.includes(tag)
+                );
+                renderFilteredArticles(filteredArticles);
                 
-                // Update URL
-                history.pushState(null, null, `#${slug}`);
-                window.scrollTo(0, 0);
-            });
+                // Update section title
+                document.querySelector('.section-title').textContent = `"${tag}" Etiketli Makaleler`;
+            }, 100);
         }
 
         // Show author view
@@ -1684,112 +1868,85 @@
 
             currentAuthorSlug = slug;
 
-            showTransition(() => {
-                if (heroRotationInterval) {
-                    clearInterval(heroRotationInterval);
-                }
-
-                document.title = `${author.name} - fst. FISILTI`;
-                
-                // Update breadcrumb
-                document.getElementById('author-breadcrumb-name').textContent = author.name;
-                
-                // Update author info
-                document.getElementById('author-avatar-large').src = author.avatar;
-                document.getElementById('author-name-large').textContent = author.name;
-                document.getElementById('author-specialty').textContent = author.specialty;
-                document.getElementById('author-bio-large').textContent = author.bio;
-                document.getElementById('author-article-count').textContent = author.articleCount;
-                document.getElementById('author-experience').textContent = author.experience;
-                document.getElementById('author-followers').textContent = author.followers.toLocaleString();
-                
-                // Update social links
-                const socialContainer = document.getElementById('author-social');
-                socialContainer.innerHTML = '';
-                if (author.social) {
-                    Object.entries(author.social).forEach(([platform, url]) => {
-                        const link = document.createElement('a');
-                        link.href = url;
-                        link.className = 'social-link';
-                        link.target = '_blank';
-                        link.textContent = platform.charAt(0).toUpperCase() + platform.slice(1);
-                        socialContainer.appendChild(link);
-                    });
-                }
-                
-                // Load author articles
-                const authorArticles = articlesData.filter(article => article.authorSlug === slug);
-                const authorArticlesContainer = document.getElementById('author-articles-container');
-                authorArticlesContainer.innerHTML = '';
-                
-                if (authorArticles.length > 0) {
-                    authorArticles.forEach((article, index) => {
-                        const articleCard = document.createElement('div');
-                        articleCard.className = 'article-card ripple';
-                        
-                        articleCard.innerHTML = `
-                            <img src="${article.image}" alt="${article.title}" class="article-image">
-                            <div class="article-content">
-                                <span class="article-category">${article.category}</span>
-                                <h3 class="article-title">${article.title}</h3>
-                                <p class="article-excerpt">${article.excerpt}</p>
-                                <div class="article-meta">
-                                    <div>${article.date}</div>
-                                    <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
-                                </div>
+            document.title = `${author.name} - fst. FISILTI`;
+            
+            // Update breadcrumb
+            document.getElementById('author-breadcrumb-name').textContent = author.name;
+            
+            // Update author info
+            document.getElementById('author-avatar-large').src = author.avatar;
+            document.getElementById('author-name-large').textContent = author.name;
+            document.getElementById('author-specialty').textContent = author.specialty;
+            document.getElementById('author-bio-large').textContent = author.bio;
+            document.getElementById('author-article-count').textContent = author.articleCount;
+            document.getElementById('author-experience').textContent = author.experience;
+            document.getElementById('author-followers').textContent = author.followers.toLocaleString();
+            
+            // Update social links
+            const socialContainer = document.getElementById('author-social');
+            socialContainer.innerHTML = '';
+            if (author.social) {
+                Object.entries(author.social).forEach(([platform, url]) => {
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.className = 'social-link';
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.textContent = platform.charAt(0).toUpperCase() + platform.slice(1);
+                    socialContainer.appendChild(link);
+                });
+            }
+            
+            // Load author articles
+            const authorArticles = articlesData.filter(article => article.authorSlug === slug);
+            const authorArticlesContainer = document.getElementById('author-articles-container');
+            authorArticlesContainer.innerHTML = '';
+            
+            if (authorArticles.length > 0) {
+                authorArticles.forEach((article, index) => {
+                    const articleCard = document.createElement('div');
+                    articleCard.className = 'article-card ripple';
+                    
+                    articleCard.innerHTML = `
+                        <img src="${article.image}" alt="${article.title}" class="article-image">
+                        <div class="article-content">
+                            <span class="article-category">${article.category}</span>
+                            <h3 class="article-title">${article.title}</h3>
+                            <p class="article-excerpt">${article.excerpt}</p>
+                            <div class="article-meta">
+                                <div>${article.date} • ${article.readTime}</div>
+                                <span class="read-more" onclick="showArticle('${article.slug}')">Oku</span>
                             </div>
-                        `;
+                        </div>
+                    `;
 
-                        articleCard.addEventListener('click', (e) => {
-                            if (!e.target.closest('.read-more')) {
-                                showArticle(article.slug);
-                            }
-                        });
-                        
-                        authorArticlesContainer.appendChild(articleCard);
-
-                        setTimeout(() => {
-                            articleCard.classList.add('animate-in');
-                        }, index * 100);
+                    articleCard.addEventListener('click', (e) => {
+                        if (!e.target.closest('.read-more')) {
+                            showArticle(article.slug);
+                        }
                     });
-                } else {
-                    authorArticlesContainer.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7);">Henüz makale bulunmuyor.</p>';
-                }
+                    
+                    authorArticlesContainer.appendChild(articleCard);
 
-                // Show author view
-                document.getElementById('home-view').classList.remove('active');
-                document.getElementById('article-view').classList.remove('active');
-                document.getElementById('author-view').classList.add('active');
-                document.querySelector('.search-container').style.display = 'none';
-                document.getElementById('back-button').style.display = 'flex';
-                currentView = 'author';
-                
-                // Update URL
-                history.pushState(null, null, `#author-${slug}`);
-                window.scrollTo(0, 0);
-            });
-        }
+                    setTimeout(() => {
+                        articleCard.classList.add('animate-in');
+                    }, index * 100);
+                });
+            } else {
+                authorArticlesContainer.innerHTML = '<p style="text-align: center; color: rgba(255,255,255,0.7);">Henüz makale bulunmuyor.</p>';
+            }
 
-        // Show transition animation
-        function showTransition(callback) {
-            const transition = document.getElementById('page-transition');
-            const overlay = transition.querySelector('.transition-overlay');
+            // Show author view
+            document.getElementById('home-view').classList.remove('active');
+            document.getElementById('article-view').classList.remove('active');
+            document.getElementById('author-view').classList.add('active');
+            document.querySelector('.search-container').style.display = 'none';
+            document.getElementById('back-button').style.display = 'flex';
+            currentView = 'author';
             
-            transition.style.display = 'flex';
-            overlay.classList.remove('animate');
-            
-            setTimeout(() => {
-                overlay.classList.add('animate');
-            }, 50);
-            
-            setTimeout(() => {
-                callback();
-            }, 250);
-            
-            setTimeout(() => {
-                transition.style.display = 'none';
-                overlay.classList.remove('animate');
-            }, 500);
+            // Update URL
+            history.pushState(null, null, `#author-${slug}`);
+            window.scrollTo(0, 0);
         }
 
         // Share article function
@@ -1817,6 +1974,17 @@
             if (shareUrl) {
                 window.open(shareUrl, '_blank', 'width=600,height=400');
             }
+        }
+
+        // Update meta tags for SEO
+        function updateMetaTags(title, description, image) {
+            document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
+            document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+            document.querySelector('meta[property="og:image"]')?.setAttribute('content', image);
+            document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+            document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', title);
+            document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
+            document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', image);
         }
 
         // Handle hash changes
@@ -1851,57 +2019,6 @@
         window.addEventListener('popstate', (e) => {
             handleHashChange();
         });
-
-        // Prevent default link behavior and handle navigation
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a[href^="#"]');
-            if (link) {
-                e.preventDefault();
-                const hash = link.getAttribute('href').substring(1);
-                if (hash) {
-                    if (hash.startsWith('author-')) {
-                        const authorSlug = hash.substring(7);
-                        showAuthor(authorSlug);
-                    } else {
-                        showArticle(hash);
-                    }
-                } else {
-                    showHome();
-                }
-            }
-        });
-
-        // Add smooth scrolling for internal links
-        document.addEventListener('click', (e) => {
-            if (e.target.matches('a[href^="#"]')) {
-                e.preventDefault();
-                const targetId = e.target.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            }
-        });
-
-        // Add loading states
-        function showLoading(containerId) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = `
-                <div class="loading">
-                    <div class="spinner"></div>
-                </div>
-            `;
-        }
-
-        // Add error handling for images
-        document.addEventListener('error', (e) => {
-            if (e.target.tagName === 'IMG') {
-                e.target.src = '/placeholder.svg?height=300&width=500';
-            }
-        }, true);
 
         // Add keyboard navigation
         document.addEventListener('keydown', (e) => {
@@ -1957,15 +2074,12 @@
             });
         }, observerOptions);
 
-        // Observe elements when they're added to the DOM
-        function observeElements() {
-            document.querySelectorAll('.article-card:not(.animate-in)').forEach(card => {
-                observer.observe(card);
-            });
-        }
-
-        // Call observeElements after rendering articles
-        setTimeout(observeElements, 1000);
+        // Add error handling for images
+        document.addEventListener('error', (e) => {
+            if (e.target.tagName === 'IMG') {
+                e.target.src = 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500&h=300&fit=crop';
+            }
+        }, true);
 
         // Add performance monitoring
         if ('performance' in window) {
@@ -1983,136 +2097,6 @@
         window.addEventListener('offline', () => {
             console.log('Connection lost');
         });
-
-        // Add viewport meta tag adjustment for iOS
-        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
-            const viewport = document.querySelector('meta[name="viewport"]');
-            viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-        }
-
-        // Preload critical images
-        function preloadImages() {
-            const imageUrls = articlesData.slice(0, 3).map(article => article.image);
-            imageUrls.forEach(url => {
-                const img = new Image();
-                img.src = url;
-            });
-        }
-
-        // Call preload after data loads
-        setTimeout(preloadImages, 2000);
-
-        // Add focus management for accessibility
-        function manageFocus() {
-            const focusableElements = document.querySelectorAll(
-                'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
-            );
-            
-            focusableElements.forEach(element => {
-                element.addEventListener('focus', () => {
-                    element.style.outline = '2px solid rgba(255, 255, 255, 0.8)';
-                    element.style.outlineOffset = '2px';
-                });
-                
-                element.addEventListener('blur', () => {
-                    element.style.outline = '';
-                    element.style.outlineOffset = '';
-                });
-            });
-        }
-
-        // Initialize focus management
-        setTimeout(manageFocus, 1000);
-
-        // Add print styles
-        const printStyles = `
-            @media print {
-                .navbar, .back-button, .share-section, .search-container {
-                    display: none !important;
-                }
-                
-                .article-view {
-                    margin-top: 0 !important;
-                }
-                
-                .article-body {
-                    background: white !important;
-                    color: black !important;
-                }
-                
-                .article-hero {
-                    height: auto !important;
-                    min-height: auto !important;
-                }
-                
-                .article-title-hero {
-                    color: black !important;
-                    text-shadow: none !important;
-                }
-            }
-        `;
-
-        const styleSheet = document.createElement('style');
-        styleSheet.textContent = printStyles;
-        document.head.appendChild(styleSheet);
-
-        // Add meta tags for better SEO
-        function updateMetaTags(title, description, image) {
-            document.querySelector('meta[property="og:title"]')?.setAttribute('content', title);
-            document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
-            document.querySelector('meta[property="og:image"]')?.setAttribute('content', image);
-            document.querySelector('meta[name="description"]')?.setAttribute('content', description);
-        }
-
-        // Create meta tags if they don't exist
-        function createMetaTags() {
-            const metaTags = [
-                { property: 'og:title', content: 'fst. - FISILTI' },
-                { property: 'og:description', content: 'En güncel haberler ve makaleler' },
-                { property: 'og:image', content: '/placeholder.svg?height=630&width=1200' },
-                { property: 'og:type', content: 'website' },
-                { name: 'description', content: 'En güncel haberler ve makaleler' },
-                { name: 'keywords', content: 'haber, makale, teknoloji, sağlık, çevre' }
-            ];
-
-            metaTags.forEach(tag => {
-                const existing = document.querySelector(`meta[${Object.keys(tag)[0]}="${Object.values(tag)[0]}"]`);
-                if (!existing) {
-                    const meta = document.createElement('meta');
-                    Object.entries(tag).forEach(([key, value]) => {
-                        meta.setAttribute(key, value);
-                    });
-                    document.head.appendChild(meta);
-                }
-            });
-        }
-
-        createMetaTags();
-
-        // Add structured data for articles
-        function addStructuredData(article) {
-            const structuredData = {
-                "@context": "https://schema.org",
-                "@type": "Article",
-                "headline": article.title,
-                "description": article.excerpt,
-                "image": article.image,
-                "datePublished": article.date,
-                "author": {
-                    "@type": "Person",
-                    "name": article.author
-                },
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "fst. FISILTI"
-                }
-            };
-
-            const script = document.createElement('script');
-            script.type = 'application/ld+json';
-            script.textContent = JSON.stringify(structuredData);
-            document.head.appendChild(script);
-        }
 
         // Initialize everything
         console.log('fst. FISILTI initialized successfully');
